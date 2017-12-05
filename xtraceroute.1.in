@@ -1,0 +1,161 @@
+.TH XTRACEROUTE 1 2002-Oct-24 "Xtraceroute @VERSION@"
+.\" NAME should be all caps, SECTION should be 1-8, maybe w/ subsection
+.\" other parms are allowed: see man(7), man(1)
+.SH NAME
+xtraceroute \- graphical (X11) traceroute
+.SH SYNOPSIS
+.B xtraceroute
+.I "[options] [hostname]"
+.br
+.SH "DESCRIPTION"
+This manual page briefly documents the
+.BR xtraceroute ,
+command.
+This manual page was originally written for the Debian GNU/Linux 
+distribution because the original program does not have a manual page.
+Since then the author has gotten his act together and keeps it up to
+date.
+.PP
+.B xtraceroute
+is a graphical version of the traceroute
+program, which traces the route your IP packets
+travel to their destination. 
+.PP
+On the display:
+.PP
+* Green dots have good location information that came from LOC fields in 
+the DNS, which is the best data out there.
+.PP
+* Orange ones has been guessed from the sites' suffix.
+.PP
+* Yellow ones got resolved via a database of city names and "known" routers.
+That data is old and inaccurate and it's not getting any younger.
+.PP
+* Red ones are completely unknown.
+.PP
+* You can select dots by clicking on them both on the globe and in the list.
+.PP
+* Pressing and holding the left mouse button and moving the mouse will rotate
+the globe. Using the middle mouse button will move it, and the right mouse 
+button will zoom it (only vertical movement counts). You can generally get
+the view you want this way.
+.PP
+.SH ARGUMENTS
+hostname is the name (or IP address) of the host you are interested in. 
+.SH OPTIONS
+The program follow the usual GNU command line syntax, with long
+options starting with two dashes (`-').
+.TP
+.B \-\-version
+Show version number
+.TP
+.B \-h, \-\-help
+Display a brief help text.
+.TP
+.B \-T, \-\-texture texture-name
+Use a custom texture (map). It can be any kind of file that gdk_pixbuf can 
+load (which is most reasonable formats).
+There are a few really good textures on http://www.radcyberzine.com/xglobe/
+(Meant for use with Xglobe, but they'll work fine here as well.)
+.TP
+.B \-N, \-\-ntexture texture-name
+Use a custom texture (map) for the part of the earth that's not lit by
+the sun.
+.TP
+.B \-\-night, \-\-no-night
+Do/Don't use the night texture where appropriate. The default is to do
+an all-day earth.
+.TP
+.B \-\-LOD number
+Set the level-of-detail for the sphere.
+(The default is 3, 0-4 are realistic values.)
+.TP
+.B \-\-stdin, -
+Makes the program read data from stdin instead of calling 
+.BR traceroute (8) 
+(Mainly useful for debugging)
+.SH CAVEATS
+.B xtraceroute 
+tries hard to guess the location of machines, but it is just 
+software, it doesn't know everything, and it makes mistakes. 
+.PP
+The yellow dots has been guessed by looking at the top level domain (TLD)
+of the hostname. This works fairly well for most countries, but there's a
+few exceptions where some small countries (like Niue (.nu) and Tuvalu (.tv))
+will let anyone register domains in their space for a fee. I don't care,
+If it says .nu and it hasn't got a LOC record, it'll get plotted in Niue.
+Also, very few US sites actually use the .us TLD.
+.PP
+If it finds a very high-latency link, it will assume it it a satellite
+hop and plot it accordingly. If you have some other kind of slow link, 
+like PPP over something slow or a really busy router, it might show up
+as a satellite hop as well.
+.SH FILES
+.TP
+.I @prefix@/share/xtraceroute/earth.png
+Default texture for the earth.
+.TP
+.I @prefix@/share/xtraceroute/night.png
+Default night-time texture for the earth.
+.TP
+.I @prefix@/share/xtraceroute/xtraceroute-resolve-location.sh
+This is a script that xtraceroute uses to get data on sites in a nice
+asynchronous way. It's not very interesting by itself.
+.TP
+.I @prefix@/share/xtraceroute/site_hosts.cache
+System-wide hosts file (optional)
+.TP
+.I @prefix@/share/xtraceroute/site_networks.cache
+System-wide networks file (optional)
+.PP
+The two files above are filled in by hand, following the model
+of
+.I /usr/lib/xtraceroute 
+*.cache files.
+.TP
+.I $HOME/.xt/user_hosts.cache 
+Your personal hosts file
+.TP
+.I $HOME/.xt/user_networks.cache 
+Your personal networks file
+.TP
+.I $HOME/.xt/user_generic.cache 
+Your personal base of regular expressions 
+.PP
+These three personal files are typically filled in via the 
+.B Database 
+menu.
+.SH "LOC data"
+The Correct Way to tell the geographical location of a host on the
+internet is to ask the DNS. The way to do that is described in RFC1876,
+which defines the LOC (for location) RR. It's not exactly widely used,
+but you see it every now and then. Hopefully this program can help
+change that.
+
+How to get LOC data for your site into the DNS:
+
+Ask your local sysadmin that maintain your nameserver to read the RFC.
+It's a fairly easy read as RFCs go, but it might help if you find out 
+the location of your site in advance using, say, a GPS or a site like
+http://www.mapblast.com. Sysadmins are busy people.
+
+When xtraceroute tries to resolve a hostname it will try the proper name
+first, and then higher domains. For example if our hostname is 
+"apa.bepa.cepa.com", it will try that, "bepa.cepa.com" and "cepa.com".
+(But not just "com")
+
+This means that if you're a big site and it's hard to persuade the admins  
+to add individual LOC entries for all machines, you can try getting them
+to add one or two for the whole domain.
+
+.SH "SEE ALSO"
+traceroute(8)
+.PP
+More information on xtraceroute is in /usr/doc/xtraceroute.
+.SH AUTHOR
+This manual page was written by Stephane Bortzmeyer <bortzmeyer@debian.org>,
+for the Debian GNU/Linux system (but may be used by others).
+Xtraceroute was written by Björn Augustsson <d3august@dtek.chalmers.se>.
+.SH BUGS
+Please send bug reports to Björn Augustsson <d3august@dtek.chalmers.se>.
+

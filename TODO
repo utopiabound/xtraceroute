@@ -1,0 +1,146 @@
+$Id: TODO,v 1.9 2003/03/23 14:40:09 d3august Exp $
+
+Stuff done are "V"ed. Undone stuff have stars. "Z"s are for stuff on hold.
+
+* Build a smarter/faster grepfunction for db and countries. Hashtable?
+* At least use hashing on the ndg-style databases. 
+* Hostfiles are easy.
+* Netfiles are a little more work, but should also work.
+V Don't hang the program waiting for input fron traceroute.
+V (Read the db/country files runtime instead of compiletime.)
+V Read the texture runtime. (Fixed 970821, now using a tiff image, and 
+  tifflib. Will probably change it to libpng when it gets mature.)
+V Improve earthrotation function. It doesn't work well when you're upside-
+  down. Trackball code from glut might be an inspiration.
+Z Make an incremental makeearth() istead of making a new displaylist every
+  time. Might not be possible. Several displaylists? Won't do it, performance
+  would hurt.
+Z Give each boep a quadric of their own, saves changing the quadrics color.
+  Might not improve the speed anyway.
+V Fix the SIGSEGV problem with when a router doesn't respond at all.
+  Just a number, NO other info at all. Important.
+V Build a partialtorus function instead of clipping a full one. Might improve
+  speed on some platforms where clipping is expensive. And elimitate GLUT.
+V Make the identify function "see thru" the yellow lines, and se boeps
+  underneath.
+V Zooming screws up the lighting. Easy fix: use GL_NORMALIZE.
+Z All boeps seem to end up about one degree or so to the east. Might be a
+  bad texture problem.
+* I don't have to use GLdouble all the time. Might be faster with GLfloat.
+V Don't use an earth with a non-1 radius. Change camera positions and
+  normalize the earth. Saves a _lot_ of multiplications and divisions 
+  with EARTH_RADIUS.
+Z Open a popup menu on middle mouse button with the info instead of just
+  printing it to stdout.
+V Fix nasty black line near midway.
+V Use smarter sphere function from "tess" adv. OGL programming SIGGRAPH course.
+V Right. Now add texturing to it... :/
+Z Texture problem by the poles.
+    (Fixed to some extent. It's as good as it gets using only triangles.
+     See comments in code.)
+V Include support for RFCs 1712 and 1876. (DNS-based geographical lookup.)
+	(well, not 1712, but it's obsolete and not used anyway)
+* Call traceroute with -n (don't resolve names) and do it myself since I
+  have to talk to the nameserver anyway to support above RFCs.
+V Web page: Add a link to http://www.ndg.com.au/products/gb/, geoboy.
+Z Add option to make the earth semitransparent, to see the boeps and yellow
+  lines on the other side. I wonder if that's really smart... 
+V Add geoboy-cache-file-compatibility (A breeze).
+V Use a GUI toolkit (Gtk?) This means moving away from GLUT, at least the
+  main loop, I might be able to use some convenience functions, like 
+  glutSolidTorus etc. 
+Z One-dimensional texture w/ colorcycling on the yellow lines. Nah...
+* Come up with a new name. "Xtraceroute" sounds wa-a-a-y to boring, and it
+  doesn't describe the fact that the point of the program
+  is in the IP-address/hostname <-> geographical coordinates mapping.
+* Center the earth (autorotate) so that the last traced site is centered.
+  Maybe make this an option...
+* Make mode to fly along the path. Naaaaahh....
+-----
+V Make a dialog to enter new trace.
+V Hightlighting the sites thru the list.
+V Clicking on boep on map -> select correct item in the list.
+V Fix reshape-stuff. The glarea should always be square and it should be 
+  possible to make it smaller than it is by default.
+* Split _lots_ of stuff off of k.c and into smaller files.
+  (Done to some extent.)
+* Remove _lots_ of global data.
+  (Done to some extent.)
+V Rename k.c. (Now called main.c)
+V Add a way to change and add data in the database.
+V That should go into a new local database. It can then be sent to NDG
+  or whatever. 
+* I could make a way to export files that can be inserted right
+  into the DNS server for RFC1876 data. Hmm... (probably no use, it's 
+  pretty simple anyway.)
+V The GTK authors considers these to be gtk bugs.Will "V", as fixed.
+  V Scroll the list down automagically as new items arrive.
+  V Scroll the list when the user selects a site on the globe.
+    (Fixed by changing to new widget clist in gtk+-0.99.2)
+V Add keyboard-bindings for the menus and stuff.
+V Figure out a way to add the zooming-controls to the GUI.
+V Figure out a way to add the distance-display to the GUI.
+V Arrange with some sort of spinner.
+* Make the spinner nicer.
+V Should be startable without arguments.
+V Fix the screwed-up colors of the sitemarkers. An OK site should _NOT_ be RED.
+* Add a light where the sun is. Realistic lighting depending on time of day.
+  I'll probably have to do multitexturing to get this to work.
+V Perhaps use environment vars for YAH{lat,lon}? Or read it from a file?
+  Don't compile it in anyway.
+V Generalize database loading.
+V Change readtexture so I can load a texture by filename.
+V Add option to load user-specified texture.
+V Add matching on IPs from the hosts.
+V Make the internal database conform to the new nice database-interface.
+V Just brighten the selected boep, don't make it white. The color should 
+  still be visible.
+V Break up makeearth() into many smaller (static) functions.
+V Add #ifndef __apa_h__ / #define __apa_h__ stuff to all headerfiles.
+V Make the infowindow change if the user selects a new site in the clist.
+* Add actual helpful messages to all the "help"-buttons.
+V If the count goes all the way up to 30, and the last site isn't known
+  the last bad_being arent getting drawn.
+V Don't use FILE->_file to get the fd from a FILE. It's not portable.
+    (fileno())
+V Weird problem with the colormap. Only the red compnents are used on linux.
+    (Was endianness! God I hate that!)
+V Fix it to work with gtk-1.0 / gtkGL-newer-than-0.3
+V Use automake/autoconf instead of having people rehacking my makefiles.
+* RIPE/ARIN for IP-> World? (whois)
+* Add spinbuttons for the numerical entry of lat/lon in the database dialogs.
+V Start a new trace when someone presses the spinner.
+* Fix double declarations in xt.h. SGIs compiler is pretty vocal about this...
+* Use real regexps instead of just grepping in the (generic, internal)
+  databases (maybe globs would be better.) Yup. Use fnmatch for this.
+* Generalize the databases more.
+* Do something *nice* when a routerloop occurs, instead of just stacking
+  sitemarkers sky high.
+Z Add option to specify flags to traceroute. (Or should this be compiled
+  in? It's not changing much...)
+V Make a mode to take input from stdin, so I can debug easier.
+* Make a colored marker in the clist to indicate accuracy.
+V Make the FILES section in the manpage depend on the configured
+  locations.
+V Use Imlib instead of tifflib. Means I can replace the tiff files with
+  pngs, which are smaller. Also means I get closer to Gnome.
+V Rotate the earth so that the beginning of the trace is visible.
+
+V Problems with non-erik versions of host. Detect.
+* New async helper for the caida stuff.
+* New async helper for whois.
+*   Maybe make one program to do caida/whois/host and put all this complexity
+    in there instead?
+V Trash the "new host" window and add a netscape-stule bar in the top of
+  the window instead.
+* From mail: "the node under exploration could e.g. flash on the map"
+* From mail: "Showing country flags of the hosts on the list."
+V Add those nifty little revision-showing thingies that gets updated by
+  CVS.
+* From mail: "sites should have comments in the file, just like nets do."
+* Do a cool graduated transition from day to night. (Pretty easy)
+* There should be a way to update the day/might line. you can switch do
+  day-only mode and back, but that's not vey nice.
+* Zoom should affect wheter sites get placed on top of each other or
+  not. (Since the markers are about the same size regardless of zoom)
+

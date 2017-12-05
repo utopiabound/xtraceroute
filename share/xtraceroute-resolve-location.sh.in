@@ -1,0 +1,90 @@
+#!/bin/sh
+
+#HOST=/home/august/ew-host/host
+#HOST=/usr/bin/host
+#HOST=/usr/pd/bin/host
+
+HOST=@hostbinary@
+TARGET=$1
+
+if [ $# -ne 1 ]
+then
+	echo "ERROR Usage: xtraceroute-resolve-location.sh <targetname>"
+	exit
+fi
+
+# Check to see if it's host from BIND or Erik Wassenaar's host.
+
+if [ `$HOST 2>&1 | grep "Extended usage" | wc -l` = 1 ]
+then
+	HOSTVER=EW
+elif [ `$HOST 2>&1 | grep "enables TCP/IP mode" | wc -l` = 1 ]
+then
+	HOSTVER=BIND
+else
+	HOSTVER=unknown
+fi
+
+#echo "host variant is: $HOSTVER"
+
+
+
+case $HOSTVER in
+
+BIND)
+	FIRST=yes
+	#while target contains a dot.
+	while [ `echo $TARGET | cut -s -f1- -d.` ] || [ $FIRST = yes ]
+	do
+		FIRST=no
+		#echo $TARGET
+		RESPONSE=`$HOST -t LOC $TARGET`
+
+		if [ $? = 0 ] && [ -n "$RESPONSE" ]
+		then
+			NF=`echo $RESPONSE |egrep "not found|alias for" | wc -l`
+			if [ $NF = 0 ]
+			then
+				echo $RESPONSE
+				exit
+			fi
+		fi
+		TARGET=`echo $TARGET  | cut -s -f2- -d.`
+	done
+	echo "Nothing"
+	;;
+
+EW)
+
+	STRING=$TARGET
+	TARGET=`echo $TARGET  | cut -s -f2- -d.`
+	#while TARGET contains a dot.
+	while [ `echo $TARGET | cut -s -f1- -d.` ]
+	do
+		STRING="$STRING $TARGET"
+                TARGET=`echo $TARGET  | cut -s -f2- -d.`
+	done
+	#echo $STRING
+
+	# Avoid getting newlines replaced with spaces. Set IFS to just
+	# space and tab.
+	IFS=" 	"
+	RESPONSE=`$HOST -t LOC -x $STRING 2>&1`
+	if [ -n "$RESPONSE" ]
+	then
+		CLEANED=`echo $RESPONSE |egrep -v "CNAME|has no LOC record|not responding|not reachable|is unreachable|does not exist|currently not present" `
+		N_ROWS=`echo $CLEANED | wc -l`
+		if [ $N_ROWS -gt 0 ] && [ "$CLEANED" ]
+		then
+			# Take the first one
+			echo $CLEANED | head -1
+			exit
+		fi
+	fi
+	echo "Nothing"
+	;;
+unknown)
+	echo "Strange host version"
+	;;
+esac
+

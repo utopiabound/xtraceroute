@@ -1,0 +1,184 @@
+dnl Process this file with autoconf to produce a configure script.
+
+dnl I'm not sure about this exact number. Somewhere around there...
+AC_PREREQ(2.50)
+
+AC_INIT(main.c)
+
+AC_PROG_MAKE_SET
+
+AM_INIT_AUTOMAKE(xtraceroute, 0.9.1)
+
+dnl Specify a header configuration file
+AM_CONFIG_HEADER(config.h)
+
+dnl Checks for programs.
+AC_PROG_CC
+
+dnl Detect which host we're on:
+AC_CANONICAL_HOST
+
+dnl i18n stuff:
+ALL_LINGUAS="es ja fr sv"
+AM_GNU_GETTEXT
+
+AC_ARG_ENABLE(debug, [  --enable-debug          turn on debugging [default=no]])
+
+if eval "test x$enable_debug = xyes";
+then
+	case $CC in
+	gcc) 
+		CFLAGS="-g -Wall -Wpointer-arith -Wwrite-strings -DXT_DEBUG"
+		;;
+	icc)
+		# Intel C compiler (linux and xBSD)
+		# -w2 is very noisy, but there's nothing between it and
+		# -w1, which is default.
+		CFLAGS="-g -w2 -DXT_DEBUG"
+		;;
+	ccc)
+		# Compaq C compiler (linux on Alpha and Tru64)
+		CFLAGS="-g -msg_enable level4 -msg_enable questcode -DXT_DEBUG"
+		;;
+	cc)
+		CFLAGS="-g -DXT_DEBUG"
+
+		case "$host_os" in
+		irix*)
+			CFLAGS="-g -DXT_DEBUG -I. -I.. -I./intl -Xcpluscomm"
+			;;
+		solaris*)
+			CFLAGS="-g -DXT_DEBUG -v"
+			;;
+		esac
+		;;
+	*)
+		CFLAGS="-g -DXT_DEBUG"
+		;;
+	esac
+else
+	case $CC in
+	gcc) 
+		CFLAGS="-Wall -O3 $CFLAGS"
+		;;
+	icc)
+		# Intel C compiler (linux and xBSD)
+		CFLAGS="-O2"
+		;;
+	ccc)
+		# Compaq C compiler (linux on Alpha and Tru64)
+		CFLAGS="-fast"
+		;;
+	cc)
+		CFLAGS="-g -DXT_DEBUG"
+
+		case "$host_os" in
+		irix*)
+			CFLAGS="-I. -I.. -I./intl -Xcpluscomm"
+			;;
+		solaris*)
+			CFLAGS="-fast"
+			;;
+		esac
+		;;
+	*)
+		CFLAGS="-O"
+		;;
+	esac
+fi
+
+xtraceroutedatadir=${datadir}/xtraceroute
+AC_SUBST(xtraceroutedatadir)
+
+xtraceroutelocaledir=${datadir}/locale
+AC_SUBST(xtraceroutelocaledir)
+
+dnl Find traceroute.
+
+AC_ARG_WITH(traceroute, [  --with-traceroute=PATH  Where traceroute is.])
+
+if test "x$with_traceroute" = "x" ; then
+	MYPATH=$PATH:/usr/etc:/usr/sbin
+	AC_PATH_PROG(TP, 
+		traceroute, [""],
+		[$MYPATH])
+	if test "x$TP" = "x" ; then
+		AC_MSG_ERROR([Can't find traceroute. Use '--with-traceroute'])
+        fi
+else
+	TP=$with_traceroute
+fi
+
+AC_DEFINE_UNQUOTED(TRACEPGM, "$TP", "Where traceroute is.")
+
+dnl Find host.
+
+AC_ARG_WITH(host, [  --with-host=PATH        Where host is.])
+
+if test "x$with_host" = "x" ; then
+	MYPATH=$PATH:/usr/etc:/usr/sbin:/usr/local:/usr/pd/bin
+	AC_PATH_PROG(HP, 
+		host, [""],
+		[$MYPATH])
+	if test "x$HP" = "x" ; then
+		AC_MSG_ERROR([Can't find host. Use '--with-host'])
+	fi
+else
+	HP=$with_host
+fi
+
+AC_DEFINE_UNQUOTED(HOSTPGM, "$HP", "path to host program.")
+hostbinary=$HP
+AC_SUBST(hostbinary)
+
+dnl Checks for libraries.
+
+AM_PATH_GTK(1.0.0,
+		[LIBS="$LIBS $GTK_LIBS" CFLAGS="$CFLAGS $GTK_CFLAGS"],
+		AC_MSG_ERROR([Cannot find proper gtk version]))
+
+dnl Look for gdk_imlib
+dnl 
+dnl AM_PATH_GDK_IMLIB(0.9.0,
+dnl 		[LIBS="$LIBS $GDK_IMLIB_LIBS" 
+dnl 			CFLAGS="$CFLAGS $GDK_IMLIB_CFLAGS"],
+dnl 		AC_MSG_ERROR([Cannot find proper imlib version]))
+
+dnl Look for gdk-pixbuf
+
+AM_PATH_GDK_PIXBUF(0.8.0,
+		[LIBS="$LIBS $GDK_PIXBUF_LIBS"
+                        CFLAGS="$CFLAGS $GDK_PIXBUF_CFLAGS"],
+                AC_MSG_ERROR([Cannot find proper gdk_pixbuf version]))
+
+dnl Look for gtkglarea
+
+AM_PATH_GTKGL([LIBS="$LIBS $GTKGL_LIBS" CFLAGS="$CFLAGS $GTKGL_CFLAGS"],
+		 AC_MSG_ERROR([Cannot find proper gtkgl version]))
+
+dnl AC_CHECK_LIB(tiff, TIFFOpen, have_libtiff=yes)
+dnl if test "x$have_libtiff" = "x" ; then
+dnl	AC_MSG_ERROR([Missing tiff library])        
+dnl else
+dnl 	LIBS="$LIBS -ltiff"
+dnl fi
+
+dnl Checks for header files.
+AC_HEADER_STDC
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+
+dnl Checks for library functions.
+
+AC_OUTPUT([
+intl/Makefile
+po/Makefile.in
+share/Makefile
+share/xtraceroute-resolve-location.sh
+Makefile
+xtraceroute.1
+xtraceroute.spec
+], [
+dnl sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile
+])

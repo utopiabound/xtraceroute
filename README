@@ -1,0 +1,239 @@
+Compiling and installing:
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It's a standard GNU configure-based dist, so all you should have to do is:
+
+tar xvzf xtraceroute-XXXX.tar.gz
+cd xtraceroute-XXXX
+./configure
+make
+make install
+
+Hopefully.
+
+You can do "./configure --help" to see all the options.
+
+If you get an error related to gtkGL, or gtkgl or gtkglarea, please get
+the gtkglarea widget (see below for URL).
+
+The problem is that I swapped the OpenGL-widget between 0.8.10 and 0.8.11.
+This shouldn't have been a problem but the libraries have pretty 
+unfortunate names.
+
+I used to use AOSASA Shigeru's gtkGL, and the new one is called 
+gtkglarea, by Janne L|f. To make matters worse, the library names are
+libgtkGL.so and libgtkgl.so, respectively...
+
+This has caused no end of confusion, and I'm sorry, but I had to switch,
+gtkGL was unmaintained, and not really in a finished state.
+
+Also please see the INSTALL file, for generic help on GNU configure.
+
+Prerequisites:
+^^^^^^^^^^^^^^
+You need these libraries to get this to work:
+
+* An OpenGL implementation, Mesa works nicely. 
+  (www.mesa3d.org)
+* GTK, the Gimp Toolkit.
+  (www.gtk.org)
+* traceroute.
+* GtkGLArea, an OpenGL widget for GTK.
+  (http://www.student.oulu.fi/~jlof/gtkglarea/)
+      NOTE that this is not the same thing as the gtkGL widget, which is
+      similar, and which I used up until version 0.8.10.
+* gtk-pixbuf, a library used to load different kinds of image files. 
+  (You have this if you have gnome, otherwise you can get it at
+   ftp://ftp.gnome.org//pub/GNOME/unstable/sources/gdk-pixbuf/ )
+
+And it gets a whole lot better if you also have:
+
+* The "host" program.  There's two different implementations of it:
+  * The one shipped with BIND.
+  * An alternative version by Erik Wassenaar, available from 
+    ftp://ftp.nikhef.nl/pub/network/  , which is IMHO better in general.
+    Either will work with xtraceroute though.
+
+  If you don't have one of these, you can't use the RFC1876 ("LOC") 
+  information from the DNS (which is the best location info out there.)
+
+Please see the xtraceroute homepage for more details:
+
+http://www.dtek.chalmers.se/~d3august/xt/
+
+More on compiling:
+^^^^^^^^^^^^^^^^^^
+You may want to have a look at tweaks.h, there are a few performance-options
+there. None of them make much difference anymore, but maybe it can help
+someone.
+
+Upgrading users who had a pre 0.8.12 version, note that the location of the 
+data files has changed. It's logical now. Just move your old files.
+
+You need to set the location of your home machine or net in one of the
+database files or the program will bother you until you do.
+
+The database files are in the same format as the ones from NDG software.
+an entry for a net looks like this:
+
+129.16          57 30n 12e                      #Chalmers University of Tech.
+
+and for a host like this:
+
+128.150.53.1 mbone.cise.nsf.gov 38 52 11n 77 5 59w
+
+Other texture files:
+^^^^^^^^^^^^^^^^^^^^
+The textures provided in the distribution are 800x400 png images, which
+is big enough for most people, and certainly enough to download if you're
+on a slow link.
+You might want to have a higher-resolution texture, if you have the 
+texture-memory and bandwidth to handle it. 
+
+There are a few good textures on http://www.radcyberzine.com/xglobe/
+(Meant for use with Xglobe, but they'll work fine with xtraceroute too.)
+
+For the crowd with the really hairy hardware there's a 4096x2048 version
+of the default texture at http://www1.las.es/~amil/ssystem/
+(Meant for use with Ssystem, but they'll work fine with xtraceroute too.)
+
+You can replace the earth.png file with these, or use the 
+"--texture <file>" commandline argument.
+
+The default textures are scaled down versions of what's avaliable at
+http://earthobservatory.nasa.gov/Newsroom/BlueMarble/
+
+NDG cache files:
+^^^^^^^^^^^^^^^^
+NDG (www.ndg.com.au) is an australian company that makes networking tools
+for windows machines. They have a program which is very similar to 
+xtraceroute, called "GeoBoy". It uses large databases of locations of
+central sites, backbone routers, etc. I have support for those files in
+xtraceroute. These files improve the "accuracy" of xtraceroute a good deal,
+but it will still run without them.
+
+Install the files to the (prefix)/share/xtraceroute directory (the same
+directory that earth.png gets installed to.)
+
+A good thing to do would be to get the NDG cache files from 
+
+http://www.dtek.chalmers.se/~d3august/xt/dl/
+
+Alternativly, you can get them directly from NDG, at
+
+ftp://ftp.ndg.com.au/pub/demos/win/gb/geoboy_cache.exe
+
+It's an archive in some sort of microsoftish install format. I don't know
+of a way to unpack them under unix, so I went to a  win95 machine, installed
+the stuff and FTPd them over.
+
+If anyone knows of a tool to unpack this stuff under unix, please let me
+know.
+
+There are however a number of errors in these files, I have two diffs
+that can be used to patch them. They are in the misc directory.
+patch them like this
+
+patch <path to the cache files>/networks.cache < misc/networks.diff
+patch <path to the cache files>/hosts.cache < misc/hosts.diff
+
+This will fail if you transferred them wrongly from the windows machine
+you unpacked them on. (you need LFs at the ends of the lines, not
+CR,LF like DOS does.)
+
+It can also fail if you have the wrong version of the NDG caches.
+I used the latest one as of this writing, version 1.6)
+
+But the easiest thing to do is to get the (all patched up and ready to 
+use) ndg_files.tar.gz from the download area at my site.
+
+Many thanks to NDG software for letting me redistribute them.
+
+
+LOC data in the DNS system.
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The Correct way to tell the geographical location of a host on the
+internet is to ask the DNS. The way to do that is described in RFC1876,
+which defines the LOC (for location) RR. It's not exactly widely used,
+but you see it every now and then. Hopefully this program can help
+change that.
+
+How to get LOC data for your site into the DNS:
+
+Ask your local sysadmin that maintain your nameserver to read the RFC. 
+It's a fairly easy read as RFCs go, but it might help if you find out
+the location of your site in advance using, say, a GPS or a site like
+http://www.mapblast.com. Sysadmins are busy people.
+
+
+Acknowledgements
+^^^^^^^^^^^^^^^^
+(I must have forgotten some people here. Please let me know if you feel
+left out.)
+
+Erik Wassenaar		Wrote good versions of host, traceroute and
+			ping. 
+Mark Kilgard		Wrote GLUT, which I used first, before GTK was trendy.
+			Also I have taken a lot of inspiration (as well as
+			actual code) from many of the examples in the glut
+			distribution.
+Brian Paul		Wrote the Mesa graphics library. The examples in that
+			distribution also gave me many ideas.
+Constantine Thomas	Keeps a nice collection of maps (The default texture
+			is from his site.) at
+			www.lancs.ac.uk/postgrad/thomasc1/render/maps.htm
+AOSASA Shigeru		Wrote gtkGL, a pretty nice GL widget for gtk. It
+			made me drop GLUT and switch to GTK.
+Janne L|f		Wrote GtkGLArea, the GL widget I currently use.
+David Blythe		Wrote the sphere-tesselating code I use. I just added
+			texture coordinate generation.
+The Gtk People		Wrote gtk. Enough said.
+Sam Leffler		Wrote libtiff.
+The Gnome people	Wrote gdk-pixbuf.
+NDG software		Wrote GeoBoy, who gave me permission to use and 
+			distribute their cachefiles.
+Many People		Mailed me good suggestions. Please keep it up.
+Fewer People		Sent me patches for stuff. They are credited in
+			the ChangeLog file. Keep that up too.
+
+General notes:
+^^^^^^^^^^^^^^
+The ends of any connection are the hardest for xtraceroute to place,
+since the stuff in the middle generally are major backbones etc, which 
+have a higher probability of being in the databases. 
+  There's not a whole lot to do about the far end, but A Good Thing To Do
+is to add your machine (or your net, if all of it is in the same place)
+to one of the local databases (yours or the site-wide). 
+
+HOWEVER: If your local end of the network is one of the private segments
+(10.x.x.x or 192.168.x.x most probably) do not add those as your home
+net, as those might turn up in other parts of the traceroute. Use
+host/domain-names instead.
+
+In fact, if xtraceroute can't get a good fix on the location of the first
+site it finds (your machine) it'll display an annoying window, asking you
+to enter it. It's for your own good, honest. :)
+
+Some Red Hat linux (5.x) users might need to change the options for traceroute.
+(This is only if a simple "traceroute <machine> doesn't work for you. The 
+problem is that it apparently sometimes use the wrong interface.)
+
+In that case, look up the traceopts string in main.c, and add whatever you 
+need. 
+
+OR, do something like 
+"traceroute -whateveryouneed <machine> | xtraceroute --stdin"
+
+OR, (the Correct Solution), upgrade your traceroute. A patch to update
+it is at ftp://ftp.bluetree.ie/pub/traceroute (And an RPM, if you're
+into that.)
+
+If you're using the 2.4.4 linux kernel, it has some fork-related
+problems. Xtraceroute still works, but the spinner (in the lower right
+corner of the window) will get confused and never stop spinning.
+It's not really a big deal, and if you think it is, upgrade your kernel!
+
+(2.4.3, 2.4.5, and most of the intermediate preX and acX kernels are
+also OK.)
+
+/August.

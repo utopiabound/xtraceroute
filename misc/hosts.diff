@@ -1,0 +1,114 @@
+--- /usr/scratch/august/hosts.cache	Sun Apr 26 03:15:10 1998
++++ hosts.cache	Fri Dec  5 08:03:53 1997
+@@ -582,7 +582,7 @@
+ 137.39.248.209 Atlanta2.GA.ALTER.NET 33 56 31n 83 56 13w
+ 137.39.248.81 Atlanta2.GA.ALTER.NET 33 56 31n 83 56 13w
+ 137.39.249.34 DECatlanta-gw.customer.ALTER.NET 33 56 31n 83 56 13w
+-137.39.250.22 core5-hssi5-0.WestOrange.mci.net 40 47 5N 74 14 0W core5-hssi5-0.WestOrange.mci.net 35
++137.39.250.22 core5-hssi5-0.WestOrange.mci.net 40 47 5N 74 14 0W 
+ 137.39.33.1 Miami1.FL.ALTER.NET 25 59 23n 80 3 53w
+ 137.39.33.2 MC1.Miami.FL.ALTER.NET 25 59 23n 80 3 53w
+ 137.39.33.33 Fddi0-0.Seattle1.WA.Alter.Net 47 53 2n 122 2 20w
+@@ -800,7 +800,7 @@
+ 139.130.3.141 Async11.lon1.melbourne.telstra.net 37 56 23s 145 0 46e
+ 139.130.3.157 Serial6-3.civ3.canberra.telstra.net 35 33 32s 148 50 38e
+ 139.130.3.161 Cont1-0.pad7.Sydney.telstra.net 33 45 57s 151 22 26e
+-139.130.3.180 nj.gw.au 31 58 51n 119 5 45e SanJose 9
++139.130.3.180 nj.gw.au 31 58 51n 119 5 45e
+ 139.130.3.193 Serial5-6.pad7.Sydney.telstra.net 33 45 57s 151 22 26e
+ 139.130.3.205 Ethernet1.pad6.Sydney.telstra.net 33 45 57s 151 22 26e
+ 139.130.3.209 Ethernet5-0.civ3.Canberra.telstra.net 35 33 32s 148 50 38e
+@@ -823,7 +823,7 @@
+ 139.130.4.137 wa.gw.au 31 57s 115 52e
+ 139.130.4.157 vic.gw.au 22 14 16n 114 19 51e
+ 139.130.4.161 async6.wel2.perth.telstra.net 32 7 19s 116 2 24e
+-139.130.4.162 adi.gw.au 43 9 50n 132 1 48e Mogadishu 1
++139.130.4.162 adi.gw.au 43 9 50n 132 1 48e
+ 139.130.4.169 vic.gw.au 22 14 16n 114 19 51e
+ 139.130.4.173 serial6-2.pad11.Sydney.telstra.net 33 45 57s 151 22 26e
+ 139.130.4.177 serial7.pad6.sydney.telstra.net 33 45 57s 151 22 26e
+@@ -907,7 +907,7 @@
+ 139.130.94.1 serial6-1.civ2.Canberra.telstra.net 35 33 32s 148 50 38e
+ 139.130.98.1 vic.gw.au 22 14 16n 114 19 51e
+ 139.130.99.1 serial4-5.civ2.canberra.telstra.net 35 33 32s 148 50 38e
+-139.130.99.2 aa.gw.au 43 21 21n 77 2 24e Sanaa 15
++139.130.99.2 aa.gw.au 43 21 21n 77 2 24e
+ 139.133.216.224 jal.cc.abdn.ac.uk 57 9 0n 2 5 59w
+ 139.153.13.14 bannock.stir.ac.uk 56 7 11n 3 57 0w
+ 139.184.34.8 mbr1.central.susx.ac.uk 50 0 0n 0 40 12e
+@@ -1402,7 +1402,7 @@
+ 166.48.35.249 bordercore4-hssi0-0.WillowSprings.mci.net 41 44 13N 87 52 3W
+ 166.48.35.250 ais.WillowSprings.mci.net 41 44 13N 87 52 3W
+ 166.48.35.253 bordercore4-hssi1-0.WillowSprings.mci.net 41 44 13N 87 52 3W
+-166.48.35.254 psp2.on.canet.ca 40 28 55N 88 59 34W NorthRoyalton 41
++166.48.35.254 psp2.on.canet.ca 40 28 55N 88 59 34W
+ 166.48.36.1 bordercore1-loopback.Washington.mci.net 39 10 12n 76 51 25w
+ 166.48.36.13 borderx1-hssi5-0.3.Washington.mci.net 39 10 12n 76 51 25w
+ 166.48.36.14 galt-tech.Washington.mci.net 39 10 12n 76 51 25w
+@@ -1848,7 +1848,7 @@
+ 192.68.55.102 Epsp.ON.CAnet.CA 45 0n 80 0w
+ 192.68.61.1 Psp.BC.CAnet.CA 49 0n 122 0w
+ 192.68.62.101 Regional1.AB.CAnet.CA 49 0n 122 0w
+-192.68.66.18 psp2.on.canet.ca 40 28 55N 88 59 34W NorthRoyalton 41
++192.68.66.18 psp2.on.canet.ca 40 28 55N 88 59 34W
+ 192.70.116.13 crisv1.univ-pau.fr 43 19 11n 0 25 11e
+ 192.70.164.100  CA-GW.BC.CAnet.CA 49 0n 123 0w
+ 192.70.164.101  CA-GW.BC.CAnet.CA 49 0n 123 0w
+@@ -1954,7 +1954,6 @@
+ 192.88.114.10 oday.psc.edu 40 26 23n 80 0 0w
+ 192.88.144.32 loiosh.kei.com 42 22 11n 71 6 36w
+ 192.9.5.5 playground.Sun.COM 37 27 0n 122 10 48w
+-192.91.199.2 eros.Bri
+ 192.91.199.254 ben.Britain.EU.net 51 30n 0 10w
+ 192.92.138.160 Vienna.AT.EU.net 48 21n 16 54e
+ 192.93.1.34 oreste.inria.fr 48 49 48n 2 19 47e
+@@ -2980,7 +2979,7 @@
+ 204.70.127.5 cpe1-serial1.WestOrange.mci.net 40 47 5N 74 14 0W
+ 204.70.127.6 bt.WestOrange.mci.net 40 47 5N 74 14 0W
+ 204.70.127.9 borderx2-hssi-2.LosAngeles.mci.net 33 55 29n 118 11 6w
+-204.70.128.1 ns.mci.net 53 26 52n 27 24 53e Athens 38
++204.70.128.1 ns.mci.net 53 26 52n 27 24 53e
+ 204.70.134.2 border1-serial3-7.Washington.mci.net 39 10 12n 76 51 25w
+ 204.70.135.10 border2-ethernet2-0.Washington.mci.net 39 10 12n 76 51 25w
+ 204.70.135.4 max5.Washington.mci.net 39 10 12n 76 51 25w
+@@ -4695,7 +4694,7 @@
+ 204.70.2.147 border3-fddi-0.Seattle.mci.net 47 53 2n 122 2 20w
+ 204.70.2.15 core-hssi-3.Washington.mci.net 38 55n 77 00w
+ 204.70.2.159 core-hssi-2.Seattle.mci.net 47 36n 122 19w
+-204.70.2.16 core-hssi-3.NewYork.mci.net 40 45n 74 00
++204.70.2.16 core-hssi-3.NewYork.mci.net 40 45n 74 00w
+ 204.70.2.161 core1-fddi-0.SanFrancisco.mci.net 37 46 30n 122 25 1w
+ 204.70.2.162 border1-fddi-0.SanFrancisco.mci.net 37 46 30n 122 25 1w
+ 204.70.2.163 border3-fddi-0.SanFrancisco.mci.net 37 46 30n 122 25 1w
+@@ -5245,7 +5244,7 @@
+ 204.70.211.90 mid-plains-telephone.NorthRoyalton.mci.net 41 18 43N 81 44 14W
+ 204.70.211.94 border7-serial3-6.NorthRoyalton.mci.net 41 18 43N 81 44 14W
+ 204.70.211.97 border7-serial3-7.NorthRoyalton.mci.net 41 18 43N 81 44 14W
+-204.70.211.98 ns.newwave.net 53 26 52n 27 24 53e Athens 38
++204.70.211.98 ns.newwave.net 53 26 52n 27 24 53e
+ 204.70.212.1 border8-loopback.NorthRoyalton.mci.net 41 18 43N 81 44 14W
+ 204.70.212.10 macatawa-aerc-freenet.NorthRoyalton.mci.net 41 18 43N 81 44 14W
+ 204.70.212.101 border8-serial4-0-8.NorthRoyalton.mci.net 41 18 43N 81 44 14W
+@@ -9208,11 +9207,11 @@
+ 205.158.3.49 SanFrancisco01-rtr.POP.InterNex.Net 37 46 12n 122 25 11w
+ 205.174.74.233 attau-attus.att.net.au 37 46 12n 122 25 12w
+ 205.197.249.70 ns.digex.net. 12 0 5n 11 59 36e
+-205.207.238.177 psp2.on.canet.ca 40 28 55N 88 59 34W NorthRoyalton 41
++205.207.238.177 psp2.on.canet.ca 40 28 55N 88 59 34W
+ 205.219.126.2 millennianet.com 32 43 12n 117 9 36w
+ 205.240.248.45 plwims00.xweb.eds.com 42 35 59n 83 9 0w
+ 206.101.198.103 mbone.packardbell.com 38 34 48n 121 29 23w
+-206.108.96.33 psp2.on.canet.ca 40 28 55N 88 59 34W NorthRoyalton 41
++206.108.96.33 psp2.on.canet.ca 40 28 55N 88 59 34W
+ 206.109.1.252 borderxx-fe1-0.hou.neo.net 29 45 36n 95 21 36w
+ 206.15.111.65 neteng.nis.newscorp.com 42 37 48n 71 19 11w
+ 206.157.77.1 core5-fddi1-0.SanFrancisco.mci.net 37 46 30n 122 25 1w
+@@ -9241,7 +9240,7 @@
+ 206.79.22.2 206.79.22.2 48 0 3n 11 59 36e
+ 206.83.174.101 fishmarket.com 34 9 0n 118 8 23w
+ 206.86.8.1 core-fddi2-0.mv.best.net 37 23 23n 122 4 48w
+-206.99.172.1 ns.newwave.net 53 26 52n 27 24 53e Athens 38
++206.99.172.1 ns.newwave.net 53 26 52n 27 24 53e
+ 207.12.55.99 stk-mbone-1.sprintlink.net 37 57 35n 121 17 24w
+ 207.155.21.2 kachina.jetcafe.org 34 11 23n 118 7 47w
+ 207.170.128.22 dogbert.multiverse.com 41 28 47n 81 40 48w

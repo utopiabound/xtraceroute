@@ -1,0 +1,11 @@
+--- /usr/scratch/august/a/networks.cache	Sun Apr 26 03:32:58 1998
++++ networks.cache	Sat Dec  6 06:55:14 1997
+@@ -94,7 +94,7 @@
+ 129.64		42 21n 71 03w			#BRANDEIS
+ 129.65		34 00n 118 15w			#CALPOLY
+ 129.67		51 45 32n 01 15 26w		#OXFORDNET
+-129.69  	48 30n 10 54			#Stuttgart.DE.ja.net
++129.69  	48 30n 10 54e			#Stuttgart.DE.ja.net
+ 129.71		40 81n 81 1w			#WVNET
+ 129.72		42 52n 106 18w			#UWYO
+ 129.74		41 42 15n 86 14 30w		#NOTRE-DAME

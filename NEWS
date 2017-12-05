@@ -1,0 +1,29 @@
+0.9.0
+-----
+The most important change in 0.9.0 from 0.8.14 (and various 0.8.15-preX 
+versions) is that using the RFC1876 ("LOC") informations from the DNS is
+now supported. To use this, you need the "host" program by Eric
+Wassenar, from ftp://ftp.nikhef.nl/pub/network/
+
+Get it from there, build, install, and if you have to, use the 
+"--with-host=/path/to/it" option to ./configure.
+
+There's a few eyecandy improvements as well, you get to zoom and pan,
+and satellites look like satellites.
+
+0.8.14:
+-------
+Big news for 0.8.14 is i18n support, and language files.
+
+If you use this, and have a problem which doesn't seem to be related to it
+directly (ie xtraceroute displays things wrongly somehow), please use
+the C locale for the bug report. It's interesting, but not really
+helpful getting bugreports in languages you don't speak or read.
+
+If you find a bug in the actual translation, see the ABOUT-NLS file.
+
+For now: please keep backups of your cache-files. I'm working on some
+very experimental code to allow updating the databases. This involves
+writing to them, and you people know what can happen then...
+
+/August.

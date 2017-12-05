@@ -1,0 +1,83 @@
+$Id: BUGS,v 1.9 2003/04/23 14:37:57 d3august Exp $
+
+Fixed bugs are "V"ed. Unfixed have stars. 
+"Z"s are not being actively worked on.
+
+V infinity.nus.sg goes all the way up to 30 hops, and the last four or so
+  are "* * *". Dumps.
+V Start a new trace while another one is underway -> weird results.
+V When the DNS doesn't answer, the program hangs.
+V Sometimes I get stuck in the dragmode. 
+V Earth isn't centered when the glarea is very non-square.
+V Selecting yellow sites won't affect them on the globe.
+V The entries in the table in the infowindow are centered. They shouldn't be.
+V last sites if not known are unselectable. Ex: www.kei.com
+V An error in placement *sometimes*. (It was in the database-reading, 
+  uninitialized values *sometimes* used.
+* Some kind of rounding error or something in locStrToNum <-> locNumToStr
+  somewhere. This makes writing db's very shaky.
+V Add the hashes to the comments in the networks files.
+V The Help menu is not at the far right of the window anymore.
+  (It is now. Was a gtk bug.)
+V Weird distance-values on SGI. (Was a float<->double rounding error.)
+Z Remove all // comments, or fix makefile.
+V On some OpenGL implementations, the sites are visible thorough the earth.
+  This happens on (at least) SGI onyx2, mesa. (GL_DEPTH_SIZE,1, Duh!)
+V sgi: traceroute prints errors to stdout. -> dump on "host not found."
+V picking doesn't work correctly when the window has been resized.
+V The "Help"-menu isn't at the far right anymore, about a cm in.
+     (fixed by new GTK version)
+V only the Yes button on the new trace dialog works, not pressing enter.
+V Dumps on linux. (Was a race-condition in the compiler code-layout.)
+V Dumps on linux when pressing OK in the "new trace" dialog. (Was _another_
+  popen()-inconsistency! (This time: different behavior on Linux and Solaris
+  WRT what happens then you pclose(NULL). (solaris returns -1, linux SIGSEGV.)
+  (This is apparently a glibc bug. (Confirmed, known bug.))
+V _Something_ is wrong with malloc/freeing somewhere. Dump under linux 
+  connected to three frees in main.c. (Went away. Must have been a buggy 
+  libc)
+V When it can't find traceroute, I get some gtk warnings, and a window
+  that tells me that it can't find the site.
+V If the last site is unknown, it ends up on (0,0).
+V xtraceroute sdkhgsginsdb -> ** WARNING **: invalid cast from (NULL) pointer to `GtkLabel
+* Core dump in Suns libc (gettext) if I try to use it. Go with GNU
+  gettext for now.
+V Weird garbage in the beginning of some strings sometimes. (Fixed.
+  Don't strcat to a new string, strcpy first time.)
+V Handling of the "* * *" case on linux is wrong. It seems to hang
+  there, spinner running.
+V Doesn't plot the last site on linux.
+V Clicking in the glarea to select doesn't always work on linux.
+  (Resizing the window helps.) (Happens on Solaris as well, since I
+  changed to Windowmaker. Related?)
+  Was order of calls to resize / realize callbacks. Changed to
+  reconfig_event, works...
+V Order of the -l<lib> entries on the link line is wrong. (-lgtkgl 
+  after -lGL)
+V Using snprintf, which isn't available everywhere. (g_snprintf)
+V "xtraceroute --stdin < apa" works, "cat apa | xtraceroute --stdin"
+  doesnt.
+V --stdio? Should be --stdin
+V The initial view should be centered on the user's location, not
+  looking at (0,0).
+* Report of weird colors (blue ground, brown sea) on solaris.
+V Async lookup of first site (to rotate the globe correctly) doesn't
+  work. (Does now, after a mild hack to get_from_extpipe().)
+V file->new doesn't work.
+* Sites can end up under a sat jump, like with a normal link. Find out
+  on which side it is using the ping time.
+* Starting a new trace while another one is in progress doesn't work
+  anymore. Fix clear_sites.
+V It fails to detect when traceroute says "unknown host"
+V Going from chalmers to www.gov.cl gives me a negative spinner
+  refcount.
+V Fix the perspective. It should work with non-quadratic canvases.
+V selection should work even if the canvas has been resized...
+* Spinner refcount negative...
+V click info on a red/orange site -> acc: n/a, forward, back, it changes.
+V Window can't be made smaller than the default starting size.
+V Only nag the user once about not using the EW version of "host".
+* Configuring with solaris cc screws up the makefile for some reason.
+V The resolver script doesn't work for boxes with no domain (a hostname
+  with no dots) in the BIND case.
+

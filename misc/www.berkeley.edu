@@ -1,0 +1,23 @@
+ 1  cth30a-gw.chalmers.se (129.16.30.1)  1.105 ms  0.950 ms  0.835 ms
+ 2  cth2-ge-gw.chalmers.se (129.16.2.103)  0.551 ms  0.571 ms  1.869 ms
+ 3  chalmers-2-FE1-0-0.sunet.se (130.242.202.89)  0.977 ms  0.795 ms  0.791 ms
+ 4  chalmers-1-FE1-1-0.sunet.se (130.242.200.225)  1.323 ms  0.851 ms  0.884 ms
+ 5  GBG-BB-1-POS2-2.sunet.se (130.242.200.109)  1.465 ms  1.485 ms  1.121 ms
+ 6  GBG-BB-2-POS0-0.sunet.se (130.242.200.118)  1.231 ms  1.317 ms  1.817 ms
+ 7  STK-BB-1-POS9-0.sunet.se (130.242.204.233)  9.907 ms  10.052 ms  10.086 ms
+ 8  sw-gw.nordu.net (193.10.252.177)  10.443 ms  10.333 ms  11.277 ms
+ 9  193.10.252.186 (193.10.252.186)  110.303 ms  110.629 ms  110.171 ms
+10  nycm-nordunet.abilene.ucaid.edu (193.10.252.74)  110.020 ms  110.530 ms  110.118 ms
+11  clev-nycm.abilene.ucaid.edu (198.32.8.29)  117.431 ms  116.671 ms  117.085 ms
+12  ipls-clev.abilene.ucaid.edu (198.32.8.25)  123.526 ms  124.546 ms  123.712 ms
+13  kscy-ipls.abilene.ucaid.edu (198.32.8.5)  133.116 ms  133.009 ms  132.394 ms
+14  dnvr-kscy.abilene.ucaid.edu (198.32.8.13)  143.301 ms  143.325 ms  143.542 ms
+15  scrm-dnvr.abilene.ucaid.edu (198.32.8.1)  164.756 ms  165.225 ms  164.187 ms
+16  snva-scrm.abilene.ucaid.edu (198.32.8.69)  167.833 ms  167.819 ms  167.983 ms
+17  198.32.249.161 (198.32.249.161)  167.661 ms  168.064 ms  167.724 ms
+18  BERK--SUNV.POS.calren2.net (198.32.249.13)  169.201 ms  169.112 ms  169.212 ms
+19  pos1-0.inr-000-eva.Berkeley.EDU (128.32.0.89)  169.197 ms  170.702 ms  169.271 ms
+20  vlan198.inr-201-eva.Berkeley.EDU (128.32.0.194)  174.115 ms  174.662 ms  174.452 ms
+21  128.32.255.2 (128.32.255.2)  169.695 ms  169.411 ms  169.681 ms
+22  fast11-0-0.inr-100-eva.Berkeley.EDU (128.32.0.117)  170.388 ms  170.314 ms  170.381 ms
+23  amber.Berkeley.EDU (128.32.25.12)  170.387 ms  170.114 ms  169.535 ms

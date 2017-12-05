@@ -1,0 +1,216 @@
+$Id: ChangeLog,v 1.3 2003/03/23 14:40:09 d3august Exp $
+
+0.1 - 0.2:
+* Internal versions.
+
+0.3:
+* Works somewhat. Can actually trace some routes, but most sites are
+  unknown. Also the heuristic for finding the sites' loation is imperfect.
+
+0.4:
+* Changed the spheremodel, and added support for NDG cache files, 
+  improving the preformance somewhat. Also fixed about one bazillion bugs.
+
+0.5:
+* Now uses gtk instead of GLUT.
+
+0.6:
+* Rewrote the database support.
+
+0.7:
+* More database restructuring.
+
+0.8:
+* Changed the list/scrolled-window hack to the new great clist widget. That
+  solved quite a few of the things on my TODO list.
+* Fixed one bazillion bugs.
+* Ported to SGI, should have fixed most of the porting problems.
+
+0.8.1:
+* More bugfixes. Only real bad bug that I know of now is the error somewhere
+  in the string <-> numerical conversion routines for latitudes/longitudes.
+* Ported all code to use gtk 1.0 and gtkGL 0.8.9.
+
+0.8.2:
+* Compiled and ran on Linux during the day. Found a few bad bugs that 
+  crashed it there. 0.8.2 _should_ run correctly on Linux.
+
+0.8.3:
+* Got it to work on SGI again. I never quite got the Makefile to behave
+  like I wanted. Mostly due to SGI's _very_ picky make. This is sort of moot
+  since I'm going to use automake/autoconf soon anyway.
+* First sort-of-public release.
+
+0.8.4:
+* Minor cleanups.
+* Added new command-line option: --lod <level-of-detail>
+
+0.8.5:
+* Fixed (sort of; now it's as good as it gets.) the texturing bug near
+  the poles.
+* Documentation and licensing updates.
+
+0.8.6:
+* Fixed the tar archive so that it won't untar into the current directory
+  anymore (sorry about that...)
+* Done some linting and efencing. Looks good.
+* Bugfixes.
+
+0.8.7:
+* Fixed a bug that made it eat 100% CPU on some platforms.
+* You can now press the spinner to start a new trace, instead of having to
+  select "file->new" from the menu.
+
+0.8.8:
+* Started cleanup of glstuff.c. makeearth is much shorter now, and uses
+  some static functions.
+* Fixed a bug where some sites sometimes didn't get plotted, if they had
+  ACC_NONE, and the trace timed out.
+* The info-button now toggles wether the info window is visible or not.
+
+0.8.9:
+* Fixed bug where entries in the info-window was centered. Looked ugly.
+* Rewrote, modularized, cleaned up the info-window code.
+* Arranged so that selected sites don't go all white, now they just 
+  brighten a bit.
+* OK, makeearth looks reasonable now. Got the line-plotting into a separate
+  function, and that made it a lot shorter.
+* Merged in two patches I got from Edouard Lafargu (thanks!), adding 
+  support for a new kind of database, similar to the internal one but
+  runtime-loadable. Also he's improved the contry-suffix database no end.
+
+0.8.10:
+* Fixed bug in the database code. Edouard's new generic database wasn't
+  used.
+* Added the type "site". What was previosly "boeps" is now "sites", an 
+  array of "site"s
+* Changed a lot of the code to use site* handles instead of indexes into
+  "sites". This should make the code for adding Edouard's locate feature
+  much cleaner.
+* Started on some restructuring of the top-level DB code. Nothing big, but
+  the old system is getting a bit awkward.
+* Changed the name resolv() to resolve(), added resolve_by_id(), which works
+  like the old resolv().
+* Removed the word "boep" from the source tree alltogether. It was just
+  a placeholder in the beginning anyway. This meant renaming some functions.
+  Also, init_boeps() got changed to clear_sites(), since that what it does.
+
+0.8.11:
+* Doesn't print the true distance estimate if the accuracy is too low.
+* Swapped the gtkGL widget out in favor of gtkglarea, which is more
+  actively developed.
+* Fixed a few small bugs.
+* Inserted some of Edouard's code. The notebook for example. 
+
+0.8.12:
+* Uses GNU configure/automake. Hopefully it works.
+* Has a bugfix for when the first site(s) in the trace doesn't reply.
+* removed local_config.h, added tweaks.h instead, which is much smaller
+  and only contains the obscure performance-tweaks. (Nobody normally needs
+  to touch it, since all the important configuration happens thru GNU 
+  configure.)
+
+0.8.13:
+* Made it work with gtk 1.1.x as well as 1.0.x.
+* Fixed loads of small configure-related bugs.
+* contries.c now knows the location of many more country-suffixes 
+  (Thanks to Greg Louis)
+* Doubleclick in clist to get the info window. (Martin Norb{ck (Norpan))
+* Next- and previous-buttons in the info window  (Norpan again)
+* Changed texture to a correct one.
+* Fixed bug where sites with no known location got plotted in the
+  atlantic, west of africa (at 0,0).
+* Fixed typo in configure.in which broke --with-traceroute=PATH
+* Added reading of traceroute data via stdin (for debug purposes)
+
+0.8.14:
+* Removed fluff from the code.
+* Configure fix for SGI. (Look for glCore)
+* Fix commandline parsing.
+* Fixed annoying bug with Mesa (and some SGIs), where the sitemarkers
+  behind the globe was still visible. (Henrik Jonsson (Hej))
+* Added manpage (Contributed by Stephane Bortzmeyer)
+* Managed to merge Pablo Saratxaga's i18n patch, after some fighting
+  with Suns version of gettext(). This includes language support for
+  french and spanish and (apparently incomplete) japanese.
+* countries.c got a bit more knowledgeable. Now almost complete. (Pablo
+  Saratxaga)
+* Added xtraceroute.desktop file (something to do with Gnome) and a PNG
+  file for use as an icon (Pablo again)
+* Added quaternion rotation stuff, suggested by many.
+* Fixed a few small UI bugs/omissions.
+* Merged old README and INSTALL files into README, included the standard
+  automake INSTALL file.
+
+0.9.0:
+* Merged new versions of .po files from Pablo.
+* the .spec file should more or less autogenerate now.
+* Fixed stupid configure bug. (Order of -l<lib> entries on link line.)
+* Updated README slightly, added list of prerequisites, pointer to web
+  site.
+* Changed "--stdio" to "--stdin" or just "-". (I don't know why it was
+  that way. I must have been very tired...)
+* Fixed stupidity where "xtraceroute -h" didn't print the version number.
+* Nonportable function snprintf replaced with g_snprintf.
+* Cleanups in db_*_gui.c, also fixed the alignment of some labels in
+  there.
+* Added workaround for Irix compile problems (like -Xcpluscomm) to
+  configure.in.
+* Threw out tifflib and am now using gdk_imlib. The texture is now a
+  PNG file. This file is 300k smaller than the old TIFF file.
+* Fixed some trouble that came from this, with configure not finding it
+  etc.
+* Fixed stupid bug re glxmakecurrent and select mode.
+* Removed some ifdefs
+* Fixed the elusive "can't select sites from the globe if I haven't
+  resized the window, sometimes" problem.
+* Fixed problem with segfault if you killed the info_window via WM
+  instead of clicking "OK".
+* Tricky bug with input handling fixed by Bert Driehuis.
+* It now checks if the $HOME/.xt directry exists before trying to write
+  to it. (Reported by Timothee Besset)
+* Integrated Stéphane Genaud's cool patch, giving me (in his own words): 
+>-------------------------------------------
+>Stéphane Genaud (genaud@icps.u-strasbg.fr)
+>-------------------------------------------
+>* Moved the menu bar creation to the  new build_menu() function 
+>  that uses an ItemFactory. Changed Callbacks prototypes like addHost :
+>  they now return void instead of gint to prevent gcc warnings due to 
+>  expected types in ItemFactory.
+>
+>* Added a "View" menu providing  zooming in/out
+>  Zoom affects earth and sites but not the line respresenting the route
+>  (FIX ME)
+>
+>* Middle button lets you translate the world in the x-y plane
+>
+>* Transparency of sites. Seems useless and ugly at the moment but
+>  can be the base for some tests.
+* Integrated Martin Schenk's patch, meaning you can zoom with the mouse.
+* (pre-3 released here)
+* Globe is now centered on user's location upon startup.
+* (pre-4 released here)
+* Replaced Imlib with gdk-pixbuf.
+* Fixed error in the texture-coordinate-generation in sphere. The
+  texture would appear upside-down.
+* Both 3 (RGB) and 4 (RGBA) component images work as textures now.
+* RFC1876 baby! Via pipes and the "host" command. The unix way...
+* The rfc1876 stuff is more general, I can basically hang in any data
+  source and have it work asynchronously.
+* Satellites!
+* Uses pipe/fork/exec instead of popen, even for traceroute.
+* Major #include cleanup.
+* Now gives traceroute "-m 40" for max hops. Let me know if it isn't
+  enough...
+
+0.9.1:
+
+* Fixed longstanding bug where sometimes if you clicked at a site, it
+  would select one behind it.
+* Removed "new search" window in favor of a web browser-like row at the
+  top.
+* Async helper script, to resolve stuff in different ways. This makes it
+  easier to add new ways to resolve sites.
+* Added a night texture and some blending to show where it's daytime in
+  the world.
+

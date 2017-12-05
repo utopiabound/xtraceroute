@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=xtraceroute
+Name[es]=xtraceroute
+Name[fr]=xtraceroute
+Comment=A graphical traceroute
+Comment[es]=Un traceroute gráfico
+Comment[fr]=Un traceroute graphique
+Exec=xtraceroute
+Icon=xtraceroute.png
+Terminal=0
+Type=Application

@@ -1,0 +1,1475 @@
+# Copyright (C) 1999 
+# Martin Norbäck <norpan@bigfoot.com>, 1999.
+#
+# Country names taken from
+# http://europa.eu.int/comm/sdt/currencies/svtable[12].htm
+msgid ""
+msgstr ""
+"Project-Id-Version: xtraceroute 0.8.15\n"
+"POT-Creation-Date: 2003-03-29 17:58+0100\n"
+"PO-Revision-Date: 1999-10-21 22:53+0200\n"
+"Last-Translator: Martin Norbäck <norpan@bigfoot.com>\n"
+"Language-Team: Swedish <sv@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: countries.c:32
+msgid "US Government"
+msgstr "USA:s regering"
+
+#: countries.c:34
+#, fuzzy
+msgid "Ascension Island"
+msgstr "Pitcairn"
+
+#: countries.c:35
+msgid "Principalty of Andorra"
+msgstr "Furstend&ouml;met Andorra"
+
+#: countries.c:36
+msgid "United Arab Emirates"
+msgstr "F&ouml;renade Arabemiraten"
+
+#: countries.c:37
+msgid "Afghanistan"
+msgstr "Islamiska staten Afghanistan"
+
+#: countries.c:38
+msgid "Antigua and Barbuda"
+msgstr "Antigua och Barbuda"
+
+#. approximative
+#: countries.c:39
+msgid "Anguilla"
+msgstr "Anguilla"
+
+#. approximative
+#: countries.c:40
+msgid "Albania"
+msgstr "Republiken Albanien"
+
+#: countries.c:41
+msgid "Armenia"
+msgstr "Republiken Armenien"
+
+#: countries.c:42
+msgid "Netherlands Antilles"
+msgstr "Nederl&auml;ndska Antillerna"
+
+#: countries.c:43
+msgid "Angola"
+msgstr "Republiken Angola"
+
+#: countries.c:44
+msgid "Antarctica"
+msgstr "Antarktis"
+
+#: countries.c:45
+msgid "Argentina"
+msgstr "Republiken Argentina"
+
+#: countries.c:46
+msgid "American Samoa"
+msgstr "Territoriet Amerikanska Samoa"
+
+#. approximative
+#: countries.c:47
+msgid "Austria"
+msgstr "Republiken &Ouml;sterrike"
+
+#: countries.c:48
+msgid "Australia"
+msgstr "Australien"
+
+#: countries.c:49
+msgid "Aruba"
+msgstr "Aruba"
+
+#. approximative
+#: countries.c:50
+msgid "Azerbaijan"
+msgstr "Republiken Azerbajdzjan"
+
+#: countries.c:51
+msgid "Bosnia and Herzegowina"
+msgstr "Bosnien och Hercegovina"
+
+#: countries.c:52
+msgid "Barbados"
+msgstr "Barbados"
+
+#. approximative
+#: countries.c:53
+msgid "Bangladesh"
+msgstr "Folkrepubliken Bangladesh"
+
+#: countries.c:54
+msgid "Belgium"
+msgstr "Konungariket Belgien"
+
+#: countries.c:55
+msgid "Burkina Faso"
+msgstr "Burkina Faso"
+
+#: countries.c:56
+msgid "Bulgaria"
+msgstr "Republiken Bulgarien"
+
+#: countries.c:57
+msgid "Bahrain"
+msgstr "Staten Bahrain"
+
+#: countries.c:58
+msgid "Burundi"
+msgstr "Republiken Burundi"
+
+#: countries.c:59
+msgid "Benin"
+msgstr "Republiken Benin"
+
+#: countries.c:60
+msgid "Bermuda"
+msgstr "Bermuda"
+
+#: countries.c:61
+msgid "Brunei Darussalam"
+msgstr "Brunei Darussalam"
+
+#: countries.c:62
+msgid "Bolivia"
+msgstr "Republiken Bolivia"
+
+#: countries.c:63
+msgid "Brazil"
+msgstr "F&ouml;rbundsrepubliken Brasilien"
+
+#: countries.c:64
+msgid "Bahamas"
+msgstr "Samv&auml;ldet Bahamas"
+
+#: countries.c:65
+msgid "Bhutan"
+msgstr "Konungariket Bhutan"
+
+#. approximative
+#: countries.c:66
+msgid "Bouvet Island"
+msgstr "Bouvet&ouml;n"
+
+#. approximative
+#: countries.c:67
+msgid "Botswana"
+msgstr "Republiken Botswana"
+
+#: countries.c:68
+msgid "Belarus"
+msgstr "Republiken Vitryssland"
+
+#: countries.c:69
+msgid "Belize"
+msgstr "Belize"
+
+#: countries.c:70
+msgid "Canada"
+msgstr "Kanada"
+
+#: countries.c:71
+msgid "Cocos Islands"
+msgstr "Territoriet Kokos&ouml;arna"
+
+#. approximative
+#: countries.c:72
+#, fuzzy
+msgid "Congo, Democratic Republic of the"
+msgstr "Republiken Niger"
+
+#: countries.c:73
+msgid "Central African Republic"
+msgstr "Centralafrikanska republiken"
+
+#: countries.c:74
+msgid "Congo"
+msgstr "Republiken Kongo"
+
+#: countries.c:75
+msgid "Switzerland"
+msgstr "Schweiziska edsf&ouml;rbundet"
+
+#: countries.c:76
+msgid "Cote d'Ivoire"
+msgstr "Republiken Elfenbenskusten"
+
+#: countries.c:77
+msgid "Cook Islands"
+msgstr "Cook&ouml;arna"
+
+#. approximative
+#: countries.c:78
+msgid "Chile"
+msgstr "Republiken Chile"
+
+#: countries.c:79
+msgid "Cameroon"
+msgstr "Republiken Kamerun"
+
+#: countries.c:80
+msgid "China"
+msgstr "Folkrepubliken Kina"
+
+#: countries.c:81
+msgid "Colombia"
+msgstr "Republiken Colombia"
+
+#: countries.c:82
+msgid "Costa Rica"
+msgstr "Republiken Costa Rica"
+
+#: countries.c:83
+msgid "Cuba"
+msgstr "Republiken Kuba"
+
+#: countries.c:84
+msgid "Cape Verde"
+msgstr "Republiken Kap Verde"
+
+#: countries.c:85
+msgid "Christmas Island"
+msgstr "Territoriet Jul&ouml;n"
+
+#. approximative
+#: countries.c:86
+msgid "Cyprus"
+msgstr "Republiken Cypern"
+
+#: countries.c:87
+msgid "Czech Republic"
+msgstr "Tjeckiska republiken"
+
+#: countries.c:88
+msgid "Germany"
+msgstr "F&ouml;rbundsrepubliken Tyskland"
+
+#: countries.c:89
+msgid "Djibouti"
+msgstr "Republiken Djibouti"
+
+#: countries.c:90
+msgid "Denmark"
+msgstr "Konungariket Danmark"
+
+#: countries.c:91
+msgid "Dominica"
+msgstr "Samv&auml;ldet Dominica"
+
+#. approximative
+#: countries.c:92
+msgid "Dominican Republic"
+msgstr "Dominikanska republiken"
+
+#: countries.c:93
+msgid "Algeria"
+msgstr "Demokratiska folkrepubliken Algeriet"
+
+#: countries.c:94
+msgid "Ecuador"
+msgstr "Republiken Ecuador"
+
+#: countries.c:95
+msgid "Estonia"
+msgstr "Republiken Estland"
+
+#: countries.c:96
+msgid "Egypt"
+msgstr "Arabrepubliken Egypten"
+
+#: countries.c:97
+msgid "Western Sahara"
+msgstr "V&auml;stsahara"
+
+#. approximative
+#: countries.c:98
+msgid "Eritrea"
+msgstr "Eritrea"
+
+#. approximative
+#: countries.c:99
+msgid "Spain"
+msgstr "Konungariket Spanien"
+
+#: countries.c:100
+msgid "Ethiopia"
+msgstr "Demokratiska f&ouml;rbundsrepubliken Etiopien"
+
+#: countries.c:101
+msgid "Finland"
+msgstr "Republiken Finland"
+
+#: countries.c:102
+msgid "Fiji"
+msgstr "Republiken Fiji"
+
+#. approximative
+#: countries.c:103
+msgid "Falkland Islands"
+msgstr "Falklands&ouml;arna"
+
+#. approximative
+#: countries.c:104
+msgid "Micronesia"
+msgstr "Mikronesiska federationen"
+
+#. approximative
+#: countries.c:105
+msgid "Faeroe Islands"
+msgstr "F&auml;r&ouml;arna"
+
+#. approximative
+#: countries.c:106
+msgid "France"
+msgstr "Republiken Frankrike"
+
+#: countries.c:107
+msgid "Gabon"
+msgstr "Republiken Gabon"
+
+#: countries.c:108
+msgid "Grenada"
+msgstr "Grenada"
+
+#. approximative
+#: countries.c:109
+msgid "Georgia"
+msgstr "Georgien"
+
+#: countries.c:110
+msgid "French Guiana"
+msgstr "Franska departementet Guyana"
+
+#: countries.c:111
+#, fuzzy
+msgid "Guernsey"
+msgstr "F&ouml;rbundsrepubliken Tyskland"
+
+#: countries.c:112
+msgid "Ghana"
+msgstr "Republiken Ghana"
+
+#: countries.c:113
+msgid "Gibraltar"
+msgstr "Gibraltar"
+
+#: countries.c:114
+msgid "Greenland"
+msgstr "Gr&ouml;nland"
+
+#: countries.c:115
+msgid "Gambia"
+msgstr "Republiken Gambia"
+
+#: countries.c:116
+msgid "Guinea"
+msgstr "Republiken Guinea"
+
+#: countries.c:117
+msgid "Guadaloupe"
+msgstr "Franska departementet Guadeloupe"
+
+#. approximative
+#: countries.c:118
+msgid "Equatorial Guinea"
+msgstr "Ekvatorialguinea<"
+
+#. approximative
+#: countries.c:119
+msgid "Greece"
+msgstr "Republiken Grekland"
+
+#: countries.c:120
+msgid "S. Georgia & Sandwich"
+msgstr "Sydgeorgien och Sydsandwich&ouml;arna"
+
+#. approximative
+#: countries.c:121
+msgid "Guatemala"
+msgstr "Republiken Guatemala"
+
+#: countries.c:122
+msgid "Guam"
+msgstr "Territoriet Guam"
+
+#. approximative
+#: countries.c:123
+msgid "Guinea-Bissau"
+msgstr "Republiken Guinea-Bissau"
+
+#: countries.c:124
+msgid "Guyana"
+msgstr "Republiken Guyana"
+
+#: countries.c:125
+msgid "Hong Kong"
+msgstr "Hongkong SAR (speciell administrativ region)"
+
+#: countries.c:126
+msgid "Heard and McDonald Islands"
+msgstr "Territoriet Heard&ouml;n och McDonald&ouml;arna"
+
+#. approximative
+#: countries.c:127
+msgid "Honduras"
+msgstr "Republiken Honduras"
+
+#: countries.c:128
+msgid "Hrvatska (Croatia)"
+msgstr "Republiken Kroatien"
+
+#: countries.c:129
+msgid "Haiti, Republic of"
+msgstr "Republiken Haiti"
+
+#: countries.c:130
+msgid "Hungary"
+msgstr "Republiken Ungern"
+
+#: countries.c:131
+msgid "Indonesia"
+msgstr "Republiken Indonesien"
+
+#: countries.c:132
+msgid "Ireland"
+msgstr "Irland"
+
+#: countries.c:133
+msgid "Israel"
+msgstr "Staten Israel"
+
+#: countries.c:134
+msgid "Isle of Man"
+msgstr ""
+
+#: countries.c:135
+msgid "India"
+msgstr "Republiken Indien"
+
+#: countries.c:136
+msgid "British Indian Ocean Territory"
+msgstr "Brittiska territoriet i Indiska Oceanen"
+
+#. approx.
+#: countries.c:137
+msgid "Iraq"
+msgstr "Republiken Irak"
+
+#: countries.c:138
+msgid "Iran"
+msgstr "Islamiska republiken Iran"
+
+#: countries.c:139
+msgid "Iceland"
+msgstr "Republiken Island"
+
+#: countries.c:140
+msgid "Italy"
+msgstr "Republiken Italien"
+
+#: countries.c:141
+msgid "Jersey"
+msgstr ""
+
+#: countries.c:142
+msgid "Jamaica"
+msgstr "Jamaica"
+
+#: countries.c:143
+msgid "Jordan, Hashemite Kingdom of"
+msgstr "Hashemitiska konungariket Jordanien"
+
+#: countries.c:144
+msgid "Japan"
+msgstr "Japan"
+
+#: countries.c:145
+msgid "Kenya, Republic of"
+msgstr "Republiken Kenya"
+
+#: countries.c:146
+msgid "Kyrgyz Republic"
+msgstr "Republiken Kirgizistan"
+
+#: countries.c:147
+msgid "Cambodia, Kingdom of"
+msgstr "Konungariket Kambodja"
+
+#: countries.c:148
+msgid "Kiribati"
+msgstr "Kiribati"
+
+#. approximative
+#: countries.c:149
+msgid "Comoros"
+msgstr "Islamiska f&ouml;rbundsrepubliken Komorerna"
+
+#: countries.c:150
+msgid "Saint Kitts and Nevis"
+msgstr "Saint Kitts och Nevis"
+
+#. approximative
+#: countries.c:151
+msgid "Korea (North)"
+msgstr "Demokratiska folkrepubliken Korea (Nordkorea)"
+
+#: countries.c:152
+msgid "Korea (South)"
+msgstr "Republiken Korea (Sydkorea)"
+
+#: countries.c:153
+msgid "Kuwait"
+msgstr "Staten Kuwait"
+
+#: countries.c:154
+msgid "Cayman Islands"
+msgstr "Cayman&ouml;arna"
+
+#: countries.c:155
+msgid "Kazakhstan"
+msgstr "Republiken Kazakstan"
+
+#: countries.c:156
+msgid "Laos"
+msgstr "Demokratiska folkrepubliken Laos"
+
+#: countries.c:157
+msgid "Lebanon"
+msgstr "Republiken Libanon"
+
+#: countries.c:158
+msgid "Saint Lucia"
+msgstr "Saint Lucia"
+
+#. approximative
+#: countries.c:159
+msgid "Liechtenstein"
+msgstr "Furstend&ouml;met Liechtenstein"
+
+#: countries.c:160
+msgid "Sri Lanka"
+msgstr "Demokratiska socialistiska republiken Sri Lanka"
+
+#: countries.c:161
+msgid "Liberia, Republic of"
+msgstr "Republiken Liberia"
+
+#: countries.c:162
+msgid "Lesotho, Kingdom of"
+msgstr "Konungariket Lesotho"
+
+#: countries.c:163
+msgid "Lithuania"
+msgstr "Republiken Litauen"
+
+#: countries.c:164
+msgid "Luxembourg, Grand Duchy of"
+msgstr "Storhertigd&ouml;met Luxemburg"
+
+#: countries.c:165
+msgid "Latvia"
+msgstr "Republiken Lettland"
+
+#: countries.c:166
+msgid "Libya"
+msgstr "Socialistiska folkliga libyska arabiska Jamahiriya"
+
+#: countries.c:167
+msgid "Morocco, Kingdom of"
+msgstr "Konungariket Marocko"
+
+#: countries.c:168
+msgid "Monaco, Principality of"
+msgstr "Furstend&ouml;met Monaco"
+
+#: countries.c:169
+msgid "Moldova, Republic of"
+msgstr "Republiken Moldova"
+
+#. approximative
+#: countries.c:170
+msgid "Madagascar, Republic of"
+msgstr "Republiken Madagaskar"
+
+#: countries.c:171
+msgid "Marshall Islands"
+msgstr "Republiken Marshall&ouml;arna"
+
+#. approximative
+#: countries.c:172
+msgid "Macedonia"
+msgstr "F.d. jugoslaviska republiken Makedonien"
+
+#: countries.c:173
+msgid "Mali"
+msgstr "Republiken Mali"
+
+#: countries.c:174
+msgid "Myanmar"
+msgstr "Unionen Myanmar"
+
+#: countries.c:175
+msgid "Mongolia"
+msgstr "Mongoliet"
+
+#: countries.c:176
+msgid "Macau"
+msgstr "Macao"
+
+#: countries.c:177
+msgid "Northern Mariana Islands"
+msgstr "Samv&auml;ldet Nordmarianerna"
+
+#. approximative
+#: countries.c:178
+msgid "Martinique"
+msgstr "Franska departementet Martinique"
+
+#: countries.c:179
+msgid "Mauritania"
+msgstr "Islamiska republiken Mauretanien"
+
+#: countries.c:180
+msgid "Montserrat"
+msgstr "Monserrat"
+
+#. approximative
+#: countries.c:181
+msgid "Malta, Republic of"
+msgstr "Republiken Malta"
+
+#: countries.c:182
+msgid "Mauritius"
+msgstr "Republiken Mauritius"
+
+#: countries.c:183
+msgid "Maldives, Republic of"
+msgstr "Republiken Maldiverna"
+
+#: countries.c:184
+msgid "Malawi, Republic of"
+msgstr "Republiken Malawi"
+
+#: countries.c:185
+msgid "Mexico"
+msgstr "Mexikos f&ouml;renta stater"
+
+#: countries.c:186
+msgid "Malaysia"
+msgstr "Malaysia"
+
+#: countries.c:187
+msgid "Mozambique"
+msgstr "Republiken Moçambique<"
+
+#: countries.c:188
+msgid "Namibia"
+msgstr "Republiken Namibia"
+
+#: countries.c:189
+msgid "New Caledonia"
+msgstr "Territoriet Nya Kaledonien och tillh&ouml;rande omr&aring;den"
+
+#. approximative
+#: countries.c:190
+msgid "Niger, Republic of the"
+msgstr "Republiken Niger"
+
+#: countries.c:191
+msgid "Norfolk Island"
+msgstr "Territoriet Norfolk&ouml;n"
+
+#. approximative
+#: countries.c:192
+msgid "Nigeria, Federal Republic of"
+msgstr "F&ouml;rbundsrepubliken Nigeria"
+
+#: countries.c:193
+msgid "Nicaragua, Republic of"
+msgstr "Republiken Nicaragua"
+
+#: countries.c:194
+msgid "Netherlands, Kingdom of the"
+msgstr "Konungariket Nederl&auml;nderna"
+
+#: countries.c:195
+msgid "Kingdom of Norway"
+msgstr "Konungariket Norge"
+
+#: countries.c:196
+msgid "Nepal, Kingdom of"
+msgstr "Konungariket Nepal"
+
+#: countries.c:197
+msgid "Nauru, Republic of"
+msgstr "Republiken Nauru"
+
+#. approximative
+#: countries.c:198
+msgid "Niue"
+msgstr "Republiken Niue"
+
+#: countries.c:199
+msgid "New Zealand"
+msgstr "Nya Zeeland"
+
+#: countries.c:200
+msgid "Oman, Sultanate of"
+msgstr "Sultanatet Oman"
+
+#: countries.c:201
+msgid "Panama, Republic of"
+msgstr "Republiken Panama"
+
+#: countries.c:202
+msgid "Peru, Republic of"
+msgstr "Republiken Peru"
+
+#: countries.c:203
+msgid "French Polynesia"
+msgstr "Territoriet Franska Polynesien"
+
+#. approximative
+#: countries.c:204
+msgid "Papua New Guinea"
+msgstr "Papua Nya Guinea"
+
+#: countries.c:205
+msgid "Philippines, Republic of the"
+msgstr "Republiken Filippinerna"
+
+#: countries.c:206
+msgid "Pakistan, Islamic Republic of"
+msgstr "Islamiska republiken Pakistan"
+
+#: countries.c:207
+msgid "Poland"
+msgstr "Republiken Polen"
+
+#: countries.c:208
+msgid "St. Pierre et Miquelon"
+msgstr "Franska territorialomr&aring;det Saint Pierre och Miquelon"
+
+#. approximative
+#: countries.c:209
+msgid "Pitcairn Island"
+msgstr "Pitcairn"
+
+#. approximative
+#: countries.c:210
+msgid "Puerto Rico"
+msgstr "Fria associerade staten Puerto Rico"
+
+#: countries.c:211
+msgid "Palestinian Territories"
+msgstr ""
+
+#: countries.c:212
+msgid "Portugal, Portuguese Republic"
+msgstr "Republiken Portugal"
+
+#: countries.c:213
+msgid "Palau"
+msgstr "Republiken Palau"
+
+#. approximative
+#: countries.c:214
+msgid "Paraguay, Republic of"
+msgstr "Republiken Paraguay"
+
+#: countries.c:215
+msgid "Qatar, State of"
+msgstr "Staten Qatar"
+
+#: countries.c:216
+msgid "Reunion"
+msgstr "Franska departementet R&eacute;union"
+
+#. approximative
+#: countries.c:217
+msgid "Romania"
+msgstr "Rum&auml;nien"
+
+#: countries.c:218
+msgid "Russian Federation"
+msgstr "Ryska federationen"
+
+#: countries.c:219
+msgid "Rwanda, Rwandese Republic"
+msgstr "Republiken Rwanda"
+
+#: countries.c:220
+msgid "Saudi Arabia, Kingdom of"
+msgstr "Konungariket Saudiarabien"
+
+#: countries.c:221
+msgid "Solomon Islands"
+msgstr "Salomon&ouml;arna"
+
+#. approximative
+#: countries.c:222
+msgid "Seychelles, Republic of"
+msgstr "Republiken Seychellerna"
+
+#: countries.c:223
+msgid "Sudan"
+msgstr "Republiken Sudan"
+
+#: countries.c:224
+msgid "Kingdom of Sweden"
+msgstr "Konungariket Sverige"
+
+#: countries.c:225
+msgid "Singapore, Republic of"
+msgstr "Republiken Singapore"
+
+#: countries.c:226
+msgid "St. Helena"
+msgstr "Saint Helena och tillh&ouml;rande omr&aring;den"
+
+#: countries.c:227
+msgid "Slovenia"
+msgstr "Republiken Slovenien"
+
+#: countries.c:228
+msgid "Svalbard & Jan Mayen Islands"
+msgstr "Svalbard och Jan Mayen"
+
+#. approx.
+#: countries.c:229
+msgid "Slovakia"
+msgstr "Slovakiska republiken"
+
+#: countries.c:230
+msgid "Sierra Leone, Republic of"
+msgstr "Republiken Sierra Leone"
+
+#: countries.c:231
+msgid "San Marino, Republic of"
+msgstr "Republiken San Marino"
+
+#: countries.c:232
+msgid "Senegal, Republic of"
+msgstr "Republiken Senegal"
+
+#: countries.c:233
+msgid "Somalia"
+msgstr "Demokratiska republiken Somalia"
+
+#: countries.c:234
+msgid "Suriname, Republic of"
+msgstr "Republiken Surinam"
+
+#: countries.c:235
+msgid "Sao Tome and Principe"
+msgstr "Demokratiska republiken São Tomé och Príncipe"
+
+#: countries.c:236
+msgid "El Salvador, Republic of"
+msgstr "Republiken El Salvador"
+
+#: countries.c:237
+msgid "Syrian Arab Republic"
+msgstr "Arabrepubliken Syrien"
+
+#: countries.c:238
+msgid "Swaziland, Kingdom of"
+msgstr "Konungariket Swaziland"
+
+#: countries.c:239
+msgid "Turks and Caicos Islands"
+msgstr "Turks- och Caicos&ouml;arna"
+
+#. approximative
+#: countries.c:240
+msgid "Chad, Republic of"
+msgstr "Republiken Tchad"
+
+#: countries.c:241
+msgid "French Southern Territories"
+msgstr "Franska Syd- och Antarktisterritorierna<"
+
+#: countries.c:242
+msgid "Togo, Togolese Republic"
+msgstr "Republiken Togo"
+
+#: countries.c:243
+msgid "Thailand, Kingdom of"
+msgstr "Konungariket Thailand"
+
+#: countries.c:244
+msgid "Tajikistan"
+msgstr "Republiken Tadzjikistan"
+
+#: countries.c:245
+msgid "Tokelau"
+msgstr "Tokelau"
+
+#. approximative
+#: countries.c:246
+msgid "Turkmenistan"
+msgstr "Turkmenistan"
+
+#: countries.c:247
+msgid "Tunisia, Republic of"
+msgstr "Republiken Tunisien"
+
+#: countries.c:248
+msgid "Tonga, Kingdom of"
+msgstr "Konungariket Tonga"
+
+#. approximative
+#: countries.c:249
+msgid "East Timor"
+msgstr "&Ouml;sttimor"
+
+#. approximative
+#: countries.c:250
+msgid "Turkey, Republic of"
+msgstr "Republiken Turkiet"
+
+#: countries.c:251
+msgid "Trinidad and Tobago"
+msgstr "Republiken Trinidad och Tobago"
+
+#: countries.c:252
+msgid "Tuvalu"
+msgstr "Tuvalu"
+
+#. approximative
+#: countries.c:253
+msgid "Taiwan"
+msgstr "Republiken Kina (Taiwan)"
+
+#: countries.c:254
+msgid "Tanzania, United Republic of"
+msgstr "F&ouml;renade republiken Tanzania"
+
+#: countries.c:255
+msgid "Ukraine"
+msgstr "Ukraina"
+
+#: countries.c:256
+msgid "Uganda, Republic of"
+msgstr "Republiken Uganda"
+
+#: countries.c:257
+msgid "United Kingdom"
+msgstr "F&ouml;renade konungariket Storbritannien och Nordirland"
+
+#: countries.c:258
+msgid "US. Minor Outlying Islands"
+msgstr "F&ouml;renta staternas mindre &ouml;ar i Oceanien och V&auml;stindien"
+
+#: countries.c:259
+msgid "United States of America"
+msgstr "Amerikas f&ouml;renta stater"
+
+#: countries.c:260
+msgid "Uruguay, Eastern Republic of"
+msgstr "Republiken Uruguay"
+
+#: countries.c:261
+msgid "Uzbekistan"
+msgstr "Republiken Uzbekistan"
+
+#: countries.c:262
+msgid "Vatican City State"
+msgstr "Heliga Stolen (f.d. Vatikanstaten)"
+
+#: countries.c:263
+msgid "St Vincent & the Grenadines"
+msgstr "Saint Vincent och Grenadinerna"
+
+#. approx.
+#: countries.c:264
+msgid "Venezuela, Republic of"
+msgstr "Republiken Venezuela"
+
+#: countries.c:265
+msgid "British Virgin Islands"
+msgstr "Brittiska Jungfru&ouml;arna"
+
+#. approximative
+#: countries.c:266
+msgid "US Virgin Islands"
+msgstr "Amerikanska Jungfru&ouml;arna"
+
+#. approximative
+#: countries.c:267
+msgid "Viet Nam"
+msgstr "Socialistiska republiken Vietnam"
+
+#: countries.c:268
+msgid "Vanuatu"
+msgstr "Republiken Vanuatu"
+
+#. approximative
+#: countries.c:269
+msgid "Wallis and Futuna Islands"
+msgstr "Territoriet Wallis- och Futuna&ouml;arna"
+
+#. approx.
+#: countries.c:270
+msgid "Western Samoa"
+msgstr "Sj&auml;lvst&auml;ndiga staten Samoa"
+
+#. approximative
+#: countries.c:271
+msgid "Yemen"
+msgstr "Republiken Yemen"
+
+#. approximative
+#: countries.c:272
+msgid "Mayotte"
+msgstr "Franska territorialomr&aring;det Mayotte"
+
+#. approximative
+#: countries.c:273
+msgid "Montenegro and Serbia"
+msgstr "F&ouml;rbundsrepubliken Jugoslavien (Serbien och Montenegro)"
+
+#: countries.c:274
+msgid "Republic of South Africa"
+msgstr "Republiken Sydafrika"
+
+#: countries.c:275
+msgid "Zambia, Republic of"
+msgstr "Republiken Zambia"
+
+#: countries.c:276
+msgid "Zaire, Republic of"
+msgstr "Demokratiska republiken Kongo (f.d. Zaire)"
+
+#: countries.c:277
+msgid "Zimbabwe"
+msgstr "Republiken Zimbabwe"
+
+#: db_gen_gui.c:74 db_net_gui.c:72 info_window.c:162
+msgid "No help yet!"
+msgstr "Ingen hjälp ännu!"
+
+#: db_gen_gui.c:108 db_host_gui.c:127 db_net_gui.c:106
+msgid ""
+"You can only have one\n"
+"database window at at time!"
+msgstr ""
+"Du kan bara ha ett\n"
+"databasfönster åt gången!"
+
+#: db_gen_gui.c:115
+msgid "New generic record"
+msgstr "Ny generisk post"
+
+#: db_gen_gui.c:119 db_host_gui.c:138 db_net_gui.c:117 info_window.c:222
+msgid "Record info"
+msgstr "Postinformation"
+
+#: db_gen_gui.c:126
+msgid "Match string:"
+msgstr "Matcha sträng:"
+
+#: db_gen_gui.c:127 db_host_gui.c:146 db_net_gui.c:126 info_window.c:234
+msgid "Latitude:"
+msgstr "Latitud:"
+
+#: db_gen_gui.c:128 db_host_gui.c:147 db_net_gui.c:127 info_window.c:235
+msgid "Longitude:"
+msgstr "Longditud:"
+
+#: db_gen_gui.c:129 db_host_gui.c:148 db_net_gui.c:128 info_window.c:236
+msgid "Info:"
+msgstr "Info:"
+
+#. Pack everything
+#: db_gen_gui.c:154
+msgid "String matching"
+msgstr "Strängmatchning"
+
+#: db_gen_gui.c:165 db_host_gui.c:187 db_net_gui.c:193 dialogs.c:51
+#: info_window.c:307
+msgid "OK"
+msgstr "OK"
+
+#: db_gen_gui.c:176 db_host_gui.c:198 db_net_gui.c:204 info_window.c:318
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: db_gen_gui.c:183 db_host_gui.c:205 db_net_gui.c:211 info_window.c:325
+msgid "Help"
+msgstr "Hjälp"
+
+#: db_host_gui.c:78
+msgid ""
+"When entering lat/lon information, give them as a signed floating point "
+"number.\n"
+"(For example 23.456 or -123.45)\n"
+"\n"
+"Negative numbers for longitude means they're on the western hemisphere.\n"
+"Negative numbers for latitude means they're on the southern hemisphere."
+msgstr ""
+"När du skriver in lat/long-information, skriv den som teckensatt flyttal\n"
+"(Till exempel 23.456 eller -123.45)\n"
+"\n"
+"Negativa tal för longditud betyder västra halvklotet.\n"
+"Negativa tal för latitud betyder södra halvklotet."
+
+#: db_host_gui.c:134
+msgid "New host record"
+msgstr "Ny maskinpost"
+
+#: db_host_gui.c:144 info_window.c:229
+msgid "Hostname:"
+msgstr "Maskinnamn:"
+
+#: db_host_gui.c:145 db_net_gui.c:125
+msgid "IP number:"
+msgstr "IP-nummer:"
+
+#. Pack everything up
+#: db_host_gui.c:177
+msgid "Host info"
+msgstr "Maskininfo"
+
+#: db_net_gui.c:113
+msgid "New network record"
+msgstr "Ny nätverkspost"
+
+#. Pack everything
+#: db_net_gui.c:182
+msgid "Network info"
+msgstr "Nätverksinformation"
+
+#: info_window.c:49
+msgid "There is no info on this site."
+msgstr "Det finns ingen information om den här platsen"
+
+#: info_window.c:50
+msgid "This info is guessed from the site's suffix."
+msgstr "Denna information gissades med hjälp av platsens suffix."
+
+#: info_window.c:51
+msgid "This info came from xtraceroutes' internal database."
+msgstr "Denna information kom från xtraceroutes interna databas."
+
+#: info_window.c:52
+msgid "This info came from the \"networks.cache\" file from NDG software."
+msgstr "Denna information kom från filen \"networks.cache\" från NDG software"
+
+#: info_window.c:53
+msgid "This info came from the \"hosts.cache\" file from NDG software."
+msgstr "Denna information kom från filen \"hosts.cache\" från NDG software"
+
+#: info_window.c:54
+msgid "This info came from the GPOS field in the DNS server."
+msgstr "Denna information kom från GPOS-fältet i DNS-servern."
+
+#: info_window.c:55
+msgid "This info came from the LOC field in the DNS server."
+msgstr "Denna information kom från LOC-fältet i DNS-servern."
+
+#: info_window.c:56
+msgid "This info came from your site-wide database."
+msgstr "Denna information kom från din centrala databas."
+
+#: info_window.c:57
+msgid "This info came from your personal database."
+msgstr "Denna information kom från din personliga databas."
+
+#: info_window.c:83 info_window.c:218
+#, c-format
+msgid "Database record for host nr %d"
+msgstr "Databaspost för maskin nr %d"
+
+#: info_window.c:90 info_window.c:243
+#, c-format
+msgid "%d ms"
+msgstr "%d ms"
+
+#: info_window.c:93 info_window.c:246
+#, c-format
+msgid "%lu km"
+msgstr "%lu km"
+
+#: info_window.c:230
+msgid "IP address:"
+msgstr "IP-adress:"
+
+#: info_window.c:231
+msgid "Ping time:"
+msgstr "Pingtid:"
+
+#: info_window.c:232
+msgid "Minimum distance:"
+msgstr "Minimiavstånd:"
+
+#: info_window.c:233
+msgid "Accuracy:"
+msgstr "Noggrannhet:"
+
+#. Pack everything
+#: info_window.c:281 main.c:1415
+msgid "Info"
+msgstr "Info"
+
+#: info_window.c:287
+msgid "Prev"
+msgstr "Förra"
+
+#: info_window.c:295
+msgid "Next"
+msgstr "Nästa"
+
+#. viewport
+#. Do we need to recalc the modelview matrix?
+#. For resolving where localhost is (to rotate earth right)
+#: main.c:56
+msgid "Xtraceroute version "
+msgstr "Xtraceroute version "
+
+#: main.c:480
+#, fuzzy, c-format
+msgid ""
+"Can't find a binary I need!\n"
+"I'm looking for \"%s\"."
+msgstr ""
+"Kan inte hitta traceroute-binären!\n"
+"Jag letar efter %s"
+
+#: main.c:488
+#, c-format
+msgid "Problem looking for \"%s\"! It isn't a regular file!\n"
+msgstr ""
+
+#: main.c:496
+#, c-format
+msgid "%s isn't executable!\n"
+msgstr ""
+
+#: main.c:528
+#, fuzzy, c-format
+msgid ""
+"%s%s\n"
+"By Bjrn Augustsson (d3august@dtek.chalmers.se)\n"
+"Homepage: http://www.dtek.chalmers.se/~d3august/xt\n"
+msgstr ""
+"%s%s\n"
+"Av Björn Augustsson (d3august@dtek.chalmers.se)\n"
+"Officiell hemsida: http://www.dtek.chalmers.se/~d3august/xt\n"
+
+#: main.c:683
+#, fuzzy
+msgid "/_File"
+msgstr "Arkiv"
+
+#: main.c:686
+msgid "/File/_Quit"
+msgstr ""
+
+#: main.c:688
+msgid "/_Preferences"
+msgstr ""
+
+#: main.c:689
+msgid "/Preferences/_Lighting"
+msgstr ""
+
+#: main.c:690
+msgid "/Preferences/Lighting/Day and _night"
+msgstr ""
+
+#: main.c:691
+msgid "/Preferences/Lighting/_Day only"
+msgstr ""
+
+#: main.c:693
+#, fuzzy
+msgid "/_Database"
+msgstr "Databas"
+
+#: main.c:694
+#, fuzzy
+msgid "/Database/Add host..."
+msgstr "Lägg till maskin..."
+
+#: main.c:695
+#, fuzzy
+msgid "/Database/Add net..."
+msgstr "Lägg till nätverk..."
+
+#: main.c:696
+#, fuzzy
+msgid "/Database/Add keyword..."
+msgstr "Lägg till nyckelord..."
+
+#.
+#. { N_("/_Map"),                     NULL,           NULL,                0, "<Branch>" },
+#. { N_("/Map/Map one"),              NULL,           choose_map,          0, NULL },
+#. { N_("/Map/Map two"),              NULL,           choose_map,          1, NULL },
+#. { N_("/Map/Map three"),            NULL,           choose_map,          2, NULL },
+#.
+#: main.c:704
+msgid "/_View"
+msgstr ""
+
+#: main.c:705
+msgid "/View/Zoom _In"
+msgstr ""
+
+#: main.c:706
+msgid "/View/Zoom _Out"
+msgstr ""
+
+#: main.c:707
+msgid "/View/Zoom In x2"
+msgstr ""
+
+#: main.c:708
+msgid "/View/Zoom Out x2"
+msgstr ""
+
+#: main.c:709
+msgid "/View/Restore default"
+msgstr ""
+
+#: main.c:711
+msgid "/_Transparency"
+msgstr ""
+
+#: main.c:712
+msgid "/Transparency/Off"
+msgstr ""
+
+#: main.c:713
+msgid "/Transparency/On"
+msgstr ""
+
+#: main.c:715
+#, fuzzy
+msgid "/_Help"
+msgstr "Hjälp"
+
+#: main.c:716
+msgid "/_Help/About"
+msgstr ""
+
+#: main.c:765
+#, fuzzy, c-format
+msgid ""
+"%s%s\n"
+"\n"
+"Usage: xtraceroute [--texture  <(day) texture file>]\n"
+"                   [--ntexture <night texture file>]\n"
+"                   [--night | --nonight]\n"
+"                   [--lod <level-of-detail>]\n"
+"                   [--stdin | - | <site> ]\n"
+"                   [--version]\n"
+"                   [--help]\n"
+msgstr ""
+"%s%s\n"
+"\n"
+"Användning: xtraceroute [--texture <texturnamn>]\n"
+"                        [--lod <detaljnivå>]\n"
+"                        [--stdin | - | <plats>]\n"
+"                        [--version]\n"
+
+#: main.c:1015
+#, fuzzy
+msgid "Two (day) textures specified! Using second one.\n"
+msgstr "Du har specifierat två texturer! Använder den andra.\n"
+
+#: main.c:1024
+#, fuzzy
+msgid "Two night textures specified! Using second one.\n"
+msgstr "Du har specifierat två texturer! Använder den andra.\n"
+
+#: main.c:1108
+msgid "Nr"
+msgstr "Nr"
+
+#: main.c:1109
+msgid "Hostname"
+msgstr "Maskinnamn"
+
+#: main.c:1110
+msgid "IP number"
+msgstr "IP-nummer"
+
+#: main.c:1124
+msgid "OpenGL not supported\n"
+msgstr "OpenGl stöds inte\n"
+
+#: main.c:1204
+#, c-format
+msgid ""
+"Known countries: %d\n"
+"Built-in database: %d\n"
+msgstr ""
+"Kända länder: %d\n"
+"Inbyggd databas: %d\n"
+
+#: main.c:1295
+msgid "Target: "
+msgstr ""
+
+#. FIXME!
+#. Now let's add all the pages. All of these are in separate files,
+#. and have local data. The traceroute page must be moved out of here.
+#. Traceroute part:
+#: main.c:1456
+msgid "Traceroute"
+msgstr "Traceroute"
+
+#: resolve.c:219
+msgid "I don't know where this is!"
+msgstr "Jag vet inte var det är!"
+
+#: resolve.c:236
+msgid ""
+"You should enter better\n"
+"data for your site!"
+msgstr ""
+"Du borde mata in bättre\n"
+"data för din plats!"
+
+#~ msgid ""
+#~ "Info has changed!\n"
+#~ " Updating the database is not yet supported!"
+#~ msgstr ""
+#~ "Informationen har förändrats!\n"
+#~ " Uppdatering av databasen stöds ej ännu!"
+
+#~ msgid "Enter target for new trace:"
+#~ msgstr "Skriv in mål för ny sökning:"
+
+#~ msgid "New trace"
+#~ msgstr "Ny sökning"
+
+#~ msgid ""
+#~ "You can only have one\n"
+#~ "info window at at time!"
+#~ msgstr ""
+#~ "Du kan bara ha ett\n"
+#~ "info-fönster samtidigt!"
+
+#~ msgid "N/a"
+#~ msgstr "N/A"
+
+#~ msgid "xtraceroute: unknown host "
+#~ msgstr "straceroute: okänt maskinnamn "
+
+#, fuzzy
+#~ msgid "/File/_New..."
+#~ msgstr "Ny..."
+
+#~ msgid "Quit"
+#~ msgstr "Avsluta"
+
+#~ msgid "About..."
+#~ msgstr "Om..."
