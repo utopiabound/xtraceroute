@@ -9,6 +9,9 @@ xtraceroute_SOURCES = readtexture.c db.c countries.c main.c sphere.c dbio.c \
                 util.c resolve.c db_host_gui.c db_net_gui.c db_gen_gui.c \
 		xt.h tweaks.h trackball.h trackball.c extprog.c astronomy.c
 
+xtraceroute_CFLAGS = $(GDK_PIXBUF_CFLAGS) $(GTKGL_CFLAGS) $(GTK_CFLAGS)
+xtraceroute_LDADD  = $(GDK_PIXBUF_LIBS) $(GTKGL_LIBS) $(GTK_LIBS)
+
 DEFS = @DEFS@ -DDATADIR=\"${xtraceroutedatadir}\" \
        -DLOCALEDIR=\"${xtraceroutelocaledir}\"
 

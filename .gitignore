@@ -1,0 +1,15 @@
+*.cache
+.deps
+Makefile
+*.o
+xtraceroute.1
+*~
+Makefile.in
+config.*
+xtraceroute.spec
+configure
+compile
+aclocal.m4
+depcomp
+install-sh
+missing
