@@ -241,7 +241,7 @@ static void
 parse_row_from_traceroute(char *input)
 {
   int i;
-  int no;
+  int no = 1; /* no SEGV if sscanf fails */
   int last;
   char *clistrow[3];
 
