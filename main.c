@@ -679,7 +679,7 @@ build_menu( GtkWidget *window, GtkWidget **menubar )
   /* strings are marked with a preceding N_() for translation purpose
      see gettext()
   */
-const GtkItemFactoryEntry menu_items[] = {
+static GtkItemFactoryEntry menu_items[] = {
   { N_("/_File"),                    NULL,           NULL,                0, "<Branch>" },
   //  { N_("/File/_New..."),             "<control>O",   (GtkItemFactoryCallback)new_trace,   0, NULL },
   { "/File/sep1",                    NULL,           NULL,                0, "<Separator>" },
@@ -718,11 +718,10 @@ const GtkItemFactoryEntry menu_items[] = {
 
   gint nmenu_items = sizeof (menu_items) / sizeof (menu_items[0]);
   
-  GtkAccelGroup *accel_group = gtk_accel_group_new ();
-  GtkItemFactory *item_factory = gtk_item_factory_new (GTK_TYPE_MENU_BAR, 
+  GtkAccelGroup *accel_group = gtk_accel_group_new();
+  GtkItemFactory *item_factory = gtk_item_factory_new(GTK_TYPE_MENU_BAR, 
 						       "<main>", accel_group);
-  gtk_item_factory_create_items (item_factory,
-				 nmenu_items, menu_items, NULL);
+  gtk_item_factory_create_items(item_factory, nmenu_items, menu_items, NULL);
 
   /* Set the preferences */
  
@@ -825,7 +824,7 @@ childhandler(int sig, siginfo_t* sip, void* uap)
  */
 
 static void
-combo_add_to_history(char* name, GtkCombo* combo)
+combo_add_to_history(const char* name, GtkCombo* combo)
 {
   static GList *items = NULL;
   char *newloc;
@@ -1099,11 +1098,9 @@ main(int argc, char **argv)
   GtkWidget *combo_hbox;
   GtkWidget *combo_label;
   GtkWidget *combo;
-#ifdef GTK_HAVE_FEATURES_1_1_5
   GtkWidget *dummyscrwin;
-#endif
   
-  const char *titles[] =
+  gchar *titles[] =
   {
     N_("Nr"),
     N_("Hostname"),
@@ -1422,8 +1419,6 @@ main(int argc, char **argv)
 
   gtk_container_border_width(GTK_CONTAINER(vbox2), 5);
 
-#ifdef GTK_HAVE_FEATURES_1_1_5
-
   dummyscrwin = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(dummyscrwin),
 				 GTK_POLICY_AUTOMATIC,
@@ -1431,12 +1426,6 @@ main(int argc, char **argv)
   gtk_widget_show(dummyscrwin);
   gtk_container_add(GTK_CONTAINER(dummyscrwin), clist);
   gtk_box_pack_start(GTK_BOX(hbox), dummyscrwin, TRUE, TRUE, 0);
-#else   // GTK+ 1.0.x
-  gtk_clist_set_policy (GTK_CLIST(clist),
-			GTK_POLICY_AUTOMATIC,
-			GTK_POLICY_AUTOMATIC);
-  gtk_box_pack_start(GTK_BOX(hbox), clist, TRUE, TRUE, 0);
-#endif
   
   gtk_box_pack_start(GTK_BOX(hbox), vbox2,   FALSE, TRUE, 0);
   

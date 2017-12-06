@@ -13,3 +13,4 @@ aclocal.m4
 depcomp
 install-sh
 missing
+share/xtraceroute-resolve-location.sh

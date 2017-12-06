@@ -38,11 +38,11 @@ BIND)
 	do
 		FIRST=no
 		#echo $TARGET
-		RESPONSE=`$HOST -t LOC $TARGET`
+		RESPONSE=$($HOST -t LOC $TARGET|sed "s/^$TARGET location //")
 
 		if [ $? = 0 ] && [ -n "$RESPONSE" ]
 		then
-			NF=`echo $RESPONSE |egrep "not found|alias for" | wc -l`
+			NF=`echo $RESPONSE |egrep "not found|alias for|has no LOC record" | wc -l`
 			if [ $NF = 0 ]
 			then
 				echo $RESPONSE

@@ -35,12 +35,31 @@ AC_FUNC_MALLOC
 AC_FUNC_MMAP
 AC_FUNC_REALLOC
 #AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify dup2 floor getcwd gethostbyname inet_ntoa mempcpy memset mkdir munmap putenv rint setenv setlocale sqrt stpcpy strcasecmp strchr strdup strncasecmp uname])
+AC_SEARCH_LIBS([sqrt], [m])
 
 xtraceroutedatadir=${datadir}/xtraceroute
 AC_SUBST(xtraceroutedatadir)
 xtraceroutelocaledir=${datadir}/locale
 AC_SUBST(xtraceroutelocaledir)
 
+
+dnl Find traceroute.
+
+AC_ARG_WITH(traceroute, [  --with-traceroute=PATH  Where traceroute is.])
+
+if test "x$with_traceroute" = "x" ; then
+	MYPATH=$PATH:/usr/etc:/usr/sbin
+	AC_PATH_PROG(TP,
+		traceroute, [""],
+		[$MYPATH])
+	if test "x$TP" = "x" ; then
+		AC_MSG_ERROR([Can't find traceroute. Use '--with-traceroute'])
+        fi
+else
+	TP=$with_traceroute
+fi
+
+AC_DEFINE_UNQUOTED(TRACEPGM, "$TP", "Where traceroute is.")
 
 dnl Find host.
 
@@ -66,10 +85,11 @@ dnl Checks for libraries.
 
 PKG_CHECK_MODULES(GDK_PIXBUF, gdk-pixbuf-2.0)
 PKG_CHECK_MODULES(GTKGL, gtkgl-2.0)
-PKG_CHECK_MODULES(GTK, gtk+)
+PKG_CHECK_MODULES(GTK, gtk+-2.0)
 
 AC_CONFIG_FILES([Makefile
                  intl/Makefile
+		 po/Makefile.in
 		 share/Makefile
 		 share/xtraceroute-resolve-location.sh
 		 xtraceroute.1
