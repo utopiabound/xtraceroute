@@ -172,8 +172,8 @@ dbopen(const char *dbname, const char *mode)
       if(!strcmp(mode, "w"))
         {
           struct stat sb;
-          if(!stat(fn, &sb))
-            mkdir(fn, 700);    // Too paranoid?
+          if(stat(fn, &sb))
+            mkdir(fn, 0700);    // Too paranoid?
 	  else if(!(sb.st_mode&S_IFDIR))
             {
              printf("Ouch! $HOME/.xt (\"%s\") exists but is not a directory!\n", fn);
