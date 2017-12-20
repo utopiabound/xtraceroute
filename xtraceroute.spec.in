@@ -1,68 +1,61 @@
 %define  ver     @VERSION@
 %define  rel     1
-%define  prefix  /usr
 
 Summary: a graphical, OpenGL based, traceroute
 Name: xtraceroute
 Version: %ver
 Release: %rel
-Copyright: GPL
+License: GPLv2
 Group: X11/Amusements
-Source: http://www.dtek.chalmers.se/~d3august/xt/dl/xtraceroute-%{ver}.tar.gz
-URL: http://www.dtek.chalmers.se/~d3august/xt/
-BuildRoot: /tmp/xtraceroute-root
+Source: https://github.com/utopiabound/xtraceroute/archive/v%{ver}.tar.gz
+URL: https://github.com/utopiabound/xtraceroute
+BuildRequires: gtk2-devel
+BuildRequires: gtkglarea2-devel
+BuildRequires: gdk-pixbuf2-devel
+BuildRequires: GeoIP-devel
  
 %description
 Xtraceroute is a graphical traceroute utility that shows the path your
 IP packets travel on a 3 dimensional rendered globe. Be sure to
 download the NDG data files mentioned in the INSTALL document too.
 
+This product uses GeoLite data created by MaxMind, available from
+http://www.maxmind.com
+
+
 %prep
 %setup
 
 %build
-if [ ! -f configure ]; then
-  CFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=%prefix
-else
-  CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%prefix
-fi
-
-if [ "$SMP" != "" ]; then
-  (make "MAKE=make -k -j $SMP"; exit 0)
-  make
-else
-  make
-fi
+./autogen.sh
+%configure --with-geoip
+make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{prefix}/share/gnome/apps/Network
-mkdir -p $RPM_BUILD_ROOT%{prefix}/share/pixmaps
 
-make prefix=$RPM_BUILD_ROOT%{prefix} install
+make DESTDIR=$RPM_BUILD_ROOT install
 
-gzip -9 $RPM_BUILD_ROOT%{prefix}/man/man?/*
+gzip -9 $RPM_BUILD_ROOT%{_mandir}/man?/*
 
-install xtraceroute.desktop $RPM_BUILD_ROOT%{prefix}/share/gnome/apps/Network
-install xtraceroute.png $RPM_BUILD_ROOT%{prefix}/share/pixmaps
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications/
+mkdir -p $RPM_BUILD_ROOT%{_pixmapsdir}
+install xtraceroute.desktop $RPM_BUILD_ROOT%{_datadir}/applications/
+install xtraceroute.png $RPM_BUILD_ROOT%{_pixmapsdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Wed Feb 10 1999 Pablo Saratxaga <srtxg@chanae.alphanet.ch>
-
 - First try at an RPM
 
 %files
 %defattr(-, root, root)
-
 %doc AUTHORS ChangeLog NEWS README COPYING TODO
-
-%{prefix}/share/locale/*/LC_MESSAGES/xtraceroute.mo
-%{prefix}/bin/xtraceroute
-%{prefix}/share/xtraceroute
-%{prefix}/share/gnome/apps/Network/xtraceroute.desktop
-%{prefix}/share/pixmaps/xtraceroute.png
-%{prefix}/man/man?/*
-
+%{_bindir}/xtraceroute
+%{_mandir}/man?/xtraceroute*
+%{_datadir}/xtraceroute
+%{_datadir}/applications/xtraceroute.desktop
+#%{_datadir}/locale/*/LC_MESSAGES/xtraceroute.mo
+%{_pixmapsdir}/xtraceroute.png

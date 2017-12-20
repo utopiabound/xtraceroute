@@ -1,6 +1,6 @@
 #datadir = @datadir@/xtraceroute
 
-SUBDIRS = intl po share
+SUBDIRS = share
 
 bin_PROGRAMS = xtraceroute
 
@@ -17,7 +17,7 @@ xtraceroute_LDADD  = $(GDK_PIXBUF_LIBS) $(GTKGL_LIBS) $(GTK_LIBS) $(GEOIP_LIBS)
 DEFS = @DEFS@ -DDATADIR=\"${xtraceroutedatadir}\" \
        -DLOCALEDIR=\"${xtraceroutelocaledir}\"
 
-LIBS = @INTLLIBS@ @LIBS@
+ACLOCAL_AMFLAGS=-I m4
 
 if DEBUG
 AM_CFLAGS = -DXT_DEBUG -Wall
@@ -25,13 +25,9 @@ endif
 
 man_MANS = xtraceroute.1
 
-EXTRA_DIST = 	BUGS COPYING AUTHORS\
+EXTRA_DIST = BUGS COPYING AUTHORS \
 		xtraceroute.1.in \
 		xtraceroute.png \
 		xtraceroute.desktop \
 		xtraceroute.spec \
 		autogen.sh
-dist-hook:
-	mkdir $(distdir)/misc
-	cp -p misc/hosts.diff misc/networks.diff $(distdir)/misc
-	cp -p samples/www.berkeley.edu $(distdir)/misc

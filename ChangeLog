@@ -1,5 +1,3 @@
-$Id: ChangeLog,v 1.3 2003/03/23 14:40:09 d3august Exp $
-
 0.1 - 0.2:
 * Internal versions.
 
@@ -8,7 +6,7 @@ $Id: ChangeLog,v 1.3 2003/03/23 14:40:09 d3august Exp $
   unknown. Also the heuristic for finding the sites' loation is imperfect.
 
 0.4:
-* Changed the spheremodel, and added support for NDG cache files, 
+* Changed the spheremodel, and added support for NDG cache files,
   improving the preformance somewhat. Also fixed about one bazillion bugs.
 
 0.5:
@@ -32,7 +30,7 @@ $Id: ChangeLog,v 1.3 2003/03/23 14:40:09 d3august Exp $
 * Ported all code to use gtk 1.0 and gtkGL 0.8.9.
 
 0.8.2:
-* Compiled and ran on Linux during the day. Found a few bad bugs that 
+* Compiled and ran on Linux during the day. Found a few bad bugs that
   crashed it there. 0.8.2 _should_ run correctly on Linux.
 
 0.8.3:
@@ -71,18 +69,18 @@ $Id: ChangeLog,v 1.3 2003/03/23 14:40:09 d3august Exp $
 0.8.9:
 * Fixed bug where entries in the info-window was centered. Looked ugly.
 * Rewrote, modularized, cleaned up the info-window code.
-* Arranged so that selected sites don't go all white, now they just 
+* Arranged so that selected sites don't go all white, now they just
   brighten a bit.
 * OK, makeearth looks reasonable now. Got the line-plotting into a separate
   function, and that made it a lot shorter.
-* Merged in two patches I got from Edouard Lafargu (thanks!), adding 
+* Merged in two patches I got from Edouard Lafargu (thanks!), adding
   support for a new kind of database, similar to the internal one but
   runtime-loadable. Also he's improved the contry-suffix database no end.
 
 0.8.10:
 * Fixed bug in the database code. Edouard's new generic database wasn't
   used.
-* Added the type "site". What was previosly "boeps" is now "sites", an 
+* Added the type "site". What was previosly "boeps" is now "sites", an
   array of "site"s
 * Changed a lot of the code to use site* handles instead of indexes into
   "sites". This should make the code for adding Edouard's locate feature
@@ -100,20 +98,20 @@ $Id: ChangeLog,v 1.3 2003/03/23 14:40:09 d3august Exp $
 * Swapped the gtkGL widget out in favor of gtkglarea, which is more
   actively developed.
 * Fixed a few small bugs.
-* Inserted some of Edouard's code. The notebook for example. 
+* Inserted some of Edouard's code. The notebook for example.
 
 0.8.12:
 * Uses GNU configure/automake. Hopefully it works.
 * Has a bugfix for when the first site(s) in the trace doesn't reply.
 * removed local_config.h, added tweaks.h instead, which is much smaller
   and only contains the obscure performance-tweaks. (Nobody normally needs
-  to touch it, since all the important configuration happens thru GNU 
+  to touch it, since all the important configuration happens thru GNU
   configure.)
 
 0.8.13:
 * Made it work with gtk 1.1.x as well as 1.0.x.
 * Fixed loads of small configure-related bugs.
-* contries.c now knows the location of many more country-suffixes 
+* contries.c now knows the location of many more country-suffixes
   (Thanks to Greg Louis)
 * Doubleclick in clist to get the info window. (Martin Norb{ck (Norpan))
 * Next- and previous-buttons in the info window  (Norpan again)
@@ -214,3 +212,9 @@ $Id: ChangeLog,v 1.3 2003/03/23 14:40:09 d3august Exp $
 * Added a night texture and some blending to show where it's daytime in
   the world.
 
+0.9.2:
+* Add GeoIP Support
+* Compile against GTK2, gtk-pixbuf-2, gtkgl-2.0
+* Merge patches from pdl-linux
+* Use in_addr/in_addr6 to store ip addresses
+* Add old NDG hosts/networks files

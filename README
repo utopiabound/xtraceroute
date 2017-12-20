@@ -165,6 +165,10 @@ It's a fairly easy read as RFCs go, but it might help if you find out
 the location of your site in advance using, say, a GPS or a site like
 http://www.mapblast.com. Sysadmins are busy people.
 
+GeoIP Support
+
+This product (optionally) uses GeoLite data created by MaxMind, available from
+<a href="http://www.maxmind.com">http://www.maxmind.com</a>.
 
 Acknowledgements
 ^^^^^^^^^^^^^^^^

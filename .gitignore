@@ -2,6 +2,9 @@
 /intl/po2tbl.sed
 /stamp-h1
 /autom4te.cache
+/m4
+/ltmain.sh
+/libtool
 *.tmp
 .deps
 Makefile

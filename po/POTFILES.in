@@ -1,8 +1,0 @@
-countries.c
-db_gen_gui.c
-db_host_gui.c
-db_net_gui.c
-dialogs.c
-info_window.c
-main.c
-resolve.c

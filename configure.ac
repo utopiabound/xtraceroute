@@ -6,19 +6,18 @@ AC_INIT([xtraceroute], [0.9.1.1])
 AC_CONFIG_SRCDIR([main.c])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE
+AC_CONFIG_MACRO_DIRS([m4])
 
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_LN_S
 AC_PROG_INSTALL
-AC_PROG_RANLIB
 AC_CANONICAL_HOST
 AC_USE_SYSTEM_EXTENSIONS
-# Checks for libraries.
 
-dnl i18n stuff:
-ALL_LINGUAS="es ja fr sv"
-AM_GNU_GETTEXT
+LT_PREREQ([2.2.2])
+LT_INIT([disable-static])
+AC_SUBST([LIBTOOL_DEPS])
 
 # Checks for header files.
 AC_FUNC_ALLOCA
@@ -106,9 +105,6 @@ AS_IF([test "x$with_geoip" = "xyes"], [
 ])
 
 AC_CONFIG_FILES([Makefile
-                 intl/Makefile
-		 intl/po2tbl.sed
-		 po/Makefile.in
 		 share/Makefile
 		 share/xtraceroute-resolve-location.sh
 		 xtraceroute.1

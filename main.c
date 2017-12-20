@@ -521,11 +521,12 @@ about_program(GtkWidget *wi, gpointer *data)
 {
     char mess[501];
     int n;
-    n = g_snprintf(mess, sizeof(mess), "%s%s\nBy Björn Augustsson\n", _(versionstring), VERSION);
+    n = g_snprintf(mess, sizeof(mess), _("%s%s\nBy Bjorn Augustsson\n"), _(versionstring), VERSION);
 #ifdef HAVE_GEOIP
-    n = g_snprintf(mess+n, sizeof(mess)-n, "GeoIP");
+    n += g_snprintf(mess+n, sizeof(mess)-n, "Uses GeoIP data from MaxMind\n");
 #endif
     tell_user(mess);
+
 }
 
 /*-------------------------------------------------------------------------*/
