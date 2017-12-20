@@ -14,7 +14,7 @@
 int str2addr(struct address *addr, const char *buf)
 {
     int n, p;
-    char ip[INET_ADDRSTRLEN], mask[INET_ADDRSTRLEN];
+    char ip[INET_ADDRSTRLEN];
 
     if (strchr(buf, '/')) {
 	n = sscanf(buf, "%[0-9a-fA-F.:]/%d", ip, &p);
@@ -28,7 +28,7 @@ int str2addr(struct address *addr, const char *buf)
 	 * 192.168 LAT LON # COMMENT
 	 */
 	int a=0, b=0, c=0, d=0;
-	n = sscanf(buf, "%d.%d.%d.%d.%d", &a, &b, &c, &d);
+	n = sscanf(buf, "%d.%d.%d.%d", &a, &b, &c, &d);
 	if (n < 1)
 	    return -EINVAL;
 	sprintf(ip, "%d.%d.%d.%d", a, b, c, d);
@@ -108,7 +108,7 @@ int addrInAddr(struct address *net, struct address *ip)
 		c = 0xff;
 	    else
 		c = 0xffU << (8 - i);
-	    if (net->addr.in6.s6_addr[j] & c == ip->addr.in6.s6_addr[j] & c)
+	    if ((net->addr.in6.s6_addr[j] & c) == (ip->addr.in6.s6_addr[j] & c))
 		return FALSE;
 	}
 	return TRUE;

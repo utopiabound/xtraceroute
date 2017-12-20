@@ -296,13 +296,9 @@ writeGenDB(database *db, const char *filename)
       char *lat = locNumToStr(entry->lat, LATITUDE);
       char *lon = locNumToStr(entry->lon, LONGITUDE);
       /*      int tabs = (15-strlen(entry->name))/8; */
-      int loclen;
       
-      loclen = fprintf(fh, "%s %s", lat, lon);
+      fprintf(fh, "%s %s", lat, lon);
       
-      /*      tabs = (31-loclen)/8;
-      while(tabs-- >= 0)
-      */
       putc('\t', fh);
 
       fprintf(fh, "%s", entry->name);
@@ -423,12 +419,14 @@ readHostDB(const char *dbfile)
     rewind(fp);
 
     for(i=0; i<n_entries; i++) {
+	int n;
 	entry = &(hostdb->entries[i]);
  
 	/* Get the IP-address and name */
 
-	fscanf(fp, "%s %s", ip, entry->name);
-	str2addr(&entry->ip, ip);
+	n = fscanf(fp, "%s %s", ip, entry->name);
+	if (n > 0)
+	    str2addr(&entry->ip, ip);
 
 	/* Get the location. */
 	entry->lat = readLocation(fp, LATITUDE);
@@ -495,7 +493,9 @@ readGenDB(const char *dbfile)
 	entry->lon = readLocation(fp, LONGITUDE);
 
 	/* Get the name */
-	fscanf(fp, "%s", entry->name);
+	a = fscanf(fp, "%s", entry->name);
+	if (a < 1)
+	    entry->name[0] = '\0';
 
 	/* Strip all whitespace */
 	tmp = ' ';
@@ -564,9 +564,9 @@ readNetDB(const char *dbfile)
 	entry = &(netdb->entries[i]);
       
 	/* Get the IP-number.*/
-	fscanf(fp, "%s", ip);
-
-	str2addr(&entry->ip, ip);
+	a = fscanf(fp, "%s", ip);
+	if (a > 0)
+	    str2addr(&entry->ip, ip);
 
 	/* Get the location. */
 	entry->lat = readLocation(fp, LATITUDE);
