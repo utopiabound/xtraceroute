@@ -20,9 +20,19 @@ int str2addr(struct address *addr, const char *buf)
 	n = sscanf(buf, "%[0-9a-fA-F.:]/%d", ip, &p);
 	if (n < 1)
 	    return -EINVAL;
-    } else {
+    } else if (strchr(buf, ':')) { // IPv6
 	sscanf(buf, "%s", ip);
 	p = INT_MAX;
+    } else { // IPv4
+	/* Need to account for old partial network definitions. e.g.
+	 * 192.168 LAT LON # COMMENT
+	 */
+	int a=0, b=0, c=0, d=0;
+	n = sscanf(buf, "%d.%d.%d.%d.%d", &a, &b, &c, &d);
+	if (n < 1)
+	    return -EINVAL;
+	sprintf(ip, "%d.%d.%d.%d", a, b, c, d);
+	p = (d>0) ?32 :(c>0) ?24 :(b>0) ?16 :8;
     }
 
     if (inet_pton(AF_INET, ip, &(addr->addr.in)))

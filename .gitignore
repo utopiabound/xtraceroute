@@ -1,7 +1,7 @@
 /po/POTFILES
 /intl/po2tbl.sed
 /stamp-h1
-*.cache
+/autom4te.cache
 *.tmp
 .deps
 Makefile

@@ -365,15 +365,14 @@ readLocation(FILE *fp, int type)
   
   location[0] = tmp;
   
-  while(1)
-    {
-      location[j++] = fgetc(fp);
+  while((tmp = fgetc(fp)) != EOF && j < sizeof(location)) {
+      location[j++] = tmp;
       if(location[j-1] == a ||
 	 location[j-1] == b ||
 	 location[j-1] == A ||
 	 location[j-1] == B)
 	break;
-    }
+  }
   
   location[j] = '\0';  
   return locStrToNum(location, type);
