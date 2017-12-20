@@ -57,7 +57,7 @@ addToNetDB(database *db, const dbentry *entry)
   db->entries[db->n_entries-1].lat = entry->lat;
   db->entries[db->n_entries-1].lon = entry->lon;
   strcpy(db->entries[db->n_entries-1].info, entry->info);
-  strcpy(db->entries[db->n_entries-1].ip, entry->ip);
+  memcpy(&db->entries[db->n_entries-1].ip, &entry->ip, sizeof(entry->ip));
   strcpy(db->entries[db->n_entries-1].name, entry->name);
   
   /* save the file */
@@ -132,7 +132,7 @@ addToHostDB(database *db, const dbentry *entry)
   db->entries[db->n_entries-1].lat = entry->lat;
   db->entries[db->n_entries-1].lon = entry->lon;
   strcpy(db->entries[db->n_entries-1].info, entry->info);
-  strcpy(db->entries[db->n_entries-1].ip, entry->ip);
+  memcpy(&db->entries[db->n_entries-1].ip, &entry->ip, sizeof(entry->ip));
   strcpy(db->entries[db->n_entries-1].name, entry->name);
   
   /* save the file */
@@ -157,48 +157,44 @@ addToHostDB(database *db, const dbentry *entry)
 static FILE *
 dbopen(const char *dbname, const char *mode)
 {
-  FILE *fp;
-  char fn[200];
+    FILE *fp;
+    char fn[200];
 
-  if(dbname[0] == 'u' &&
-     dbname[1] == 's' &&
-     dbname[2] == 'e' &&
-     dbname[3] == 'r')
+    if(dbname[0] == 'u' &&
+       dbname[1] == 's' &&
+       dbname[2] == 'e' &&
+       dbname[3] == 'r')
     {
-      strcpy(fn, getenv("HOME"));
-      strcat(fn, "/.xt/");
+	strcpy(fn, getenv("HOME"));
+	strcat(fn, "/.xt/");
 
-      /* Check that the directory $HOME/.xt exists and is a directory. */
-      if(!strcmp(mode, "w"))
-        {
-          struct stat sb;
-          if(stat(fn, &sb))
-            mkdir(fn, 0700);    // Too paranoid?
-	  else if(!(sb.st_mode&S_IFDIR))
-            {
-             printf("Ouch! $HOME/.xt (\"%s\") exists but is not a directory!\n", fn);
-             printf("      Can't open \"%s\".\n", dbname);
-             return NULL;
+	/* Check that the directory $HOME/.xt exists and is a directory. */
+	if(!strcmp(mode, "w")) {
+	    struct stat sb;
+	    if(stat(fn, &sb))
+		mkdir(fn, 0700);    // Too paranoid?
+	    else if(!(sb.st_mode&S_IFDIR)) {
+		printf("Ouch! $HOME/.xt (\"%s\") exists but is not a directory!\n", fn);
+		printf("      Can't open \"%s\".\n", dbname);
+		return NULL;
             }
         }
 
-      strcat(fn, dbname);
+	strcat(fn, dbname);
     }
-  else if(dbname[0] == '/')
-    strcpy(fn, dbname);
-  else
-    {
-      strcpy(fn, DATADIR);
-      strcat(fn, "/");
-      strcat(fn, dbname);
+    else if(dbname[0] == '/')
+	strcpy(fn, dbname);
+    else {
+	strcpy(fn, DATADIR);
+	strcat(fn, "/");
+	strcat(fn, dbname);
     }
-  fp = fopen(fn, mode);
-  if(!fp)
-    {
-      DPRINTF("Can't open the database file %s!(In mode %s)\n", fn, mode);
-      return NULL;
+    fp = fopen(fn, mode);
+    if(!fp) {
+	DPRINTF("Can't open the database file %s!(In mode %s)\n", fn, mode);
+	return NULL;
     }
-  return fp;
+    return fp;
 }
 
 /**
@@ -208,28 +204,29 @@ dbopen(const char *dbname, const char *mode)
 int
 writeHostDB(database *db, const char *filename)
 {
-  FILE *fh;
-  int i;
+    FILE *fh;
+    int i;
+    char ip[70];
 
-  fh = dbopen(filename, "w");
-  if(!fh)
-    return(FALSE);
+    fh = dbopen(filename, "w");
+    if(!fh)
+	return(FALSE);
   
-  for(i=0 ; i<db->n_entries ; i++)
-    {
-      dbentry *entry = &(db->entries[i]);
-      char *lat = locNumToStr(entry->lat, LATITUDE);
-      char *lon = locNumToStr(entry->lon, LONGITUDE);
+    for(i=0 ; i<db->n_entries ; i++) {
+	dbentry *entry = &(db->entries[i]);
+	char *lat = locNumToStr(entry->lat, LATITUDE);
+	char *lon = locNumToStr(entry->lon, LONGITUDE);
+	addr2str(&entry->ip, ip, sizeof(ip));
 
-      fprintf(fh,"%s %s %s %s\n",entry->ip, entry->name, lat, lon);
-      free(lat); /* Bigtime memleak fixed... */
-      free(lon);
-      //      if(i != db->n_entries-1) /* Last one */
-      //	fprintf(fh,"\n");
+	fprintf(fh,"%s %s %s %s\n", ip, entry->name, lat, lon);
+	free(lat); /* Bigtime memleak fixed... */
+	free(lon);
+	//      if(i != db->n_entries-1) /* Last one */
+	//	fprintf(fh,"\n");
     }
 
-  fclose(fh);
-  return TRUE;
+    fclose(fh);
+    return TRUE;
 }
 
 /**
@@ -239,35 +236,38 @@ writeHostDB(database *db, const char *filename)
 int
 writeNetDB(database *db, const char *filename)
 {
-  FILE *fh;
-  int i;
+    FILE *fh;
+    int i;
+    char ip[70];
 
-  fh = dbopen(filename, "w");
-  if(!fh)
-    return(FALSE);
+    fh = dbopen(filename, "w");
+    if(!fh)
+	return(FALSE);
   
-  for(i=0 ; i<db->n_entries ; i++)
+    for(i=0 ; i<db->n_entries ; i++)
     {
-      dbentry *entry = &(db->entries[i]);
-      char *lat = locNumToStr(entry->lat, LATITUDE);
-      char *lon = locNumToStr(entry->lon, LONGITUDE);
-      int tabs = (15-strlen(entry->ip))/8;
-      int loclen;
-      
-      fprintf(fh, "%s", entry->ip);
-      while(tabs-- >= 0)
-	putc('\t', fh);
-      
-      loclen = fprintf(fh, "%s %s", lat, lon);
-      
-      tabs = (31-loclen)/8;
-      while(tabs-- >= 0)
-	putc('\t', fh);
-	
-      fprintf(fh, "#%s\n", entry->info);
+	dbentry *entry = &(db->entries[i]);
+	char *lat = locNumToStr(entry->lat, LATITUDE);
+	char *lon = locNumToStr(entry->lon, LONGITUDE);
 
-      free(lat);
-      free(lon);
+	addr2str(&entry->ip, ip, sizeof(ip));
+	int tabs = (15-strlen(ip))/8;
+	int loclen;
+
+	fprintf(fh, "%s ", ip);
+	while(tabs-- >= 0)
+	    putc('\t', fh);
+
+	loclen = fprintf(fh, "%s %s", lat, lon);
+
+	tabs = (31-loclen)/8;
+	while(tabs-- >= 0)
+	    putc('\t', fh);
+
+	fprintf(fh, "#%s\n", entry->info);
+
+	free(lat);
+	free(lon);
 
       //      if(i != db->n_entries-1) /* Last one */
       //	fprintf(fh,"\n");
@@ -388,61 +388,59 @@ readLocation(FILE *fp, int type)
 database *
 readHostDB(const char *dbfile)
 {
-  int i;
-  FILE *fp;
-  int a;
-  int n_entries = 0;
-  dbentry *entry;
-  database *hostdb;
+    int i;
+    FILE *fp;
+    int a;
+    int n_entries = 0;
+    dbentry *entry;
+    database *hostdb;
+    char ip[IP_STR_LEN];
 
-  hostdb = (database *)malloc(sizeof(database));
-  if(!hostdb)
-  {
-      perror("Couldn't malloc memory for hosts cache!\n");
-      return NULL;
-  }
-
-  if(!(fp = dbopen(dbfile, "r")))
-    {
-      hostdb->n_entries = 0;
-      hostdb->entries = NULL;
-      return hostdb;
+    hostdb = (database *)malloc(sizeof(database));
+    if(!hostdb) {
+	perror("Couldn't malloc memory for hosts cache!\n");
+	return NULL;
     }
-  DPRINTF("Found a %s with ", dbfile);
-  while((a = fgetc(fp)) != EOF)
-    if(a == '\n')
-      n_entries++;
-  DPRINTF("%d entries.\n", n_entries);
- 
-  if(n_entries > 0)
-    {
-      hostdb->entries = (dbentry *)malloc(n_entries*sizeof(dbentry));
-      if(!hostdb->entries)
-	{
-	  perror("Couldn't malloc memory for hosts cache.\n");
-	  return NULL;
+
+    if(!(fp = dbopen(dbfile, "r"))) {
+	hostdb->n_entries = 0;
+	hostdb->entries = NULL;
+	DPRINTF("readHostDB(%s) for %d entries\n", dbfile, hostdb->n_entries);
+	return hostdb;
+    }
+    DPRINTF("Found a %s with ", dbfile);
+    while((a = fgetc(fp)) != EOF)
+	if(a == '\n')
+	    n_entries++;
+    DPRINTF("%d entries.\n", n_entries);
+
+    if(n_entries > 0) {
+	hostdb->entries = (dbentry *)malloc(n_entries*sizeof(dbentry));
+	if(!hostdb->entries) {
+	    perror("Couldn't malloc memory for hosts cache.\n");
+	    return NULL;
 	}
     }
-  rewind(fp);
+    rewind(fp);
 
-  for(i=0;i<n_entries;i++)
-    {
-      entry = &(hostdb->entries[i]);
+    for(i=0; i<n_entries; i++) {
+	entry = &(hostdb->entries[i]);
  
-      /* Get the IP-address and name */
+	/* Get the IP-address and name */
 
-      fscanf(fp, "%s %s", entry->ip, entry->name);
+	fscanf(fp, "%s %s", ip, entry->name);
+	str2addr(&entry->ip, ip);
 
-      /* Get the location. */
-
-      entry->lat = readLocation(fp, LATITUDE);
-      entry->lon = readLocation(fp, LONGITUDE);
+	/* Get the location. */
+	entry->lat = readLocation(fp, LATITUDE);
+	entry->lon = readLocation(fp, LONGITUDE);
     }
   
-  hostdb->n_entries = n_entries;
-  fclose(fp);
+    hostdb->n_entries = n_entries;
+    fclose(fp);
 
-  return hostdb;
+    DPRINTF("readHostDB(%s) for %d entries\n", dbfile, hostdb->n_entries);
+    return hostdb;
 }
 
 /*****
@@ -455,77 +453,71 @@ readHostDB(const char *dbfile)
 database *
 readGenDB(const char *dbfile)
 {
-  int i, j;
-  FILE *fp;
-  int a, tmp;
-  int n_entries = 0;
-  dbentry *entry;
-  database *gendb;
+    int i, j;
+    FILE *fp;
+    int a, tmp;
+    int n_entries = 0;
+    dbentry *entry;
+    database *gendb;
 
-  gendb = (database *)malloc(sizeof(database));
-  if(!gendb)
-    {
-      perror("Couldn't malloc memory for generic cache!\n");
-      return NULL;
+    gendb = (database *)malloc(sizeof(database));
+    if(!gendb) {
+	perror("Couldn't malloc memory for generic cache!\n");
+	return NULL;
     }
   
-  if(!(fp = dbopen(dbfile, "r")))
-    {
-      gendb->n_entries = 0;
-      gendb->entries = NULL;
-      return gendb;
+    if(!(fp = dbopen(dbfile, "r"))) {
+	gendb->n_entries = 0;
+	gendb->entries = NULL;
+	DPRINTF("readGenDB(%s) for %d entries\n", dbfile, gendb->n_entries);
+	return gendb;
     }
-  DPRINTF("Found a %s with ", dbfile);
-  while((a = fgetc(fp)) != EOF)
-    if(a == '\n')
-      n_entries++;
-  DPRINTF("%d entries.\n", n_entries);
+    DPRINTF("Found a %s with ", dbfile);
+    while((a = fgetc(fp)) != EOF)
+	if(a == '\n')
+	    n_entries++;
+    DPRINTF("%d entries.\n", n_entries);
   
-  if(n_entries > 0)
-    {
-      gendb->entries = (dbentry *)malloc(n_entries*sizeof(dbentry));
-      if(!gendb->entries)
-	{
-	  perror("Couldn't malloc memory for generic cache.\n");
-	  return NULL;
+    if(n_entries > 0) {
+	gendb->entries = (dbentry *)malloc(n_entries*sizeof(dbentry));
+	if(!gendb->entries) {
+	    perror("Couldn't malloc memory for generic cache.\n");
+	    return NULL;
 	}
     }
-  rewind(fp);
+    rewind(fp);
   
-  for(i=0;i<n_entries;i++)
-    {
-      entry = &(gendb->entries[i]);
+    for(i=0;i<n_entries;i++) {
+	entry = &(gendb->entries[i]);
       
-      /* Get the location. */
+	/* Get the location. */
       
-      entry->lat = readLocation(fp, LATITUDE);
-      entry->lon = readLocation(fp, LONGITUDE);
-      
-      /* Get the name */
-      
-      fscanf(fp, "%s", entry->name);
+	entry->lat = readLocation(fp, LATITUDE);
+	entry->lon = readLocation(fp, LONGITUDE);
 
-      /* Strip all whitespace */   
-      tmp = ' ';
-      while(is_whitespace(tmp))
+	/* Get the name */
+	fscanf(fp, "%s", entry->name);
+
+	/* Strip all whitespace */
+	tmp = ' ';
+	while(is_whitespace(tmp))
+	    tmp = fgetc(fp);
+      
+	/* Get the info. */
+	j = 0;
 	tmp = fgetc(fp);
-      
-      /* Get the info. */
-      
-      j = 0;
-      tmp = fgetc(fp);
-      while(tmp != '\n' && tmp != EOF && j < 50)
-	{	  
-	  entry->info[j++] = tmp;
-	  tmp = fgetc(fp);
+	while(tmp != '\n' && tmp != EOF && j < 50) {
+	    entry->info[j++] = tmp;
+	    tmp = fgetc(fp);
 	}
-      entry->info[j] = '\0';
+	entry->info[j] = '\0';
     }
-  
-  gendb->n_entries = n_entries;
-  fclose(fp);
-  
-  return gendb;
+
+    gendb->n_entries = n_entries;
+    fclose(fp);
+
+    DPRINTF("readGenDB(%s) for %d entries\n", dbfile, gendb->n_entries);
+    return gendb;
 }
 
 /**
@@ -536,74 +528,74 @@ readGenDB(const char *dbfile)
 database *
 readNetDB(const char *dbfile)
 {
-  int i,j;
-  FILE *fp;
-  int a, tmp;
-  int n_entries = 0;
-  dbentry *entry;
-  database *netdb;
+    int i,j;
+    FILE *fp;
+    int a, tmp;
+    int n_entries = 0;
+    dbentry *entry;
+    database *netdb;
+    char ip[IP_STR_LEN];
 
-  netdb = (database *)malloc(sizeof(database));
-  if(!netdb)
-    {
-      perror("Couldn't malloc memory for net cache!\n");
-      return NULL;
+    netdb = (database *)malloc(sizeof(database));
+    if(!netdb) {
+	perror("Couldn't malloc memory for net cache!\n");
+	return NULL;
     }
 
-  if(!(fp = dbopen(dbfile, "r")))
-    {
-      netdb->n_entries = 0;
-      netdb->entries = NULL;
-      return netdb;
+    if(!(fp = dbopen(dbfile, "r"))) {
+	netdb->n_entries = 0;
+	netdb->entries = NULL;
+	DPRINTF("readNetDB(%s) for %d entries\n", dbfile, netdb->n_entries);
+	return netdb;
     }
-  DPRINTF("Found a %s with ", dbfile);
-  while((a = fgetc(fp)) != EOF)
-    if(a == '\n')
-      n_entries++;
-  DPRINTF("%d entries.\n", n_entries);
+    DPRINTF("Found a %s with ", dbfile);
+    while((a = fgetc(fp)) != EOF)
+	if(a == '\n')
+	    n_entries++;
+    DPRINTF("%d entries.\n", n_entries);
 
-  netdb->entries = (dbentry *)malloc(n_entries*sizeof(dbentry));
-  if(!netdb->entries)
-    {
-      perror("Couldn't malloc memory for net cache.\n");
-      return NULL;
+    netdb->entries = (dbentry *)malloc(n_entries*sizeof(dbentry));
+    if(!netdb->entries) {
+	perror("Couldn't malloc memory for net cache.\n");
+	return NULL;
     }
-  rewind(fp);
+    rewind(fp);
 
-  for(i=0;i<n_entries;i++)
-    {
-      entry = &(netdb->entries[i]);
+    for(i=0; i < n_entries; i++) {
+	entry = &(netdb->entries[i]);
       
-      /* Get the IP-number.*/
-      
-      fscanf(fp, "%s",entry->ip);
-      
-      /* Get the location. */
+	/* Get the IP-number.*/
+	fscanf(fp, "%s", ip);
 
-      entry->lat = readLocation(fp, LATITUDE);
-      entry->lon = readLocation(fp, LONGITUDE);
+	str2addr(&entry->ip, ip);
 
-      /* Strip all whitespace */   
-      tmp = ' ';
-      while(is_whitespace(tmp))
-	  tmp = fgetc(fp);
-      /* ungetc(tmp, fp); // Don't need to ungetc; it's the hash sign. */
+	/* Get the location. */
+	entry->lat = readLocation(fp, LATITUDE);
+	entry->lon = readLocation(fp, LONGITUDE);
 
-      /* Get the info. */
+	/* Strip all whitespace */
+	tmp = ' ';
+	while(is_whitespace(tmp) && !feof(fp))
+	    tmp = fgetc(fp);
+	/* ungetc(tmp, fp); // Don't need to ungetc; it's the hash sign. */
 
-      j = 0;
-      tmp = fgetc(fp);
-      while(tmp != '\n' && tmp != EOF && j < 50)
-      {	  
-	  entry->info[j++] = tmp;
-	  tmp = fgetc(fp);
-      }
-      entry->info[j] = '\0';
+	/* Get the info. */
+	if (feof(fp))
+	    break;
+
+	j = 0;
+	tmp = fgetc(fp);
+	while(tmp != '\n' && tmp != EOF && j < 50) {
+	    entry->info[j++] = tmp;
+	    tmp = fgetc(fp);
+	}
+	entry->info[j] = '\0';
     }
 
-  netdb->n_entries = n_entries;
+    netdb->n_entries = n_entries;
 
-  fclose(fp);
+    fclose(fp);
 
-  return netdb;
+    DPRINTF("readNetDB(%s) for %d entries\n", dbfile, netdb->n_entries);
+    return netdb;
 }

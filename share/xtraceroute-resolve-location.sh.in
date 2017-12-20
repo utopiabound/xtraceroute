@@ -38,7 +38,7 @@ BIND)
 	do
 		FIRST=no
 		#echo $TARGET
-		RESPONSE=$($HOST -t LOC $TARGET|sed "s/^$TARGET location //")
+		RESPONSE=$($HOST -t LOC $TARGET|sed "s/location/LOC/")
 
 		if [ $? = 0 ] && [ -n "$RESPONSE" ]
 		then

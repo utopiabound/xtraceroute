@@ -36,18 +36,30 @@ AC_FUNC_MMAP
 AC_FUNC_REALLOC
 #AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify dup2 floor getcwd gethostbyname inet_ntoa mempcpy memset mkdir munmap putenv rint setenv setlocale sqrt stpcpy strcasecmp strchr strdup strncasecmp uname])
 AC_SEARCH_LIBS([sqrt], [m])
+AM_SILENT_RULES([yes])
 
 xtraceroutedatadir=${datadir}/xtraceroute
 AC_SUBST(xtraceroutedatadir)
 xtraceroutelocaledir=${datadir}/locale
 AC_SUBST(xtraceroutelocaledir)
 
+AC_ARG_ENABLE(debug,
+AS_HELP_STRING([--enable-debug],
+               [enable debugging, default: no]),
+[case "${enableval}" in
+             yes|"") debug=true ;;
+             no)  debug=false ;;
+             *)   AC_MSG_ERROR([bad value ${enableval} for --enable-debug]) ;;
+esac],
+[debug=false])
+
+AM_CONDITIONAL(DEBUG, test x"$debug" = x"true")
+
 
 dnl Find traceroute.
 
-AC_ARG_WITH(traceroute, [  --with-traceroute=PATH  Where traceroute is.])
-
-if test "x$with_traceroute" = "x" ; then
+AC_ARG_WITH(traceroute, AS_HELP_STRING([--with-traceroute=PATH],[Where traceroute is.]))
+AS_IF([test "x$with_traceroute" = "x"], [
 	MYPATH=$PATH:/usr/etc:/usr/sbin
 	AC_PATH_PROG(TP,
 		traceroute, [""],
@@ -55,15 +67,15 @@ if test "x$with_traceroute" = "x" ; then
 	if test "x$TP" = "x" ; then
 		AC_MSG_ERROR([Can't find traceroute. Use '--with-traceroute'])
         fi
-else
+], [
 	TP=$with_traceroute
-fi
+])
 
 AC_DEFINE_UNQUOTED(TRACEPGM, "$TP", "Where traceroute is.")
 
 dnl Find host.
 
-AC_ARG_WITH(host, [  --with-host=PATH        Where host is.])
+AC_ARG_WITH(host, AS_HELP_STRING([--with-host=PATH],[Where host is.]))
 
 if test "x$with_host" = "x" ; then
 	MYPATH=$PATH:/usr/etc:/usr/sbin:/usr/local:/usr/pd/bin
@@ -87,8 +99,15 @@ PKG_CHECK_MODULES(GDK_PIXBUF, gdk-pixbuf-2.0)
 PKG_CHECK_MODULES(GTKGL, gtkgl-2.0)
 PKG_CHECK_MODULES(GTK, gtk+-2.0)
 
+AC_ARG_WITH([geoip], AS_HELP_STRING([--with-geoip], [Build with GEOIP Support]))
+AS_IF([test "x$with_geoip" = "xyes"], [
+   PKG_CHECK_MODULES([GEOIP], [geoip])
+   AC_DEFINE([HAVE_GEOIP], [1], [Define if GeoIP exists.])
+])
+
 AC_CONFIG_FILES([Makefile
                  intl/Makefile
+		 intl/po2tbl.sed
 		 po/Makefile.in
 		 share/Makefile
 		 share/xtraceroute-resolve-location.sh

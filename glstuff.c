@@ -349,6 +349,7 @@ plot_site(const int site_nr, const GLfloat lat, const GLfloat lon,
     case ACC_INCLUDED:
       glMaterialfv(GL_FRONT, GL_DIFFUSE, medaccColor);	    
       break;
+    case ACC_GEOIP:
     case ACC_SUFFIX:
       glMaterialfv(GL_FRONT, GL_DIFFUSE, loaccColor);
       break;

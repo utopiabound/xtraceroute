@@ -54,7 +54,8 @@ const char *accs[]=
     N_("This info came from the GPOS field in the DNS server."),
     N_("This info came from the LOC field in the DNS server."),
     N_("This info came from your site-wide database."),
-    N_("This info came from your personal database.")
+    N_("This info came from your personal database."),
+    N_("This info came from GeoIP database.")
 };
 
 static gint destroy_widget_callback(GtkWidget *wi, gpointer target)
@@ -85,7 +86,8 @@ void infowin_change_site(int site)
 
   gtk_label_set(GTK_LABEL(current_site.name_label), sites[site].name);
 
-  gtk_label_set(GTK_LABEL(current_site.ip_label), sites[site].ip);
+  addr2str(&sites[site].ip, string, sizeof(string));
+  gtk_label_set(GTK_LABEL(current_site.ip_label), string);
 
   sprintf(string, _("%d ms"), sites[site].time);
   gtk_label_set(GTK_LABEL(current_site.time_label), string);
@@ -148,7 +150,7 @@ static gint yesbutton_callback(GtkWidget *wi, gpointer *data)
       gtk_label_get(GTK_LABEL(current_site.name_label), &tmp);
       strcpy(ent->name, tmp);
       gtk_label_get(GTK_LABEL( current_site.ip_label ), &tmp);
-      strcpy(ent->ip, tmp);
+      str2addr(&ent->ip, tmp);
       
       addToHostDB(local_user_hosts, ent);
       free(tmp);
@@ -238,7 +240,8 @@ gint info_window(gint site)
 
   current_site.name_label = gtk_label_new(sites[site].name);
 
-  current_site.ip_label   = gtk_label_new(sites[site].ip);
+  addr2str(&sites[site].ip, string, sizeof(string));
+  current_site.ip_label   = gtk_label_new(string);
 
   sprintf(string, _("%d ms"), sites[site].time);
   current_site.time_label = gtk_label_new(string);

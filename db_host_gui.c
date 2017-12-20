@@ -61,7 +61,7 @@ static gint yesbutton_callback(GtkWidget *wi, gpointer *data)
       
       ent->lat = atof(gtk_entry_get_text(GTK_ENTRY(lat_entry)));
       ent->lon = atof(gtk_entry_get_text(GTK_ENTRY(lon_entry)));
-      strcpy(ent->ip,   gtk_entry_get_text(GTK_ENTRY(ip_entry)));
+      str2addr(&ent->ip, gtk_entry_get_text(GTK_ENTRY(ip_entry)));
       strcpy(ent->name, gtk_entry_get_text(GTK_ENTRY(host_entry)));
       strcpy(ent->info, gtk_entry_get_text(GTK_ENTRY(info_entry)));
       

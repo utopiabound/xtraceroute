@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-*/
+ */
 
 
 #include "xt.h"
@@ -182,7 +182,7 @@ escape:
 
 void callExternalDNS(site* site)
 {
-  if(pipe(site->extpipe) == -1)
+    if(pipe(site->extpipe) == -1)
     {
       perror("pipe"); 
       exit(EXIT_FAILURE);
@@ -240,109 +240,105 @@ void callExternalDNS(site* site)
 static void 
 parse_row_from_traceroute(char *input)
 {
-  int i;
-  int no = 1; /* no SEGV if sscanf fails */
-  int last;
-  char *clistrow[3];
+    int i;
+    int no = 1; /* no SEGV if sscanf fails */
+    int last;
+    char *clistrow[3];
+    char ipbuf[INET6_ADDRSTRLEN];
 
-  //  DPRINTF("O");
-
-  /* This is a SGI compatibility thing; On SGI "traceroute" prints
-     the first line "traceroute to test.com (0.0.0.0), 40 hops max, 
-     40 byte packets" to stdout instad of stderr (which most other
-     machines does). FWIW, I actually think SGI's behavior is saner 
-     (stderr is for errors!), but... */
-  /* On the other hand, SGI-traceroute prints errors as well to 
-     stdout... Oh well... */
+    /* This is a SGI compatibility thing; On SGI "traceroute" prints
+       the first line "traceroute to test.com (0.0.0.0), 40 hops max,
+       40 byte packets" to stdout instad of stderr (which most other
+       machines does). FWIW, I actually think SGI's behavior is saner
+       (stderr is for errors!), but... */
+    /* On the other hand, SGI-traceroute prints errors as well to
+       stdout... Oh well... */
   
-  if(!strncasecmp("traceroute",input, 10))
-    {
-      DPRINTF("Got traceroute header!\n");
+    if (!strncasecmp("traceroute",input, 10)) {
+	DPRINTF("Got traceroute header!\n");
 
-      if(isin("unknown host", input))
+	if(isin("unknown host", input))
 	{
-	  char tmp[200];
-	  DPRINTF("unknown host!\n");
-	  gdk_input_remove(traceroute_state.tag);
-	  close(traceroute_state.fd[0]);
-	  traceroute_state.fd[0] = -1;
-	  strcpy(tmp, _("xtraceroute: unknown host "));
-	  strcat(tmp, user_settings->current_target);
-	  tell_user(tmp);
-	  traceroute_state.scanning = 0;
+	    char tmp[200];
+	    DPRINTF("unknown host!\n");
+	    gdk_input_remove(traceroute_state.tag);
+	    close(traceroute_state.fd[0]);
+	    traceroute_state.fd[0] = -1;
+	    strcpy(tmp, _("xtraceroute: unknown host "));
+	    strcat(tmp, user_settings->current_target);
+	    tell_user(tmp);
+	    traceroute_state.scanning = 0;
 	}
-      return;
-    }
-  else if(strlen(input)< 10)
-    {
-      /* All we got was a couple of spaces, from a "XXX * * *"-row, that's
-	 had the stars stripped off */
+	return;
 
-      sscanf(input,"%d",&no);
-      no--;
-      strcpy(sites[no].name, "No response");
-      strcpy(sites[no].ip  , "No response");
-      strcpy(sites[no].info, "There were no response from this machine.");
-      sites[no].lat = sites[no-1].lat; // FIXME:
-      sites[no].lon = sites[no-1].lon; //potential trouble here if no == 0.
-      sites[no].time = 0;
-      sites[no].accuracy = ACC_NONE;
-      sites[no].draw = 1;
-    }
-  else /* All is well, do the normal stuff. */
-    {
-      i = sscanf(input,"%d",&no);
+    } else if (strlen(input)< 10) {
+	/* All we got was a couple of spaces, from a "XXX * * *"-row, that's
+	   had the stars stripped off */
+
+	sscanf(input, "%d", &no);
+	no--;
+	strcpy(sites[no].name, "No response");
+	//strcpy(sites[no].ip  , "No response");
+	memset(&sites[no].ip, 0, sizeof(sites[no].ip));
+	strcpy(sites[no].info, "There were no response from this machine.");
+	sites[no].lat = sites[no-1].lat; // FIXME:
+	sites[no].lon = sites[no-1].lon; //potential trouble here if no == 0.
+	sites[no].time = 0;
+	sites[no].accuracy = ACC_NONE;
+	sites[no].draw = 1;
+
+    } else {
+	 /* All is well, do the normal stuff. */
+	i = sscanf(input,"%d",&no);
       
-      /* Skip past the first number. */
-      while(!is_whitespace(input[i]))
-	i++;
-      no--;
-      sscanf(input+i,"%s %*c%s %d",sites[no].name,sites[no].ip,&sites[no].time);
+	/* Skip past the first number. */
+	while(!isspace(input[i]))
+	    i++;
+	no--;
+	sscanf(input+i, "%s (%[0-9a-fA-F.:]) %d", sites[no].name, ipbuf, &sites[no].time);
       
-      /* Get rid of the trailing ')' from the IP... */
-      sites[no].ip[ strlen(sites[no].ip) - 1 ] = '\0';
-
-      resolve_by_id(no);
-      makeearth();       /* FIXME maybe this should'nt be here. */
+	resolve_by_id(no, ipbuf);
+	makeearth();       /* FIXME maybe this should'nt be here. */
     }
 
-  clistrow[0] = (char *)malloc(10);
-  clistrow[1] = (char *)malloc(sizeof(sites[no].name));
-  clistrow[2] = (char *)malloc(sizeof(sites[no].ip));
+    clistrow[0] = (char *)malloc(10);
+    //clistrow[1] = (char *)malloc(IP_STR_LEN);
+    clistrow[2] = (char *)malloc(IP_STR_LEN);
   
-  sprintf(clistrow[0],"%d",no);
-  sprintf(clistrow[1],"%s",sites[no].name);
-  sprintf(clistrow[2],"%s",sites[no].ip);
+    sprintf(clistrow[0], "%d", no);
+    clistrow[1] = strdup(sites[no].name);
+    addr2str(&sites[no].ip, clistrow[2], IP_STR_LEN);
   
-  /* Add an entry to the list */
-  last = gtk_clist_append(GTK_CLIST(clist), clistrow);
+    /* Add an entry to the list */
+    last = gtk_clist_append(GTK_CLIST(clist), clistrow);
   
-  /* Free the clistrow here */
-  free(clistrow[0]);
-  free(clistrow[1]);
-  free(clistrow[2]);
-  /* The above SHOULD be done! But there's an error here somewhere.
-     Doing that causes malloc in glibc-linux to dump sometimes. 
-     Investigating... This just has to be a glibc bug... Efence finds
-     nothing... (This comment kept in case it shows up again.) */
+    /* Free the clistrow here */
+    free(clistrow[0]);
+    free(clistrow[1]);
+    free(clistrow[2]);
+    /* The above SHOULD be done! But there's an error here somewhere.
+       Doing that causes malloc in glibc-linux to dump sometimes.
+       Investigating... This just has to be a glibc bug... Efence
+       finds nothing... (This comment kept in case it shows up
+       again.) */
   
-  /* Scroll the clist so the new entry is visible */
-  gtk_clist_moveto(GTK_CLIST(clist), last, 1, 1.0, 0.5);
+    /* Scroll the clist so the new entry is visible */
+    gtk_clist_moveto(GTK_CLIST(clist), last, 1, 1.0, 0.5);
   
-  if(no >= MAX_SITES-1)
+    if(no >= MAX_SITES-1)
     {
-      /*
-	printf("Too many hops! Change the MAX_SITES value in xt.h,\n");
-	printf("recompile, and mail August and tell him about it!\n");
-      */
-      close(traceroute_state.fd[0]);
-      traceroute_state.fd[0]    = -1;
-      traceroute_state.scanning = 0;
-      gdk_input_remove(traceroute_state.tag);
-      spinner_unref("traceroute");
-      makeearth();
+	/*
+	  printf("Too many hops! Change the MAX_SITES value in xt.h,\n");
+	  printf("recompile, and mail August and tell him about it!\n");
+	*/
+	close(traceroute_state.fd[0]);
+	traceroute_state.fd[0]    = -1;
+	traceroute_state.scanning = 0;
+	gdk_input_remove(traceroute_state.tag);
+	spinner_unref("traceroute");
+	makeearth();
     }
-  return;
+    return;
 }
 
 /**
@@ -358,118 +354,117 @@ parse_row_from_traceroute(char *input)
 gint 
 get_from_traceroute(char* nope, int fd, GdkInputCondition cond)
 {
-  //    DPRINTF(".");
+    //    DPRINTF(".");
 
-  if(traceroute_state.scanning == 0)
+    if(traceroute_state.scanning == 0)
     {
-      /* FIX for API brokenness. This callback should unregister if it 
-	 returns false, as all other callbacks (in gtk at least) do. */
-      gdk_input_remove(traceroute_state.tag);      
+	/* FIX for API brokenness. This callback should unregister if
+	   it returns false, as all other callbacks (in gtk at least)
+	   do. */
+	gdk_input_remove(traceroute_state.tag);
 
-      return FALSE;
+	return FALSE;
     }
-  if(cond & GDK_INPUT_READ)
+    if(cond & GDK_INPUT_READ)
     {
-      int count;
-      char c;
+	int count;
+	char c;
 
-      count = read(fd, &c, 1);   //FIXME future performance opt, read more than a byte at a time.
+	count = read(fd, &c, 1);   //FIXME future performance opt, read more than a byte at a time.
       
-      if(c == -1)  printf("Hmmm.. -1 from read.\n");
+	if(c == -1)  printf("Hmmm.. -1 from read.\n");
 
-      if(c == 0)  printf("Hmmm.. This shouldn't happen.\n");
+	if(c == 0)  printf("Hmmm.. This shouldn't happen.\n");
 
-      if(count == 0)          /* Other end of pipe closed. */
+	if(count == 0)          /* Other end of pipe closed. */
 	{
-	  close(traceroute_state.fd[0]); // Hmmm... what if this is stdin?
-	  traceroute_state.fd[0] = -1;
-	  traceroute_state.scanning = 0;
-	  makeearth();
-	  spinner_unref("traceroute");
-	  gdk_input_remove(traceroute_state.tag); /* Fix for bad API. See above. */
-	  return FALSE;
+	    close(traceroute_state.fd[0]); // Hmmm... what if this is stdin?
+	    traceroute_state.fd[0] = -1;
+	    traceroute_state.scanning = 0;
+	    makeearth();
+	    spinner_unref("traceroute");
+	    gdk_input_remove(traceroute_state.tag); /* Fix for bad API. See above. */
+	    return FALSE;
 	}
 
-      if(c == '*')
-	return TRUE;
+	if(c == '*')
+	    return TRUE;
       
-      traceroute_state.row_so_far[traceroute_state.buffer_counter++] = c;
+	traceroute_state.row_so_far[traceroute_state.buffer_counter++] = c;
       
-      if(c == '\n')
+	if(c == '\n')
 	{
-	  traceroute_state.row_so_far[traceroute_state.buffer_counter] = '\0';
-	  parse_row_from_traceroute(traceroute_state.row_so_far);
-	  traceroute_state.buffer_counter = 0;
+	    traceroute_state.row_so_far[traceroute_state.buffer_counter] = '\0';
+	    parse_row_from_traceroute(traceroute_state.row_so_far);
+	    traceroute_state.buffer_counter = 0;
 	}
     }
-  return TRUE;
+    return TRUE;
 } 
 
 
 /** 
  * Calls traceroute if the argument is 0, else reads debug input from stdin. 
  */
-
 void 
 calltrace(void)
 {
-  /*   I don't know if there are several versions of traceroute out there,
-       but hopefully they can be configured to deliver what I want with this.
-       Otherwise, this function must be hacked some more.  */
+    /* I don't know if there are several versions of traceroute out
+     * there, but hopefully they can be configured to deliver what I
+     * want with this.  Otherwise, this function must be hacked some
+     * more.  */
   
-  char tracepgm[]   = TRACEPGM;
+    char tracepgm[]   = TRACEPGM;
   
-  DPRINTF("calltrace\n");
+    DPRINTF("calltrace\n");
 
-  if(!strncmp(user_settings->current_target, "-", strlen("-")))
-    {
-      traceroute_state.fd[0] = STDIN_FILENO;
-      traceroute_state.scanning = 1;
-      spinner_ref("traceroute");
-      traceroute_state.tag = gdk_input_add(traceroute_state.fd[0], GDK_INPUT_READ,
-					   (GdkInputFunction)get_from_traceroute, NULL);
-      return;
+    if(!strncmp(user_settings->current_target, "-", strlen("-"))) {
+	traceroute_state.fd[0] = STDIN_FILENO;
+	traceroute_state.scanning = 1;
+	spinner_ref("traceroute");
+	traceroute_state.tag = gdk_input_add(traceroute_state.fd[0], GDK_INPUT_READ,
+					     (GdkInputFunction)get_from_traceroute, NULL);
+	return;
     }
   
-  if (pipe(traceroute_state.fd) == -1)
-    {
-      perror("traceroute pipe"); 
-      exit(EXIT_FAILURE);
+    if (pipe(traceroute_state.fd) == -1) {
+	perror("traceroute pipe");
+	exit(EXIT_FAILURE);
     }
   
-  traceroute_state.pid = fork();
+    traceroute_state.pid = fork();
   
-  switch (traceroute_state.pid)
+    switch (traceroute_state.pid)
     {
     case -1:
-      /* Fork failed! */
-      perror("fork");
-      exit(EXIT_FAILURE);
-      break;
+	/* Fork failed! */
+	perror("fork");
+	exit(EXIT_FAILURE);
+	break;
     case 0:      
-      /* We're going to be the exernal program! */
+	/* We're going to be the exernal program! */
       
-      close(traceroute_state.fd[0]);    /* close read end of pipe               */
-      dup2(traceroute_state.fd[1], STDOUT_FILENO);   /* make 1 same as write-to end of pipe  */
-      dup2(traceroute_state.fd[1], STDERR_FILENO);   /* make 2 same as write-to end of pipe  */
-      close(traceroute_state.fd[1]);    /* close excess fildes                  */
+	close(traceroute_state.fd[0]);    /* close read end of pipe */
+	dup2(traceroute_state.fd[1], STDOUT_FILENO); /* make 1 same as write-to end of pipe */
+	dup2(traceroute_state.fd[1], STDERR_FILENO); /* make 2 same as write-to end of pipe */
+	close(traceroute_state.fd[1]);    /* close excess fildes */
 
-      /* FIXME I'd _like_ to use the MAX_SITES define instead of "40"
-	 here, but that doesn't work since it's in a string. 
-	 Suggestions? */ 
-      execlp(tracepgm, "traceroute", 
-	     "-q", "2",  /* Two queries (default is 3.) */
-	     "-w", "20", /* Time before timing out (default is 5) */ 
-	     "-m", "40", /* Max hops, default is 30, we need more. */
-	     user_settings->current_target, NULL);
-      perror("exec");       /* still around?  exec failed           */
-      _exit(EXIT_FAILURE);  /* no flush                             */ 
-      break;
+	/* FIXME I'd _like_ to use the MAX_SITES define instead of
+	   "40" here, but that doesn't work since it's in a string.
+	   Suggestions? */
+	execlp(tracepgm, "traceroute",
+	       "-q", "2",  /* Two queries (default is 3.) */
+	       "-w", "20", /* Time before timing out (default is 5) */
+	       "-m", "40", /* Max hops, default is 30, we need more. */
+	       user_settings->current_target, NULL);
+	perror("exec");       /* still around?  exec failed */
+	_exit(EXIT_FAILURE);  /* no flush */
+	break;
     default:
-      /* We're the parent */
-      traceroute_state.scanning = 1;
-      spinner_ref("traceroute");
-      traceroute_state.tag = gdk_input_add(traceroute_state.fd[0], GDK_INPUT_READ,
-					   (GdkInputFunction)get_from_traceroute, NULL);
+	/* We're the parent */
+	traceroute_state.scanning = 1;
+	spinner_ref("traceroute");
+	traceroute_state.tag = gdk_input_add(traceroute_state.fd[0], GDK_INPUT_READ,
+					     (GdkInputFunction)get_from_traceroute, NULL);
     }
 }

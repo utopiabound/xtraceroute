@@ -472,33 +472,30 @@ mouse_button_up(GtkWidget *wi, GdkEventButton *ev)
 static void 
 lookfor(const char* const program)
 {
-  struct stat statbuf;
+    struct stat statbuf;
   
-  if(stat(program, &statbuf) < 0)
-    {
-      char tmp[501];
-      g_snprintf(tmp,500,_("Can't find a binary I need!\n"
-			   "I'm looking for \"%s\"."),program);
-      perror(tmp);
-      exit(EXIT_FAILURE);
+    if(stat(program, &statbuf) < 0) {
+	char tmp[501];
+	g_snprintf(tmp,500,_("Can't find a binary I need!\n"
+			     "I'm looking for \"%s\"."),program);
+	perror(tmp);
+	exit(EXIT_FAILURE);
     }
 
-  if(! (statbuf.st_mode & S_IFREG) )
-    {
-      printf(_("Problem looking for \"%s\"! It isn't a regular file!\n")
-	     ,program);
+    if(! (statbuf.st_mode & S_IFREG) ) {
+	printf(_("Problem looking for \"%s\"! It isn't a regular file!\n")
+	       ,program);
 
-      exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
     }
 
-  if(! (statbuf.st_mode & S_IXUSR) )
-    {
-      printf(_("%s isn't executable!\n"),program);
+    if(! (statbuf.st_mode & S_IXUSR) ) {
+	printf(_("%s isn't executable!\n"),program);
 
-      exit(EXIT_FAILURE);
+	exit(EXIT_FAILURE);
     }
 
-  DPRINTF("%s\t is there and looks OK.\n", program);
+    DPRINTF("%s\t is there and looks OK.\n", program);
 }
 
 /**
@@ -508,13 +505,11 @@ lookfor(const char* const program)
 static void 
 exit_program(GtkWidget *wi, gpointer *data)
 {
-  extern traceroute_state_t traceroute_state; // From extprog.c
+    extern traceroute_state_t traceroute_state; // From extprog.c
   
-  if(traceroute_state.fd[0] != -1)
-    {
-      close(traceroute_state.fd[0]);
-    }
-  gtk_main_quit();
+    if (traceroute_state.fd[0] != -1)
+	close(traceroute_state.fd[0]);
+    gtk_main_quit();
 }
 
 /**
@@ -524,11 +519,13 @@ exit_program(GtkWidget *wi, gpointer *data)
 void 
 about_program(GtkWidget *wi, gpointer *data)
 {
-  char mess[501];
-  g_snprintf(mess,500,_("%s%s\nBy Björn Augustsson (d3august@dtek.chalmers.se)\n"
-	  "Homepage: http://www.dtek.chalmers.se/~d3august/xt\n")
-	  ,_(versionstring),VERSION);
-  tell_user(mess);
+    char mess[501];
+    int n;
+    n = g_snprintf(mess, sizeof(mess), "%s%s\nBy Björn Augustsson\n", _(versionstring), VERSION);
+#ifdef HAVE_GEOIP
+    n = g_snprintf(mess+n, sizeof(mess)-n, "GeoIP");
+#endif
+    tell_user(mess);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -987,92 +984,75 @@ combo_entry_callback(GtkWidget *entry, gpointer *combo)
 static void 
 parse_commandline(int argc, char *argv[])
 {
-  int has_target        = FALSE;
-  int has_texture       = FALSE;
-  int has_night_texture = FALSE;
-  int has_night         = FALSE;
-  int has_nonight       = FALSE;
+    int has_target        = FALSE;
+    int has_texture       = FALSE;
+    int has_night_texture = FALSE;
+    int has_night         = FALSE;
+    int has_nonight       = FALSE;
   
-  unsigned int i;
-  for(i=1 ; i<argc ; i++)
-    { 
-      if(!strcmp(argv[i],"--version"))
-	{
-	  g_print("%s%s\n", _(versionstring), VERSION);
-	  exit(EXIT_SUCCESS);
-	}
-      else if(!strcmp(argv[i],"--help")
-	      || !strcmp(argv[i],"-h"))
-	{
-	  usage();
-	  exit(EXIT_SUCCESS);
-	}
-      else if(!strcmp(argv[i],"--texture") 
-	      || !strcmp(argv[i],"-T"))
-	{
-	  if(has_texture == TRUE)
-	    g_print(_("Two (day) textures specified! Using second one.\n"));
+    unsigned int i;
+    for(i=1; i < argc; i++) {
+	if (!strcmp(argv[i],"--version")) {
+	    g_print("%s%s\n", _(versionstring), VERSION);
+	    exit(EXIT_SUCCESS);
+
+	} else if(!strcmp(argv[i],"--help") ||
+		  !strcmp(argv[i],"-h")) {
+	    usage();
+	    exit(EXIT_SUCCESS);
+
+	} else if(!strcmp(argv[i],"--texture") ||
+		  !strcmp(argv[i],"-T")) {
+	    if(has_texture == TRUE)
+		g_print(_("Two (day) textures specified! Using second one.\n"));
+
+	    earth_texture = readTexture(argv[++i]);
+	    has_texture   = TRUE;
+	} else if(!strcmp(argv[i],"--ntexture") ||
+		  !strcmp(argv[i],"-N")) {
+	    if(has_night_texture == TRUE)
+		g_print(_("Two night textures specified! Using second one.\n"));
 	  
-	  earth_texture = readTexture(argv[++i]);
-	  has_texture   = TRUE;
-	}
-      else if(!strcmp(argv[i],"--ntexture") 
-	      || !strcmp(argv[i],"-N"))
-	{
-	  if(has_night_texture == TRUE)
-	    g_print(_("Two night textures specified! Using second one.\n"));
-	  
-	  night_texture     = readTexture(argv[++i]);
-	  has_night_texture = TRUE;
-	}
-      else if(!strcmp(argv[i],"--night"))
-	{
-	  if(has_nonight == TRUE)
-	    {
-	      g_print("Both --night and --no-night specified!\n");
-	      usage();
-	      exit(EXIT_FAILURE);
+	    night_texture     = readTexture(argv[++i]);
+	    has_night_texture = TRUE;
+	} else if(!strcmp(argv[i],"--night")) {
+	    if(has_nonight == TRUE) {
+		g_print("Both --night and --no-night specified!\n");
+		usage();
+		exit(EXIT_FAILURE);
 	    }
-	  user_settings->lighting_mode = DAY_AND_NIGHT;
-	  has_night = TRUE;
-	}
-      else if(!strcmp(argv[i],"--no-night"))
-	{
-	  if(has_night == TRUE)
-	    {
-	      g_print("Both --night and --no-night specified!\n");
-	      usage();
-	      exit(EXIT_FAILURE);
+	    user_settings->lighting_mode = DAY_AND_NIGHT;
+	    has_night = TRUE;
+
+	} else if(!strcmp(argv[i],"--no-night")) {
+	    if(has_night == TRUE) {
+		g_print("Both --night and --no-night specified!\n");
+		usage();
+		exit(EXIT_FAILURE);
 	    }
-	  user_settings->lighting_mode = DAY_ONLY;
-	  has_nonight = TRUE;
-	}
-      else if(!strcasecmp(argv[i], "--stdin")
-	      || !strcmp(argv[i], "-"))
-	{
-	  has_target = TRUE;
-	  strcpy(user_settings->current_target, "-");
-	}
-      else if(!strcasecmp(argv[i],"--LOD"))
-	{
-	  set_sphere_lod(atoi(argv[++i]));
-	}
-      else // Has to be a site to traceroute or a bad option.
-	{
-	  if(argv[i][0] == '-')
-	    {
-	      printf("Unknown option \"%s\"\n", argv[i]);
-	      usage();
-	      exit(EXIT_FAILURE);
+	    user_settings->lighting_mode = DAY_ONLY;
+	    has_nonight = TRUE;
+	} else if(!strcasecmp(argv[i], "--stdin") ||
+		  !strcmp(argv[i], "-")) {
+	    has_target = TRUE;
+	    strcpy(user_settings->current_target, "-");
+
+	} else if(!strcasecmp(argv[i],"--LOD")) {
+	    set_sphere_lod(atoi(argv[++i]));
+
+	} else { // Has to be a site to traceroute or a bad option.
+	    if(argv[i][0] == '-') {
+		printf("Unknown option \"%s\"\n", argv[i]);
+		usage();
+		exit(EXIT_FAILURE);
+
+	    } else if (has_target == TRUE) {
+		printf("More than one site argument detected!\n");
+		usage();
+		exit(EXIT_FAILURE);
 	    }
-	  else if(has_target == TRUE)
-	    {
-	      printf("More than one site argument detected!\n");
-	      usage();
-	      exit(EXIT_FAILURE);
-	    }
-	  strcpy(user_settings->current_target, argv[i]);
-	  has_target = TRUE;
+	    strcpy(user_settings->current_target, argv[i]);
+	    has_target = TRUE;
 	}
     }
 }
@@ -1085,396 +1065,380 @@ parse_commandline(int argc, char *argv[])
 int 
 main(int argc, char **argv)
 {
-  GtkWidget *window;
-  GtkWidget *vbox;
-  GtkWidget *hbox;
-  GtkWidget *vbox2;
-  GtkWidget *pane;
-  GtkWidget *spinner;
-  GtkWidget *info_button;
-  GtkWidget *menubar;
-  GtkWidget *notebook;
-  GtkWidget *label;
-  GtkWidget *combo_hbox;
-  GtkWidget *combo_label;
-  GtkWidget *combo;
-  GtkWidget *dummyscrwin;
+    GtkWidget *window;
+    GtkWidget *vbox;
+    GtkWidget *hbox;
+    GtkWidget *vbox2;
+    GtkWidget *pane;
+    GtkWidget *spinner;
+    GtkWidget *info_button;
+    GtkWidget *menubar;
+    GtkWidget *notebook;
+    GtkWidget *label;
+    GtkWidget *combo_hbox;
+    GtkWidget *combo_label;
+    GtkWidget *combo;
+    GtkWidget *dummyscrwin;
   
-  gchar *titles[] =
-  {
-    N_("Nr"),
-    N_("Hostname"),
-    N_("IP number")
-  };
-  static int translated;
+    gchar *titles[] = {
+	N_("Nr"),
+	N_("Hostname"),
+	N_("IP number")
+    };
+    static int translated;
 
 #ifdef ENABLE_NLS
-  setlocale (LC_ALL, "");
-  bindtextdomain(PACKAGE, LOCALEDIR);
-  textdomain(PACKAGE);
+    setlocale (LC_ALL, "");
+    bindtextdomain(PACKAGE, LOCALEDIR);
+    textdomain(PACKAGE);
 #endif
 
-  gtk_init(&argc, &argv);
+    gtk_init(&argc, &argv);
 
-  if (gdk_gl_query() == FALSE) 
-    {
-      g_print(_("OpenGL not supported\n"));
-      exit(EXIT_FAILURE);
+    if (gdk_gl_query() == FALSE) {
+	g_print(_("OpenGL not supported\n"));
+	exit(EXIT_FAILURE);
     }
 
-  if (!(user_settings = (user_settings_t *)malloc(sizeof (user_settings_t))))
+    if (!(user_settings = (user_settings_t *)malloc(sizeof (user_settings_t))))
     {
-      perror("Alloc space for settings");
-      exit(EXIT_FAILURE);
+	perror("Alloc space for settings");
+	exit(EXIT_FAILURE);
     }
 
-  /* These are the default settings. */
+    /* These are the default settings. */
 
-  user_settings->lighting_mode = DAY_ONLY;
+    user_settings->lighting_mode = DAY_ONLY;
 
-  strcpy(user_settings->day_texname,   DATADIR "/earth.png");
-  strcpy(user_settings->night_texname, DATADIR "/night.png");
+    strcpy(user_settings->day_texname,   DATADIR "/earth.png");
+    strcpy(user_settings->night_texname, DATADIR "/night.png");
   
-  user_settings->LOD = 3;
+    user_settings->LOD = 3;
   
-  strcpy(user_settings->current_target,"");
+    strcpy(user_settings->current_target,"");
   
-  /* Handle loading rc file or similar in the future here. */
+    /* Handle loading rc file or similar in the future here. */
   
-  parse_commandline(argc, argv);
+    parse_commandline(argc, argv);
   
-  if(strlen(user_settings->current_target) > 0)
+    if(strlen(user_settings->current_target) > 0)
     {
-      calltrace();
+	calltrace();
     }
   
-  lookfor(TRACEPGM);   // The "traceroute" binary.
-  lookfor(HOSTPGM);    // The "host" binary.
-  lookfor(DATADIR "/xtraceroute-resolve-location.sh"); // the DNS helper
+    lookfor(TRACEPGM);   // The "traceroute" binary.
+    lookfor(HOSTPGM);    // The "host" binary.
+    lookfor(DATADIR "/xtraceroute-resolve-location.sh"); // the DNS helper
 
-  earth_texture = readTexture(user_settings->day_texname);
-  night_texture = readTexture(user_settings->night_texname);
+    earth_texture = readTexture(user_settings->day_texname);
+    night_texture = readTexture(user_settings->night_texname);
   
-  /*   Edouard
-  DBs[USER][ HOSTS ] = readHostDB("user_hosts.cache");
-  DBs[USER][ NETS  ] = readNetDB ("user_networks.cache");
-  DBs[USER][GENERIC] = readGenDB ("user_generic.cache");
+    /*   Edouard
+	 DBs[USER][ HOSTS ] = readHostDB("user_hosts.cache");
+	 DBs[USER][ NETS  ] = readNetDB ("user_networks.cache");
+	 DBs[USER][GENERIC] = readGenDB ("user_generic.cache");
 
-  DBs[SITE][ HOSTS ] = readHostDB("site_hosts.cache");
-  DBs[SITE][ NETS  ] = readNetDB ("site_networks.cache");
-  DBs[SITE][GENERIC] = readGenDB ("site_generic.cache");
+	 DBs[SITE][ HOSTS ] = readHostDB("site_hosts.cache");
+	 DBs[SITE][ NETS  ] = readNetDB ("site_networks.cache");
+	 DBs[SITE][GENERIC] = readGenDB ("site_generic.cache");
 
-  DBs[GLOBAL][ HOSTS ] = readHostDB("hosts.cache");
-  DBs[GLOBAL][ NETS  ] = readNetDB ("networks.cache");
-  DBs[GLOBAL][GENERIC] = readGenDB ("generic.cache");
-  */
+	 DBs[GLOBAL][ HOSTS ] = readHostDB("hosts.cache");
+	 DBs[GLOBAL][ NETS  ] = readNetDB ("networks.cache");
+	 DBs[GLOBAL][GENERIC] = readGenDB ("generic.cache");
+    */
 
-  ndg_hosts          = readHostDB("hosts.cache");
-  local_site_hosts   = readHostDB("site_hosts.cache");
-  local_user_hosts   = readHostDB("user_hosts.cache");
+    ndg_hosts          = readHostDB("hosts.cache");
+    local_site_hosts   = readHostDB("site_hosts.cache");
+    local_user_hosts   = readHostDB("user_hosts.cache");
   
-  //  writeHostDB(ndg_hosts, "/usr/scratch/host_apa");
+    //  writeHostDB(ndg_hosts, "/usr/scratch/host_apa");
   
-  ndg_nets           = readNetDB("networks.cache");
-  local_site_nets    = readNetDB("site_networks.cache");
-  local_user_nets    = readNetDB("user_networks.cache");
+    ndg_nets           = readNetDB("networks.cache");
+    local_site_nets    = readNetDB("site_networks.cache");
+    local_user_nets    = readNetDB("user_networks.cache");
 
-  //  local_site_generic = readGenDB("generic.cache");
-  //  local_site_generic = readGenDB("site_generic.cache");
-  local_user_generic = readGenDB("user_generic.cache");
+    //  local_site_generic = readGenDB("generic.cache");
+    //  local_site_generic = readGenDB("site_generic.cache");
+    local_user_generic = readGenDB("user_generic.cache");
 
-  /* Set up a signal handler for reaping dead children. */
-  {
-    struct sigaction sig;
-    sig.sa_sigaction = childhandler;
-    sig.sa_flags = SA_SIGINFO;
-    sigaction(SIGCHLD, &sig, NULL);
-  }
+
+    /* Set up a signal handler for reaping dead children. */
+    {
+	struct sigaction sig;
+	sig.sa_sigaction = childhandler;
+	sig.sa_flags = SA_SIGINFO;
+	sigaction(SIGCHLD, &sig, NULL);
+    }
   
-  internal = init_internal_db();
-  clear_sites();
+    internal = init_internal_db();
+    clear_sites();
   
-#ifdef XT_DEBUG
-  {
-    extern const int n_countries;
-    
-    DPRINTF(_("Known countries: %d\n"
-	     "Built-in database: %d\n"), n_countries, internal->n_entries); 
-  }
-#endif /* XT_DEBUG */
+    //  writeNetDB(ndg_nets, "/usr/scratch/net_apa");
 
-  //  writeNetDB(ndg_nets, "/usr/scratch/net_apa");
+    trackball(curquat, 0.0, 0.0, 0.0, 0.0);
 
-  trackball(curquat, 0.0, 0.0, 0.0, 0.0);
+    //    Set initial orientation of the globe.
+    {
+	float tmpquat[4];
+	float vect[3] = {0.0, 1.0, 0.0};
+	struct utsname  un;
+	struct hostent* he;
 
-  //    Set initial orientation of the globe.
+	memset(&local, 0, sizeof(site));
 
-  {
-    float tmpquat[4];
-    float vect[3] = {0.0, 1.0, 0.0};
-    struct utsname  un;
-    struct hostent* he;
-    struct in_addr  in;
+	uname(&un);
+	strcpy(local.name, un.nodename);
+	he = gethostbyname(un.nodename);
+	if(!he) {
+	    printf("Error gethostbynaming local hostname");
+	    printf("(Not connected to network?)\n");
 
-    memset(&local, 0, sizeof(site));
-
-    uname(&un);
-    strcpy(local.name, un.nodename);
-    he = gethostbyname(un.nodename);
-    if(!he)
-      { 
-        printf("Error gethostbynaming local hostname");
-	printf("(Not connected to network?)\n");
-      }
-    else
-      {
-	memcpy(&in.s_addr, *(he->h_addr_list), sizeof(in.s_addr));
-	sprintf(local.ip, "%s", inet_ntoa(in));
+	} else {
+	    local.ip.type = he->h_addrtype;
+	    local.ip.prefix = (local.ip.type == AF_INET) ?32 :128;
+	    memcpy(&local.ip.addr, *(he->h_addr_list), (local.ip.type == AF_INET)
+		   ?sizeof(local.ip.addr.in) :sizeof(local.ip.addr.in6));
 	
-	resolve(&local);
+	    resolve(&local);
 	
-	/* resolve starts a subprocess to look at DNS-LOC. Must block here 
-	   until it completes. */
+	    /* resolve starts a subprocess to look at DNS-LOC. Must
+	       block here until it completes. */
 	
-	while (local.extpipe_active != FALSE)
-	  {
-	   // 	printf(".");
-	    get_from_extDNS(&local, local.extpipe[0], 
-			    GDK_INPUT_READ|SYNCH_RESOLV);
-	  }
-	DPRINTF("resolved localhost.\n");
+	    while (local.extpipe_active != FALSE) {
+		// 	printf(".");
+		// @@ This should move within resolve()
+		get_from_extDNS(&local, local.extpipe[0], GDK_INPUT_READ|SYNCH_RESOLV);
+	    }
+	    DPRINTF("resolved localhost.\n");
 	
-	if(local.accuracy == ACC_NONE)
-	  {
-	    printf("TIP:\tTo get xtraceroute to show your location centered on the globe\n"
-		   "\twhen it starts up, add information about this host,\n"
-		   "\t(%s) or your whole net.\n", local.name);
-	    printf("\n\tOR, even better, make your sysadmin add a LOC record to the DNS.\n"
-		   "\tThat way it will work for everyone else as well. Plus he gets to do\n" 
-		   "\tthe work instead of you! See the README file for more info on this.\n");
-	  }
-	else
-	  {
-	    /* Rotate the globe to show the users' home. */
+	    if(local.accuracy == ACC_NONE) {
+		printf("TIP:\tTo get xtraceroute to show your location centered on the globe\n"
+		       "\twhen it starts up, add information about this host,\n"
+		       "\t(%s) or your whole net.\n", local.name);
+		printf("\n\tOR, even better, make your sysadmin add a LOC record to the DNS.\n"
+		       "\tThat way it will work for everyone else as well. Plus he gets to do\n"
+		       "\tthe work instead of you! See the README file for more info on this.\n");
+	    } else {
+		/* Rotate the globe to show the users' home. */
 	    
-	    axis_to_quat(vect, torad*local.lon, tmpquat);
-	    add_quats(tmpquat, curquat, curquat);
+		axis_to_quat(vect, torad*local.lon, tmpquat);
+		add_quats(tmpquat, curquat, curquat);
 	    
-	    /* This is to do the "Y-axis", or latitude as well. */
+		/* This is to do the "Y-axis", or latitude as well. */
 
-	    vect[0] = 1.0;
-	    vect[1] = 0.0;
-	    vect[2] = 0.0;
-	    axis_to_quat(vect, torad*-local.lat, tmpquat);
-	    add_quats(tmpquat, curquat, curquat); 
-	  }
-      }
-  }
+		vect[0] = 1.0;
+		vect[1] = 0.0;
+		vect[2] = 0.0;
+		axis_to_quat(vect, torad*-local.lat, tmpquat);
+		add_quats(tmpquat, curquat, curquat);
+	    }
+	}
+    }
 
-  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   
-  {
-    char tmp[501];
-    g_snprintf(tmp,500,"%s%s",_(versionstring),VERSION);
-    gtk_window_set_title (GTK_WINDOW (window), tmp);
-  }
+    {
+	char tmp[501];
+	g_snprintf(tmp,500,"%s%s",_(versionstring),VERSION);
+	gtk_window_set_title (GTK_WINDOW (window), tmp);
+    }
   
-  gtk_window_set_default_size ((GtkWindow *)window, 
-			       DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
+    gtk_window_set_default_size ((GtkWindow *)window,
+				 DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
   
-  gtk_window_set_policy ((GtkWindow *)window,
-			 FALSE,  // allow shrink
-			 TRUE,   // allow_grow
-			 FALSE   // auto_shrink
-			 );
+    gtk_window_set_policy ((GtkWindow *)window,
+			   FALSE,  // allow shrink
+			   TRUE,   // allow_grow
+			   FALSE   // auto_shrink
+			   );
   
-  combo_hbox  = gtk_hbox_new(FALSE, 0);
-  combo_label = gtk_label_new (_("Target: "));
-  combo       = gtk_combo_new ();
-  gtk_combo_disable_activate (GTK_COMBO(combo));
+    combo_hbox  = gtk_hbox_new(FALSE, 0);
+    combo_label = gtk_label_new (_("Target: "));
+    combo       = gtk_combo_new ();
+    gtk_combo_disable_activate (GTK_COMBO(combo));
   
-  gtk_signal_connect(GTK_OBJECT (GTK_COMBO(combo)->entry), "activate",
-		     GTK_SIGNAL_FUNC (combo_entry_callback), GTK_COMBO(combo));
+    gtk_signal_connect(GTK_OBJECT (GTK_COMBO(combo)->entry), "activate",
+		       GTK_SIGNAL_FUNC (combo_entry_callback), GTK_COMBO(combo));
   
-  /* OK, this _really_ sucks. What I want from my combo widget:
-     
-     A) When you type something into it and press enter, I get to know 
-        what you wrote.
-     B) When you select something from the dropdown, I get to know which
-        one it was.
+    /* OK, this _really_ sucks. What I want from my combo widget:
+       A) When you type something into it and press enter, I get to
+       know what you wrote.
+       B) When you select something from the dropdown, I get to know
+       which one it was.
 
-	This one gets called for each keypress or any other activity in 
-        the entry part, which means it gets called if you move among the
-        entries in the list w/ arrow keys.
+       This one gets called for each keypress or any other activity in
+       the entry part, which means it gets called if you move among
+       the entries in the list w/ arrow keys.
 
-   gtk_signal_connect(GTK_OBJECT (GTK_COMBO(combo)->entry), "changed",
-		      GTK_SIGNAL_FUNC (change_callback), GTK_COMBO(combo));
+       gtk_signal_connect(GTK_OBJECT (GTK_COMBO(combo)->entry),
+       "changed", GTK_SIGNAL_FUNC (change_callback),
+       GTK_COMBO(combo));
 		      
-	This is a trick to get to know when the dropdown list closes. 
-        Unfortunatly I can't tell if you chose an item, or just "closed 
-        the list". Useless.
+       This is a trick to get to know when the dropdown list closes.
+       Unfortunatly I can't tell if you chose an item, or just "closed
+       the list". Useless.
 
-   gtk_signal_connect(GTK_OBJECT (GTK_COMBO(combo)->popwin), "hide",
-                      GTK_SIGNAL_FUNC (hide_callback), GTK_COMBO(combo));
+       gtk_signal_connect(GTK_OBJECT (GTK_COMBO(combo)->popwin),
+       "hide", GTK_SIGNAL_FUNC (hide_callback), GTK_COMBO(combo));
 
-        This gets called when a list entry gets selected. (clicked) Or 
-        when you move around in the list with the arrow keys. Sigh.   
-   gtk_signal_connect(GTK_OBJECT (GTK_COMBO(combo)->list), "select-child",
-		      GTK_SIGNAL_FUNC(combo_list_callback), GTK_COMBO(combo));
-  */
+       This gets called when a list entry gets selected. (clicked) Or
+       when you move around in the list with the arrow keys. Sigh.
+       gtk_signal_connect(GTK_OBJECT (GTK_COMBO(combo)->list),
+       "select-child", GTK_SIGNAL_FUNC(combo_list_callback),
+       GTK_COMBO(combo));
+    */
 
-  if(strlen(user_settings->current_target) > 2)
+    if(strlen(user_settings->current_target) > 2)
     {
-      /* If we got a site to trace from the command line, add it to 
-	 the history. */
-      combo_add_to_history(user_settings->current_target, GTK_COMBO(combo));
+	/* If we got a site to trace from the command line, add it to
+	   the history. */
+	combo_add_to_history(user_settings->current_target, GTK_COMBO(combo));
     }
 
-  gtk_box_pack_start(GTK_BOX(combo_hbox), combo_label, FALSE, FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(combo_hbox), combo, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(combo_hbox), combo_label, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(combo_hbox), combo, TRUE, TRUE, 0);
 
-  /* FIXME  Fix this to work with pseudocolor visuals. */
+    /* FIXME  Fix this to work with pseudocolor visuals. */
 
-  {
-    int attribs[] = {GDK_GL_RGBA,
-		     GDK_GL_RED_SIZE,1,
-		     GDK_GL_GREEN_SIZE,1,
-		     GDK_GL_BLUE_SIZE,1,
-		     GDK_GL_DEPTH_SIZE,1,
-		     GDK_GL_DOUBLEBUFFER,
-		     GDK_GL_NONE};
-    glarea = gtk_gl_area_new(attribs);
-  }
-  vbox    = gtk_vbox_new(FALSE,0);
-  pane    = gtk_vpaned_new();
+    {
+	int attribs[] = {GDK_GL_RGBA,
+			 GDK_GL_RED_SIZE,1,
+			 GDK_GL_GREEN_SIZE,1,
+			 GDK_GL_BLUE_SIZE,1,
+			 GDK_GL_DEPTH_SIZE,1,
+			 GDK_GL_DOUBLEBUFFER,
+			 GDK_GL_NONE};
+	glarea = gtk_gl_area_new(attribs);
+    }
+    vbox    = gtk_vbox_new(FALSE,0);
+    pane    = gtk_vpaned_new();
 
-  // FIXME where the hell did this weird code come from?
-  if (!translated){
+    // FIXME where the hell did this weird code come from?
+    if (!translated){
         int i;
         for (i = 0; i < 3; i++)
             titles [i] = _(titles [i]);
         translated = 1;
-  }
+    }
 
-  /* This causes a warning, because GTK is broken. */
-  clist = gtk_clist_new_with_titles(3, titles);
+    /* This causes a warning, because GTK is broken. */
+    clist = gtk_clist_new_with_titles(3, titles);
 
-  gtk_clist_set_selection_mode((GtkCList *)clist, GTK_SELECTION_BROWSE);
+    gtk_clist_set_selection_mode((GtkCList *)clist, GTK_SELECTION_BROWSE);
   
-  /* FIXME: These should probably be font-dependent. */
+    /* FIXME: These should probably be font-dependent. */
   
-  gtk_clist_set_column_width (GTK_CLIST(clist), 0, 20);
-  gtk_clist_set_column_width (GTK_CLIST(clist), 1, 230);
-  gtk_clist_set_column_width (GTK_CLIST(clist), 2, 100);
+    gtk_clist_set_column_width (GTK_CLIST(clist), 0, 20);
+    gtk_clist_set_column_width (GTK_CLIST(clist), 1, 230);
+    gtk_clist_set_column_width (GTK_CLIST(clist), 2, 100);
   
-  gtk_signal_connect(GTK_OBJECT(clist), "select_row",
-		     GTK_SIGNAL_FUNC(clist_item_selected), NULL);
+    gtk_signal_connect(GTK_OBJECT(clist), "select_row",
+		       GTK_SIGNAL_FUNC(clist_item_selected), NULL);
  
-  gtk_signal_connect (GTK_OBJECT (window), "destroy",
-		      GTK_SIGNAL_FUNC(exit_program), NULL);
+    gtk_signal_connect (GTK_OBJECT (window), "destroy",
+			GTK_SIGNAL_FUNC(exit_program), NULL);
   
-  gtk_widget_set_usize(GTK_WIDGET(glarea), 
-		       DEFAULT_WINDOW_WIDTH/4, 
-		       DEFAULT_WINDOW_WIDTH/4);
+    gtk_widget_set_usize(GTK_WIDGET(glarea),
+			 DEFAULT_WINDOW_WIDTH/4,
+			 DEFAULT_WINDOW_WIDTH/4);
   
-  gtk_container_add(GTK_CONTAINER(window), vbox);
+    gtk_container_add(GTK_CONTAINER(window), vbox);
   
-  gtk_widget_set_events(glarea, GDK_EXPOSURE_MASK
-			| GDK_BUTTON_PRESS_MASK
-			| GDK_BUTTON_RELEASE_MASK);
+    gtk_widget_set_events(glarea, GDK_EXPOSURE_MASK
+			  | GDK_BUTTON_PRESS_MASK
+			  | GDK_BUTTON_RELEASE_MASK);
   
-  gtk_signal_connect(GTK_OBJECT(glarea), "realize",
-		     (GtkSignalFunc)init_gl,
-		     (gpointer)NULL);
-  gtk_signal_connect(GTK_OBJECT(glarea), "expose_event",
-		     (GtkSignalFunc)redraw,
-		     (gpointer)NULL);
-  gtk_signal_connect(GTK_OBJECT(glarea), "button_press_event",
-		     (GtkSignalFunc)mouse_button_down,
-		     (gpointer)NULL);
-  gtk_signal_connect(GTK_OBJECT(glarea), "button_release_event",
-		     (GtkSignalFunc)mouse_button_up,
-		     (gpointer)NULL);
-  gtk_signal_connect(GTK_OBJECT(glarea), "motion_notify_event",
-		     (GtkSignalFunc)mouse_motion,
-		     (gpointer)NULL);
-  gtk_signal_connect(GTK_OBJECT(glarea), "configure_event",
-		     (GtkSignalFunc)reshape,
-		     (gpointer)NULL);
+    gtk_signal_connect(GTK_OBJECT(glarea), "realize",
+		       (GtkSignalFunc)init_gl,
+		       (gpointer)NULL);
+    gtk_signal_connect(GTK_OBJECT(glarea), "expose_event",
+		       (GtkSignalFunc)redraw,
+		       (gpointer)NULL);
+    gtk_signal_connect(GTK_OBJECT(glarea), "button_press_event",
+		       (GtkSignalFunc)mouse_button_down,
+		       (gpointer)NULL);
+    gtk_signal_connect(GTK_OBJECT(glarea), "button_release_event",
+		       (GtkSignalFunc)mouse_button_up,
+		       (gpointer)NULL);
+    gtk_signal_connect(GTK_OBJECT(glarea), "motion_notify_event",
+		       (GtkSignalFunc)mouse_motion,
+		       (gpointer)NULL);
+    gtk_signal_connect(GTK_OBJECT(glarea), "configure_event",
+		       (GtkSignalFunc)reshape,
+		       (gpointer)NULL);
 
-  build_menu(window,&menubar);
+    build_menu(window,&menubar);
 
-  gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(vbox), combo_hbox, FALSE, FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(vbox), pane, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), menubar, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), combo_hbox, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox), pane, TRUE, TRUE, 0);
   
-  spinner = spinner_new();
-  info_button = gtk_button_new_with_label(_("Info"));
-  gtk_signal_connect(GTK_OBJECT(info_button), "clicked",
-		     (GtkSignalFunc)info_button_callback,
-		     (gpointer)NULL);
+    spinner = spinner_new();
+    info_button = gtk_button_new_with_label(_("Info"));
+    gtk_signal_connect(GTK_OBJECT(info_button), "clicked",
+		       (GtkSignalFunc)info_button_callback,
+		       (gpointer)NULL);
   
-  hbox  = gtk_hbox_new(FALSE, 0);
-  vbox2 = gtk_vbox_new(FALSE, 5);
+    hbox  = gtk_hbox_new(FALSE, 0);
+    vbox2 = gtk_vbox_new(FALSE, 5);
 
-  gtk_container_border_width(GTK_CONTAINER(vbox2), 5);
+    gtk_container_border_width(GTK_CONTAINER(vbox2), 5);
 
-  dummyscrwin = gtk_scrolled_window_new(NULL, NULL);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(dummyscrwin),
-				 GTK_POLICY_AUTOMATIC,
-				 GTK_POLICY_AUTOMATIC);
-  gtk_widget_show(dummyscrwin);
-  gtk_container_add(GTK_CONTAINER(dummyscrwin), clist);
-  gtk_box_pack_start(GTK_BOX(hbox), dummyscrwin, TRUE, TRUE, 0);
+    dummyscrwin = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(dummyscrwin),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC);
+    gtk_widget_show(dummyscrwin);
+    gtk_container_add(GTK_CONTAINER(dummyscrwin), clist);
+    gtk_box_pack_start(GTK_BOX(hbox), dummyscrwin, TRUE, TRUE, 0);
   
-  gtk_box_pack_start(GTK_BOX(hbox), vbox2,   FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), vbox2,   FALSE, TRUE, 0);
   
-  gtk_box_pack_start(GTK_BOX(vbox2), spinner, TRUE, TRUE, 0);
-  gtk_box_pack_start(GTK_BOX(vbox2), info_button, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox2), spinner, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(vbox2), info_button, TRUE, TRUE, 0);
   
-  notebook = gtk_notebook_new ();
+    notebook = gtk_notebook_new ();
   
-  gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook), GTK_POS_TOP);
-  gtk_widget_show(notebook);
+    gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook), GTK_POS_TOP);
+    gtk_widget_show(notebook);
   
-  /*  FIXME! */
-  /* Now let's add all the pages. All of these are in separate files,
-     and have local data. The traceroute page must be moved out of here. */
+    /*  FIXME! */
+    /* Now let's add all the pages. All of these are in separate files,
+       and have local data. The traceroute page must be moved out of here. */
   
-  /* Traceroute part: */
-  label = gtk_label_new (_("Traceroute"));
-  gtk_notebook_append_page (GTK_NOTEBOOK (notebook), hbox, label);
-  gtk_widget_set_usize(GTK_WIDGET(notebook), -1, DEFAULT_WINDOW_HEIGHT/4);
+    /* Traceroute part: */
+    label = gtk_label_new (_("Traceroute"));
+    gtk_notebook_append_page (GTK_NOTEBOOK (notebook), hbox, label);
+    gtk_widget_set_usize(GTK_WIDGET(notebook), -1, DEFAULT_WINDOW_HEIGHT/4);
   
-  // for all other pages: 
-  //
-  // widg = create_page(...)
-  // label = gtk_label_new ("page name");  
-  // gtk_notebook_append_page (GTK_NOTEBOOK (notebook), widg, label);
+    // for all other pages:
+    // widg = create_page(...)
+    // label = gtk_label_new ("page name");
+    // gtk_notebook_append_page (GTK_NOTEBOOK (notebook), widg, label);
   
-  gtk_paned_add1(GTK_PANED(pane), glarea);
-  gtk_paned_add2(GTK_PANED(pane), notebook);
+    gtk_paned_add1(GTK_PANED(pane), glarea);
+    gtk_paned_add2(GTK_PANED(pane), notebook);
 
-  /* This makes the glarea quadratic in the beginning. */
-  gtk_paned_set_position(GTK_PANED(pane), DEFAULT_WINDOW_WIDTH);
+    /* This makes the glarea quadratic in the beginning. */
+    gtk_paned_set_position(GTK_PANED(pane), DEFAULT_WINDOW_WIDTH);
 
-  gtk_widget_show(clist);
-  gtk_widget_show(glarea);
-  gtk_widget_show(pane);
-  gtk_widget_show(info_button);
-  gtk_widget_show(spinner);
-  gtk_widget_show(vbox2);
-  gtk_widget_show(vbox);
-  gtk_widget_show(hbox);
-  gtk_widget_show(menubar);
-  gtk_widget_show(combo_label);
-  gtk_widget_show(combo);
-  gtk_widget_show(combo_hbox);
-  gtk_widget_show(window);
+    gtk_widget_show(clist);
+    gtk_widget_show(glarea);
+    gtk_widget_show(pane);
+    gtk_widget_show(info_button);
+    gtk_widget_show(spinner);
+    gtk_widget_show(vbox2);
+    gtk_widget_show(vbox);
+    gtk_widget_show(hbox);
+    gtk_widget_show(menubar);
+    gtk_widget_show(combo_label);
+    gtk_widget_show(combo);
+    gtk_widget_show(combo_hbox);
+    gtk_widget_show(window);
   
-  makeearth();
+    makeearth();
   
-  gtk_main();
+    gtk_main();
   
-  return 0;             /* ANSI C requires main to return int. */
+    return 0;             /* ANSI C requires main to return int. */
 }

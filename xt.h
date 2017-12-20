@@ -1,5 +1,3 @@
-/* $Id: xt.h,v 1.13 2003/03/22 14:39:04 d3august Exp $
-*/
 /*  xtraceroute - graphically show traceroute information.
  *  Copyright (C) 1996-1998  Björn Augustsson 
  *
@@ -16,7 +14,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-*/
+ */
 
 #ifndef __xt_h__
 #define __xt_h__
@@ -49,6 +47,7 @@
 #include <inttypes.h>
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <netinet/in.h>
 
 #include "tweaks.h"
 
@@ -96,11 +95,25 @@
 #define DEFAULT_WINDOW_WIDTH  450   /* Default window size */
 #define DEFAULT_WINDOW_HEIGHT 640   /* Ought to be enough for everyone. */
 
+struct address {
+    int type; /**< AF_INET or AF_INET6 */
+    int prefix; /**< IP/PREFIX */
+    union {
+	struct in6_addr in6;
+	struct in_addr in;
+	char buf[0]; /* for being fed into inet_ntop */
+    } addr;
+};
+
+#define NET_PREFIX(_a) ((_a).type == AF_INET) ?32 :((_a).type == AF_INET6) ?128 :-1
+
+#define IP_STR_LEN 70
+
 typedef struct
 {
     double lat;
     double lon;
-    char ip[18];
+    struct address ip;
     char name[70];
     char info[70];
 } dbentry;
@@ -122,26 +135,26 @@ typedef struct
 typedef enum
 {
   ACC_NONE, ACC_SUFFIX, ACC_INCLUDED, ACC_NDG_NET, ACC_NDG_HOST,
-  ACC_RFC_1712, ACC_RFC_1876, ACC_LOCAL_SITE, ACC_LOCAL_USER    
+  ACC_RFC_1712, ACC_RFC_1876, ACC_LOCAL_SITE, ACC_LOCAL_USER, ACC_GEOIP
 } accuracy_t;
 
 typedef struct
 {
-  short draw;           /** Plot this site if draw. */
-  double lat;           /** Latitude */
-  double lon;           /** Longitude */
-  accuracy_t accuracy;  /** How certain is the position? */
-  char name[70];        /** Hostname */
-  char info[70];
-  char ip[18];
-  int time;             /** In milliseconds. */
-  int selected;         /** flag */
-  int extpipe[2];       /** Pipe to an external RFC1876 checking program here */
-  int extpipe_tag;      /** For keeping tabs on the pipe */
-  int extpipe_active;   /** If this is zero, the extprog is done and the data parsed. */
-  pid_t extpipe_pid;    /** pid of the child */
-  int extpipe_data_counter;
-  char extpipe_data[200];    /** Data from the pipe */
+    short draw;           /** Plot this site if draw. */
+    double lat;           /** Latitude */
+    double lon;           /** Longitude */
+    accuracy_t accuracy;  /** How certain is the position? */
+    char name[70];        /** Hostname */
+    char info[70];
+    struct address ip;
+    int time;             /** In milliseconds. */
+    int selected;         /** flag */
+    int extpipe[2];       /** Pipe to an external RFC1876 checking program here */
+    int extpipe_tag;      /** For keeping tabs on the pipe */
+    int extpipe_active;   /** If this is zero, the extprog is done and the data parsed. */
+    pid_t extpipe_pid;    /** pid of the child */
+    int extpipe_data_counter;
+    char extpipe_data[200];    /** Data from the pipe */
 } site;
 
 site sites[MAX_SITES];
@@ -244,7 +257,7 @@ double toz(const double, const double);
 double tolat(const double, const double, const double);
 double tolon(const double, const double, const double);
 void redraw(GtkWidget *, GdkEvent *);
-void resolve_by_id(int);
+void resolve_by_id(int, char*);
 void resolve(site *);
 int isin(const char[],const char[]);
 void getsuff(const char[], char[]);
@@ -259,12 +272,16 @@ gint get_from_extDNS(site*, int, GdkInputCondition);
 void callExternalDNS(site*);
 void arrangeUnknownSites(void);
 
+int addrInAddr(struct address *net, struct address *ip);
+int addr2str(struct address *addr, char *buf, int size);
+int str2addr(struct address *addr, const char *buf);
 
 #ifdef XT_DEBUG
 #       define DPRINTF printf
 #else
         /* Hopefully this gets optimized away, but probably not */
         extern int dontprintf(const char *format, ...);
+//#       define DPRINTF printf
 #       define DPRINTF dontprintf
 #endif
 

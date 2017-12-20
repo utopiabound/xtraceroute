@@ -1,4 +1,8 @@
+/po/POTFILES
+/intl/po2tbl.sed
+/stamp-h1
 *.cache
+*.tmp
 .deps
 Makefile
 *.o
@@ -14,3 +18,5 @@ depcomp
 install-sh
 missing
 share/xtraceroute-resolve-location.sh
+xtraceroute
+TAGS
